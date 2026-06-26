@@ -2,7 +2,7 @@
 title: "Alternance chez Cloud Temple - Infrastructure & Automatisation"
 category: entreprise
 summary: "Alternance de 3 ans chez Cloud Temple : automatisation ESXi/Ansible, supervision réseau à grande échelle (~1000 équipements), et AIOps (IA appliquée au CI/CD et au reporting)."
-period: "2024 - 2027"
+period: "2024 - sept. 2027 (prévu)"
 role: "Alternant infrastructure & automatisation"
 stack: ["VMware ESXi", "Ansible", "govc", "Nagios", "SNMP", "Azure DevOps", "Confluence", "SendGrid", "Python", "Bash", "YAML"]
 tags: ["Virtualisation", "Ansible", "CI/CD", "Monitoring", "Scripting", "IA / AIOps", "Gestion de projet"]
