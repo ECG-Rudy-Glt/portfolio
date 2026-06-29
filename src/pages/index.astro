@@ -1,0 +1,79 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+const featured = projects.filter((p) => p.data.featured).sort((a, b) => a.data.order - b.data.order);
+
+const stats = [
+  { value: "3 ans", label: "Alternance chez Cloud Temple", href: "/projets/cloud-temple/" },
+  { value: "13 outils", label: "Suite DevOps Ops Delivery Suite", href: "/projets/ops-delivery-suite/" },
+  { value: "Initiative", label: "Lab pédagogique SUPINFO créé de zéro", href: "/projets/supinfo-lab/" },
+];
+---
+
+<Layout>
+  <section class="mb-16">
+    <img
+      src="/avatar.png"
+      alt="Rudy Gault"
+      class="mb-6 h-36 w-36 rounded-full object-cover ring-2 ring-[var(--border)]"
+    />
+    <h1 class="text-3xl font-bold tracking-tight text-[var(--fg)] sm:text-4xl">
+      Bienvenue sur mon portfolio
+    </h1>
+    <p class="mt-4 max-w-2xl text-[var(--fg-muted)]">
+      Je suis Rudy Gault, alternant en infrastructure &amp; développement, actuellement
+      en 4e année à SUPINFO. Vous trouverez ici mon parcours, mes compétences et les
+      projets - école, personnels et en entreprise - qui les illustrent.
+    </p>
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <a
+        href="/parcours/"
+        class="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--accent-fg)] transition-opacity hover:opacity-90"
+      >
+        Découvrir mon parcours →
+      </a>
+      <a
+        href="/cv-rudy-gault.pdf"
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-5 py-2.5 text-sm font-medium text-[var(--fg)] transition-colors hover:bg-[var(--bg-elevated)]"
+      >
+        Télécharger mon CV
+      </a>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <div class="grid gap-4 sm:grid-cols-3">
+      {stats.map((stat) => (
+        <a
+          href={stat.href}
+          class="group flex flex-col gap-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-5 transition-transform hover:-translate-y-1 hover:shadow-lg"
+        >
+          <span class="text-2xl font-bold text-[var(--accent)]">{stat.value}</span>
+          <span class="text-sm text-[var(--fg-muted)] group-hover:text-[var(--fg)]">{stat.label}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <div class="mb-6 flex items-center justify-between">
+      <h2 class="text-xl font-semibold text-[var(--fg)]">Projets à la une</h2>
+      <a href="/projets/" class="text-sm text-[var(--accent)] hover:underline">Voir tous les projets →</a>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2">
+      {featured.map((project) => (
+        <a
+          href={`/projets/${project.id}/`}
+          class="group flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-transform hover:-translate-y-1 hover:shadow-lg"
+        >
+          <h3 class="font-semibold text-[var(--fg)] group-hover:text-[var(--accent)]">{project.data.title}</h3>
+          <p class="text-sm text-[var(--fg-muted)]">{project.data.summary}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

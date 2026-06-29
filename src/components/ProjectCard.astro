@@ -1,0 +1,51 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  summary: string;
+  period: string;
+  tags: string[];
+  category: "perso" | "ecole" | "entreprise";
+  relevance: "majeur" | "pertinent" | "secondaire";
+}
+
+const { slug, title, summary, period, tags, category, relevance } = Astro.props;
+
+const categoryLabel: Record<Props["category"], string> = {
+  perso: "Projet perso",
+  ecole: "Projet école",
+  entreprise: "Entreprise",
+};
+
+const relevanceLabel: Record<Props["relevance"], string> = {
+  majeur: "Projet majeur",
+  pertinent: "Pertinent",
+  secondaire: "Secondaire",
+};
+---
+
+<a
+  href={`/projets/${slug}/`}
+  class="group flex flex-col gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-transform hover:-translate-y-1 hover:shadow-lg"
+  style={`border-left: 3px solid var(--relevance-${relevance})`}
+  data-category={category}
+  data-tags={tags.join(",")}
+>
+  <div class="flex items-center justify-between text-xs text-[var(--fg-muted)]">
+    <span class="rounded-full border border-[var(--border)] px-2 py-0.5">{categoryLabel[category]}</span>
+    <span>{period}</span>
+  </div>
+  <h3 class="text-lg font-semibold text-[var(--fg)] group-hover:text-[var(--accent)]">{title}</h3>
+  <p class="text-sm text-[var(--fg-muted)]">{summary}</p>
+  <div class="flex items-center gap-1.5 text-xs" style={`color: var(--relevance-${relevance})`}>
+    <span class="h-2 w-2 rounded-full" style={`background-color: var(--relevance-${relevance})`}></span>
+    {relevanceLabel[relevance]}
+  </div>
+  <div class="mt-auto flex flex-wrap gap-2 pt-2">
+    {tags.slice(0, 4).map((tag) => (
+      <span class="rounded-full bg-[var(--bg)] px-2 py-1 text-xs text-[var(--fg-muted)] ring-1 ring-[var(--border)]">
+        {tag}
+      </span>
+    ))}
+  </div>
+</a>

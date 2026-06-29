@@ -1,0 +1,7 @@
+services:
+  portfolio:
+    build: .
+    image: portfolio:latest
+    restart: unless-stopped
+    ports:
+      - "8080:80"

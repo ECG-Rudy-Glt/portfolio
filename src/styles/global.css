@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --bg: #ece6d9;
+  --bg-elevated: #f3efe4;
+  --fg: #3b2a1d;
+  --fg-muted: #6f5a45;
+  --border: #d6c9b3;
+  --accent: #a8602f;
+  --accent-fg: #fbf6ec;
+  --relevance-majeur: #a8602f;
+  --relevance-pertinent: #c08a4e;
+  --relevance-secondaire: #9c8b76;
+  --skill-0: #a8602f;
+  --skill-1: #6b7d4f;
+  --skill-2: #c08a4e;
+  --skill-3: #8c4a3a;
+  --skill-4: #9c7a4a;
+  --skill-5: #5c4a3a;
+}
+
+:root.dark {
+  --bg: #14100c;
+  --bg-elevated: #1e1712;
+  --fg: #f0e6d8;
+  --fg-muted: #ad9a85;
+  --border: #2f261d;
+  --accent: #e0a868;
+  --accent-fg: #14100c;
+  --relevance-majeur: #e0a868;
+  --relevance-pertinent: #c9a76b;
+  --relevance-secondaire: #8a7864;
+  --skill-0: #e0a868;
+  --skill-1: #9bb37a;
+  --skill-2: #d9b378;
+  --skill-3: #c97a64;
+  --skill-4: #c9a76b;
+  --skill-5: #a78b6f;
+}
+
+:root.eco {
+  --bg: #f7f5f1;
+  --bg-elevated: #fbfaf8;
+  --fg: #111111;
+  --fg-muted: #4d4d4d;
+  --border: #d4d1cb;
+  --accent: #111111;
+  --accent-fg: #ffffff;
+  --relevance-majeur: #111111;
+  --relevance-pertinent: #555555;
+  --relevance-secondaire: #999999;
+  --skill-0: #111111;
+  --skill-1: #333333;
+  --skill-2: #555555;
+  --skill-3: #777777;
+  --skill-4: #999999;
+  --skill-5: #bbbbbb;
+}
+
+html {
+  background-color: var(--bg);
+  color-scheme: light dark;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.prose-content h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.prose-content p {
+  margin-bottom: 1rem;
+  color: var(--fg-muted);
+  line-height: 1.7;
+}
+
+.prose-content ul,
+.prose-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+  color: var(--fg-muted);
+}
+
+.prose-content li {
+  margin-bottom: 0.4rem;
+}
+
+.prose-content strong {
+  color: var(--fg);
+}
+
+.prose-content a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.prose-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose-content th,
+.prose-content td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.prose-content blockquote {
+  margin: 1.5rem 0;
+  border-left: 2px solid var(--accent);
+  padding-left: 1rem;
+  color: var(--fg-muted);
+  font-style: italic;
+}

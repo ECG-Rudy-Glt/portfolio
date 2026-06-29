@@ -1,0 +1,49 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const articles = (await getCollection("articles")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const dateFormatter = new Intl.DateTimeFormat("fr-FR", { year: "numeric", month: "long" });
+---
+
+<Layout title="Blog - Rudy Gault" description="Articles et retours d'expérience, notamment sur mon homelab.">
+  <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Blog</h1>
+  <p class="mb-10 max-w-2xl text-[var(--fg-muted)]">
+    Articles et retours d'expérience - y compris des relais de posts LinkedIn.
+  </p>
+
+  <div class="grid gap-6 sm:grid-cols-2">
+    {articles.map((article) => {
+      const href = article.data.type === "linkedin" ? article.data.externalUrl : `/blog/${article.id}/`;
+      return (
+        <a
+          href={href}
+          target={article.data.type === "linkedin" ? "_blank" : undefined}
+          rel={article.data.type === "linkedin" ? "noreferrer" : undefined}
+          class="group flex flex-col gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-transform hover:-translate-y-1 hover:shadow-lg"
+        >
+          <div class="flex items-center justify-between text-xs text-[var(--fg-muted)]">
+            <span class="rounded-full border border-[var(--border)] px-2 py-0.5">
+              {article.data.type === "linkedin" ? "Post LinkedIn" : "Article"}
+            </span>
+            <span>{dateFormatter.format(article.data.date)}</span>
+          </div>
+          <h2 class="text-lg font-semibold text-[var(--fg)] group-hover:text-[var(--accent)]">
+            {article.data.title}
+          </h2>
+          <p class="text-sm text-[var(--fg-muted)]">{article.data.summary}</p>
+          <div class="mt-auto flex flex-wrap gap-2 pt-2">
+            {article.data.tags.slice(0, 4).map((tag) => (
+              <span class="rounded-full bg-[var(--bg)] px-2 py-1 text-xs text-[var(--fg-muted)] ring-1 ring-[var(--border)]">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </a>
+      );
+    })}
+  </div>
+</Layout>

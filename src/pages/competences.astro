@@ -1,0 +1,138 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SkillsExplorer from "../components/SkillsExplorer";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+
+const softSkillTags = new Set([
+  "Gestion de projet",
+  "Initiative",
+  "Travail en équipe",
+  "Projet de groupe",
+  "Pédagogie",
+  "Parcours",
+]);
+
+const skillMap = new Map<string, { count: number; projects: { slug: string; title: string }[] }>();
+for (const project of projects) {
+  for (const tag of project.data.tags) {
+    if (softSkillTags.has(tag)) continue;
+    const entry = skillMap.get(tag) ?? { count: 0, projects: [] };
+    entry.count += 1;
+    entry.projects.push({ slug: project.id, title: project.data.title });
+    skillMap.set(tag, entry);
+  }
+}
+
+function colorFor(tag: string) {
+  const hash = [...tag].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return `var(--skill-${hash % 6})`;
+}
+
+const skills = [...skillMap.entries()]
+  .map(([tag, data]) => ({ tag, color: colorFor(tag), ...data }))
+  .sort((a, b) => b.count - a.count);
+
+const max = Math.max(...skills.map((s) => s.count));
+
+const softSkills = [
+  {
+    title: "Gestion de projet & pilotage",
+    detail:
+      "Suivi de projets transverses chez Cloud Temple (planification, coordination entre équipes) et rédaction du cahier des charges / gestion du budget pour le lab SUPINFO.",
+    projects: [
+      { slug: "cloud-temple", title: "Alternance Cloud Temple" },
+      { slug: "supinfo-lab", title: "SUPINFO Lab" },
+    ],
+  },
+  {
+    title: "Initiative & autonomie",
+    detail:
+      "Le lab SUPINFO est né d'une initiative personnelle, portée de bout en bout sans qu'on me le demande. Le homelab est conçu et exploité en solo.",
+    projects: [
+      { slug: "supinfo-lab", title: "SUPINFO Lab" },
+      { slug: "homelab", title: "Homelab" },
+    ],
+  },
+  {
+    title: "Travail en équipe",
+    detail:
+      "Contribution à des projets de groupe avec répartition des rôles : SUPCHAT et SUPFile en équipe complète, 4ARCL en binôme sur la conception d'architecture.",
+    projects: [
+      { slug: "supchat", title: "SUPCHAT" },
+      { slug: "supfile", title: "SUPFile" },
+      { slug: "4arcl", title: "4ARCL" },
+    ],
+  },
+  {
+    title: "Rigueur & constance des résultats",
+    detail:
+      "BTS SIO validé avec 15,5/20, puis les projets de fin d'année à SUPINFO : SUPCHAT en 3e année et SUPFile en 4e année.",
+    projects: [{ slug: "bts-sio", title: "BTS SIO" }],
+  },
+  {
+    title: "Pédagogie & transmission",
+    detail:
+      "Le lab SUPINFO a été pensé dès le départ pour permettre à d'autres étudiants de pratiquer l'infrastructure, pas seulement pour mon usage personnel.",
+    projects: [{ slug: "supinfo-lab", title: "SUPINFO Lab" }],
+  },
+  {
+    title: "Synthèse & vision architecturale",
+    detail:
+      "Comprendre vite les enjeux et les tenants et aboutissants d'un sujet, plutôt que de foncer dans l'exécution - une approche mise en pratique sur 4ARCL (conception avant code) et sur l'automatisation des audits chez Cloud Temple.",
+    projects: [
+      { slug: "4arcl", title: "4ARCL" },
+      { slug: "cloud-temple", title: "Alternance Cloud Temple" },
+    ],
+  },
+];
+---
+
+<Layout title="Compétences - Rudy Gault">
+  <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Compétences</h1>
+  <p class="mb-10 max-w-2xl text-[var(--fg-muted)]">
+    Compétences techniques classées par nombre de projets - clique sur une barre pour voir les projets
+    concernés - et compétences humaines illustrées par des situations concrètes.
+  </p>
+
+  <details class="group" open>
+    <summary class="mb-4 flex cursor-pointer list-none items-center gap-2 text-sm font-semibold uppercase tracking-wide text-[var(--accent)]">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        class="shrink-0 transition-transform group-open:rotate-90"
+      >
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+      Techniques
+    </summary>
+    <SkillsExplorer client:load skills={skills} max={max} />
+  </details>
+
+  <h2 class="mb-4 mt-16 text-sm font-semibold uppercase tracking-wide text-[var(--relevance-pertinent)]">
+    Savoir-être
+  </h2>
+  <div class="grid gap-4 sm:grid-cols-2">
+    {softSkills.map((skill) => (
+      <div class="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
+        <h3 class="mb-2 font-medium text-[var(--fg)]">{skill.title}</h3>
+        <p class="mb-3 text-sm text-[var(--fg-muted)]">{skill.detail}</p>
+        <div class="flex flex-wrap gap-2">
+          {skill.projects.map((p) => (
+            <a
+              href={`/projets/${p.slug}/`}
+              class="rounded-full bg-[var(--bg)] px-3 py-1 text-xs text-[var(--fg-muted)] ring-1 ring-[var(--border)] transition-colors hover:text-[var(--accent)]"
+            >
+              {p.title}
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</Layout>

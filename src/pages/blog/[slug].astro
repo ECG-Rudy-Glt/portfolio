@@ -1,0 +1,36 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles", ({ data }) => data.type === "article");
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+const dateFormatter = new Intl.DateTimeFormat("fr-FR", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<Layout title={`${article.data.title} - Rudy Gault`} description={article.data.summary}>
+  <a href="/blog/" class="mb-8 inline-block text-sm text-[var(--accent)] hover:underline">← Tous les articles</a>
+
+  <p class="mb-3 text-xs text-[var(--fg-muted)]">{dateFormatter.format(article.data.date)}</p>
+  <h1 class="mb-4 text-3xl font-bold text-[var(--fg)]">{article.data.title}</h1>
+
+  <div class="mb-8 flex flex-wrap gap-2">
+    {article.data.tags.map((tag) => (
+      <span class="rounded-full bg-[var(--bg-elevated)] px-3 py-1 text-xs text-[var(--fg-muted)] ring-1 ring-[var(--border)]">
+        {tag}
+      </span>
+    ))}
+  </div>
+
+  <article class="prose-content">
+    <Content />
+  </article>
+</Layout>

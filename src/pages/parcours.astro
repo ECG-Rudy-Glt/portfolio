@@ -1,0 +1,124 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const alternance = [
+  {
+    period: "2022 - 2024",
+    title: "Alternance chez Ethan Consulting",
+    detail: "Développeur en alternance pendant le BTS SIO SLAM (ENSITECH). Premiers pas en développement logiciel : regex, manipulation du DOM, web scraping, modélisation MERISE.",
+    href: "/projets/ethan-consulting/",
+  },
+  {
+    period: "2024 - 2027",
+    title: "Alternance chez Cloud Temple",
+    detail: "Infrastructure & automatisation : virtualisation VMware, Ansible, CI/CD GitLab, monitoring d'infrastructures critiques. Évolution vers le suivi de projets transverses.",
+    href: "/projets/cloud-temple/",
+  },
+];
+
+const ecole = [
+  {
+    period: "2020 - 2021",
+    title: "L1 Droit - Faculté de Tours",
+    detail: "Une première année en plein Covid qui a vite montré que ce n'était pas la bonne voie.",
+    href: "/projets/bts-sio/",
+  },
+  {
+    period: "2021 - 2022",
+    title: "Saisie informatique",
+    detail: "Une année de transition avant la réorientation vers le développement.",
+    href: "/projets/bts-sio/",
+  },
+  {
+    period: "2022 - 2024",
+    title: "BTS SIO SLAM",
+    detail: "Fondamentaux du développement et des bases de données. Diplômé avec 15,5/20. Certifications AWS Cloud Practitioner et DevOps en auto-formation.",
+    href: "/projets/bts-sio/",
+  },
+  {
+    period: "SUPINFO - 3e année",
+    title: "1er niveau national - SUPCHAT",
+    detail: "Plateforme de chat temps réel multi-plateforme avec IA Mistral intégrée, en équipe.",
+    href: "/projets/supchat/",
+  },
+  {
+    period: "SUPINFO - 4e année",
+    title: "2e niveau campus de Tours - SUPFile",
+    detail: "Stockage cloud souverain avec chiffrement de bout en bout et IA documentaire embarquée, en équipe.",
+    href: "/projets/supfile/",
+  },
+];
+
+const perso = [
+  {
+    period: "2025",
+    title: "Tentative entrepreneuriale - Delivery Suite",
+    detail: "Essai de monter une offre de services DevOps packagés (hardening, CI/CD, audit sécurité), en parallèle de l'alternance. La charge de travail était trop élevée pour assumer les deux de front, mais la suite d'outils construite dans ce cadre reste utilisée et continue d'évoluer.",
+    href: "/projets/ops-delivery-suite/",
+  },
+  {
+    period: "2026 - en cours",
+    title: "Homelab",
+    detail: "Infrastructure personnelle self-hosted : réseau segmenté, PKI interne, secrets centralisés, observabilité - pilotée en Infrastructure as Code.",
+    href: "/projets/homelab/",
+  },
+  {
+    period: "2026 - en cours",
+    title: "Initiative - montage d'un lab pédagogique SUPINFO",
+    detail: "Cahier des charges, gestion du budget, choix de l'équipement : un projet porté de bout en bout, en plus du cursus.",
+    href: "/projets/supinfo-lab/",
+  },
+];
+
+const tracks = [
+  { title: "Alternance", color: "var(--accent)", items: alternance },
+  { title: "École", color: "var(--relevance-pertinent)", items: ecole },
+  { title: "Projets perso", color: "var(--skill-4)", items: perso },
+];
+---
+
+<Layout title="Parcours - Rudy Gault">
+  <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Mon parcours</h1>
+  <p class="mb-12 max-w-2xl text-[var(--fg-muted)]">
+    Trois fils conducteurs qui avancent en parallèle depuis le BTS SIO : l'alternance en
+    entreprise, le parcours école, et les initiatives personnelles à côté.
+  </p>
+
+  <div class="grid gap-10 sm:grid-cols-3">
+    {tracks.map((track) => (
+      <section>
+        <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide" style={`color: ${track.color}`}>
+          {track.title}
+        </h2>
+        <ol class="space-y-10 border-l border-[var(--border)] pl-8">
+          {track.items.map((step) => (
+            <li class="relative">
+              <span class="absolute -left-[37px] top-1 h-3 w-3 rounded-full" style={`background-color: ${track.color}`}></span>
+              <p class="text-xs text-[var(--fg-muted)]">{step.period}</p>
+              <a href={step.href} class="mt-1 block text-lg font-medium text-[var(--fg)] hover:text-[var(--accent)]">
+                {step.title}
+              </a>
+              <p class="mt-1 text-sm text-[var(--fg-muted)]">{step.detail}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
+
+  <section class="mt-16 border-t border-[var(--border)] pt-8">
+    <h2 class="mb-3 text-xl font-semibold text-[var(--fg)]">Au-delà de la technique</h2>
+    <p class="max-w-2xl text-[var(--fg-muted)]">
+      L'alternance chez Cloud Temple a aussi été l'occasion de suivre des projets transverses
+      (planification, coordination entre équipes), tout comme l'initiative du lab SUPINFO a
+      demandé de gérer un budget et un cahier des charges, et la tentative entrepreneuriale
+      Delivery Suite d'apprendre à arbitrer sa charge de travail entre plusieurs engagements. Une appétence affirmée pour évoluer
+      vers des responsabilités combinant expertise technique et pilotage de projet.
+    </p>
+    <p class="mt-4 max-w-2xl text-[var(--fg-muted)]">
+      Au quotidien : une capacité à synthétiser vite, à comprendre rapidement les enjeux et les
+      tenants et aboutissants d'un sujet, une vision architecturale plutôt que purement
+      exécutante, et un réflexe à repérer où l'automatisation fait gagner le plus de temps.
+    </p>
+  </section>
+</Layout>

@@ -1,0 +1,51 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import ProjectFilter from "../../components/ProjectFilter";
+import { getCollection } from "astro:content";
+
+const relevanceWeight = { majeur: 0, pertinent: 1, secondaire: 2 } as const;
+
+const projects = (await getCollection("projects")).sort((a, b) => {
+  const relevanceDiff = relevanceWeight[a.data.relevance] - relevanceWeight[b.data.relevance];
+  return relevanceDiff !== 0 ? relevanceDiff : a.data.order - b.data.order;
+});
+---
+
+<Layout title="Projets - Rudy Gault">
+  <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Projets</h1>
+  <p class="mb-4 text-[var(--fg-muted)]">
+    Projets personnels, projets école et mission d'alternance, classés par pertinence.
+  </p>
+
+  <div class="mb-8 flex flex-wrap gap-4 text-xs text-[var(--fg-muted)]">
+    <span class="flex items-center gap-1.5">
+      <span class="h-2 w-2 rounded-full" style="background-color: var(--relevance-majeur)"></span>
+      Projet majeur
+    </span>
+    <span class="flex items-center gap-1.5">
+      <span class="h-2 w-2 rounded-full" style="background-color: var(--relevance-pertinent)"></span>
+      Pertinent
+    </span>
+    <span class="flex items-center gap-1.5">
+      <span class="h-2 w-2 rounded-full" style="background-color: var(--relevance-secondaire)"></span>
+      Secondaire
+    </span>
+  </div>
+
+  <ProjectFilter client:load />
+
+  <div class="grid gap-6 sm:grid-cols-2">
+    {projects.map((project) => (
+      <ProjectCard
+        slug={project.id}
+        title={project.data.title}
+        summary={project.data.summary}
+        period={project.data.period}
+        tags={project.data.tags}
+        category={project.data.category}
+        relevance={project.data.relevance}
+      />
+    ))}
+  </div>
+</Layout>

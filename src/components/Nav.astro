@@ -1,0 +1,57 @@
+---
+import ThemeToggle from "./ThemeToggle";
+
+const links = [
+  { href: "/parcours/", label: "Parcours" },
+  { href: "/projets/", label: "Projets" },
+  { href: "/competences/", label: "Compétences" },
+  { href: "/blog/", label: "Blog" },
+];
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== "/" && path.startsWith(href));
+---
+
+<header class="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur">
+  <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
+    <a href="/" class="font-semibold tracking-tight text-[var(--fg)]">Rudy Gault</a>
+
+    <div class="hidden items-center gap-6 sm:flex">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="relative text-sm transition-colors"
+          style={{ color: isActive(link.href) ? "var(--fg)" : "var(--fg-muted)" }}
+        >
+          {link.label}
+          {isActive(link.href) && (
+            <span class="absolute -bottom-[17px] left-0 right-0 h-0.5 bg-[var(--accent)]"></span>
+          )}
+        </a>
+      ))}
+      <ThemeToggle client:load />
+    </div>
+
+    <details class="group relative sm:hidden">
+      <summary class="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-full text-[var(--fg)] [&::-webkit-details-marker]:hidden">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18" />
+        </svg>
+      </summary>
+      <div class="absolute right-0 top-12 flex flex-col gap-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-3 shadow-lg">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class="rounded-lg px-3 py-2 text-sm"
+            style={{ color: isActive(link.href) ? "var(--accent)" : "var(--fg-muted)" }}
+          >
+            {link.label}
+          </a>
+        ))}
+        <div class="mt-1 border-t border-[var(--border)] px-3 pt-3">
+          <ThemeToggle client:load />
+        </div>
+      </div>
+    </details>
+  </nav>
+</header>

@@ -1,0 +1,11 @@
+.git
+node_modules
+dist
+.astro
+/projets_ecole
+/projet_perso
+/projetsCT
+/img
+/QUESTIONS.md
+/readme.md
+/AGENTS.md
