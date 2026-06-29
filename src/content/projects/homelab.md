@@ -4,7 +4,7 @@ category: perso
 summary: "Infrastructure personnelle de production : 2 nœuds Proxmox + firewall OPNsense, 4 VLANs, PKI interne, SSO, observabilité complète et stack streaming Jellyfin - tout piloté en Infrastructure as Code."
 period: "2026 - en cours"
 role: "Conception, achat du matériel, déploiement et exploitation en solo"
-stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Forgejo", "Jellyfin", "Home Assistant", "K3s", "Nextcloud"]
+stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Forgejo", "Suricata", "CrowdSec", "Jellyfin", "Home Assistant", "K3s", "Nextcloud"]
 tags: ["Infra as Code", "Réseau", "Sécurité", "Observabilité", "CI/CD", "Self-hosting"]
 featured: true
 relevance: "majeur"
@@ -51,13 +51,23 @@ Accès distant exclusivement via Tailscale (mesh WireGuard) - aucun port exposé
 
 ## Identité, secrets & PKI
 
-OpenBao (fork open-source de HashiCorp Vault) joue deux rôles : autorité de certification interne (Root CA 10 ans, Intermediate CA 5 ans, certificats de service renouvelés automatiquement toutes les 30 jours par un Vault Agent) et coffre à secrets KV, consommé par Terraform et Ansible via AppRole - plus aucun secret en clair dans le dépôt Git. Authentik fournit le SSO (OIDC/SAML) devant les interfaces d'administration, et Vaultwarden sert de gestionnaire de mots de passe personnel.
+OpenBao (fork open-source de HashiCorp Vault) joue deux rôles : autorité de certification interne (Root CA 10 ans, Intermediate CA 5 ans, certificats de service renouvelés automatiquement toutes les 30 jours par un Vault Agent) et coffre à secrets KV, consommé par Terraform et Ansible via AppRole - plus aucun secret en clair dans le dépôt Git. Authentik fournit le SSO : OIDC branché sur Grafana et sur l'interface d'administration Proxmox VE (realm dédié, groupe Authentik séparé du SSO PAM par défaut pour ne jamais risquer un lockout), et Vaultwarden sert de gestionnaire de mots de passe personnel, accessible aussi en mobile via la CA interne installée sur le trust store iOS.
+
+## Sécurité réseau : détection, blocage, visibilité
+
+Le firewall OPNsense (mini-PC N150) héberge une couche de sécurité réseau à part entière, en plus du filtrage par VLAN :
+
+- **Suricata** en mode détection (IDS, pas IPS) sur le WAN et les 4 VLANs, rulesets ET Open + abuse.ch - le pattern matcher Hyperscan a été nécessaire pour ramener la charge CPU de ~50 % à moins de 20 % sur ce matériel à 4 cœurs avant de pouvoir surveiller toutes les interfaces simultanément.
+- **CrowdSec** : blocage collaboratif d'IP malveillantes, enrôlé sur la blocklist communautaire, règles appliquées directement au niveau du pare-feu.
+- **Blocage géographique (GeoIP)** : alias MaxMind GeoLite2 sur le WAN pour les pays à fort volume de scan/attaque.
+- **ntopng** : visibilité "qui parle à qui" par VLAN, utile pour repérer un trafic inter-VLAN inattendu.
+- Logs Suricata centralisés dans Loki via syslog, pour les corréler avec le reste de l'observabilité plutôt que de les laisser isolés sur le firewall.
 
 ## Services en production
 
 - **Traefik v3** : reverse proxy HTTPS unique pour tous les services internes, certificats récupérés automatiquement auprès d'OpenBao.
 - **AdGuard Home** : DNS interne avec blocage de trackers/publicités.
-- **Forgejo + Actions** : git self-hébergé et CI/CD - c'est ce qui build et déploie ce portfolio.
+- **Forgejo + Actions** : git self-hébergé et CI/CD, avec un runner auto-hébergé dédié (LXC isolé, executor Docker) - c'est ce qui build et déploie ce portfolio, et qui valide Terraform/Ansible à chaque push.
 - **Prometheus, Grafana, Loki, Grafana Alloy** : observabilité complète (métriques, logs, conteneurs) avec dashboards dédiés - vue d'ensemble des hôtes, santé des services avec alerte sur expiration des certificats TLS, et consommation par conteneur.
 - **Home Assistant** : domotique, seul service autorisé à parler au VLAN IoT isolé.
 - **vm-dev** : poste de travail à distance (Debian, Docker, kubectl, Terraform, Ansible) pour ne jamais développer directement sur l'infrastructure de prod.
@@ -68,4 +78,4 @@ Plutôt que d'investir dans plusieurs To de disques, la chaîne média repose su
 
 ## Ce qui reste à faire
 
-Cluster Kubernetes (K3s) pour la suite de la stack applicative, Nextcloud pour le stockage de fichiers personnel, NAS définitif pour les sauvegardes, IDS pour la détection d'intrusion, et une vitrine publique détaillant l'architecture en temps réel. Réseau, sécurité, PKI, observabilité, CI/CD et streaming sont déjà opérationnels au quotidien.
+Cluster Kubernetes (K3s) pour la suite de la stack applicative, Nextcloud pour le stockage de fichiers personnel, NAS définitif (Proxmox Backup Server) pour des sauvegardes testées et déduppliquées, un outil de suivi de tâches personnel self-hosted, et une exploration d'automatisation pilotée par un LLM local (n8n + Ollama) pour la suite. Réseau, sécurité (PKI, SSO, IDS), observabilité, CI/CD et streaming sont déjà opérationnels au quotidien.
