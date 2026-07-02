@@ -9,7 +9,12 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        run: |
+          if [ -d .git ]; then
+            git fetch origin main && git reset --hard origin/main
+          else
+            git clone https://forgejo.home.lab.rudy/rudy/portfolio.git .
+          fi
 
       - name: Login to Forgejo registry
         run: |
