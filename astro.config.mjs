@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://portfolio.rudy-ops.fr',
+  site: 'https://portfolio.gault-rudy.com',
   integrations: [react(), sitemap()],
 
   vite: {
