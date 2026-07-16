@@ -17,10 +17,18 @@ Démontage complet, retrait de toute la partie logique (carte mère, alimentatio
 ## Étapes
 
 1. **Démontage de la dalle** : décollement de l'écran (fixé par bandes adhésives sur ce modèle), débranchement des nappes d'origine reliées à la carte mère.
-2. **Vidage du Mac** : retrait de la carte mère, du disque dur et de l'alimentation d'origine - tout ce qui ne sert plus une fois la dalle pilotée par une carte tierce.
-3. **Carte de conversion** : intégration d'une carte chinoise capable de convertir un flux vidéo standard vers le connecteur propriétaire de la dalle, avec son alimentation et ses propres ports d'entrée.
+
+   ![Dalle démontée, nappes d'origine encore branchées](/articles/imac-ecran/demontage-dalle.jpeg)
+
+2. **Vidage du Mac** : retrait de la carte mère, du disque dur et de l'alimentation d'origine - tout ce qui ne sert plus une fois la dalle pilotée par une carte tierce. Le disque dur d'origine a été récupéré pour venir compléter le stockage du homelab plutôt que de finir à la benne.
+
+   ![Châssis vidé : carte mère, ventilateur et disque dur apparents](/articles/imac-ecran/vidage-mac.jpeg)
+
+3. **Carte de conversion** : intégration d'une carte chinoise capable de convertir un flux vidéo standard vers le connecteur propriétaire de la dalle, avec son alimentation et ses propres ports d'entrée. Cette carte, importée de Chine, représente à elle seule 30 € sur les 40 € au total qu'aura coûté le projet.
 4. **Remontage** : repositionnement de la dalle et de la nouvelle carte dans le châssis en aluminium d'origine, en conservant l'esthétique de l'iMac.
 
 ## Résultat
 
-Un écran 27" fonctionnel à partir d'une machine qui n'aurait sinon fini qu'au recyclage - une démarche de réemploi plutôt que de rachat, et l'occasion de comprendre concrètement comment une dalle Apple "propriétaire" peut être réutilisée hors de son écosystème d'origine.
+Une réussite : pour 40 € au total, un écran 27" fonctionnel à partir d'une machine qui n'aurait sinon fini qu'au recyclage - une démarche de réemploi plutôt que de rachat, et l'occasion de comprendre concrètement comment une dalle Apple "propriétaire" peut être réutilisée hors de son écosystème d'origine. Bonus non négligeable : le disque dur d'origine a pu être conservé pour le homelab, et le tout donne un bon écran pour un budget dérisoire comparé à un achat neuf.
+
+![L'iMac reconverti en écran externe, posé sur le bureau](/articles/imac-ecran/resultat-final.jpeg)
