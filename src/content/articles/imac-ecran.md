@@ -24,7 +24,10 @@ Démontage complet, retrait de toute la partie logique (carte mère, alimentatio
 
    ![Châssis vidé : carte mère, ventilateur et disque dur apparents](/articles/imac-ecran/vidage-mac.jpeg)
 
-3. **Carte de conversion** : intégration d'une carte chinoise capable de convertir un flux vidéo standard vers le connecteur propriétaire de la dalle, avec son alimentation et ses propres ports d'entrée. Cette carte, importée de Chine, représente à elle seule 30 € sur les 40 € au total qu'aura coûté le projet.
+3. **Carte de conversion** : intégration d'une carte chinoise (achetée sur AliExpress) capable de convertir un flux vidéo standard vers le connecteur propriétaire de la dalle, avec ses propres ports d'entrée (HDMI, USB, jack). Cette carte représente à elle seule 30 € sur les 40 € au total qu'aura coûté le projet. À noter : elle ne fournit pas son alimentation, il faut donc compléter avec un bloc secteur 12V à part.
+
+   ![Carte de conversion et carte d'alimentation de la dalle, achetées sur AliExpress](/articles/imac-ecran/cartes-aliexpress.jpeg)
+
 4. **Remontage** : repositionnement de la dalle et de la nouvelle carte dans le châssis en aluminium d'origine, en conservant l'esthétique de l'iMac.
 
 ## Résultat
@@ -32,3 +35,7 @@ Démontage complet, retrait de toute la partie logique (carte mère, alimentatio
 Une réussite : pour 40 € au total, un écran 27" fonctionnel à partir d'une machine qui n'aurait sinon fini qu'au recyclage - une démarche de réemploi plutôt que de rachat, et l'occasion de comprendre concrètement comment une dalle Apple "propriétaire" peut être réutilisée hors de son écosystème d'origine. Bonus non négligeable : le disque dur d'origine a pu être conservé pour le homelab, et le tout donne un bon écran pour un budget dérisoire comparé à un achat neuf.
 
 ![L'iMac reconverti en écran externe, posé sur le bureau](/articles/imac-ecran/resultat-final.jpeg)
+
+## Source
+
+Manipulation inspirée de cette vidéo : [https://www.youtube.com/watch?v=_un5qbn6vvc](https://www.youtube.com/watch?v=_un5qbn6vvc)
