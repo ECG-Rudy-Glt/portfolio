@@ -6,7 +6,7 @@ period: "SUPINFO - 3e & 4e année"
 role: "Étudiant"
 stack: ["Azure", "Google Cloud Platform", "CCNA", "Linux", "NoSQL", "Android", "Ionic / React", "C# / ASP.NET", "GraphQL", "CI/CD"]
 tags: ["Azure", "GCP", "Réseau", "Linux", "Sécurité applicative", "Mobile", "NoSQL", "Big Data", "Microservices", "Agile"]
-relevance: "pertinent"
+relevance: "secondaire"
 order: 8
 ---
 
