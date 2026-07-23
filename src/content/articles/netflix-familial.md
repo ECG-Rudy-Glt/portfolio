@@ -6,7 +6,9 @@ tags: ["Homelab", "Streaming", "Jellyfin", "Sécurité", "Self-hosting"]
 type: article
 ---
 
-![Logo Jellyfin](/logos/jellyfin.svg)
+<div style="display:inline-block; background:#f3efe4; padding:1rem 1.5rem; border-radius:0.75rem;">
+  <img src="/logos/jellyfin.svg" alt="Logo Jellyfin" style="width:220px; height:auto; display:block; margin:0;" />
+</div>
 
 ## Le besoin
 
@@ -16,7 +18,7 @@ Sur mon [homelab](/projets/homelab/), je voulais offrir à une dizaine de proche
 
 Jellyfin et Emby partagent la même base de code historique (Jellyfin est un fork communautaire d'Emby créé en 2018 quand celui-ci est passé propriétaire) ; Plex vient d'une lignée différente (issu de XBMC/Kodi côté serveur), mais pose le même problème de fond : un modèle payant sur exactement les fonctions dont j'avais besoin.
 
-| Critère | Jellyfin | Emby | Plex |
+| Critère | ![Jellyfin](/logos/jellyfin-icon.svg) Jellyfin | ![Emby](/logos/emby.svg) Emby | ![Plex](/logos/plex.svg) Plex |
 |---|---|---|---|
 | Licence | Open source (GPL-2.0) | Propriétaire depuis 2018 | Propriétaire |
 | Hardware transcoding | Gratuit (QuickSync/NVENC) | Payant (Premiere, ~5 €/mois ou ~120 € lifetime) | Payant (Plex Pass) |
@@ -100,7 +102,7 @@ Le vrai risque de ce projet n'est pas Jellyfin lui-même, mais le fait d'ouvrir 
 - **ipAllowList** : toutes les routes Traefik sauf celle de Jellyfin sont restreintes aux VLANs internes + Tailscale.
 - **Comptes verrouillés** : aucune auto-inscription possible nulle part dans la chaîne - ni sur Jellyfin, ni sur Jellyseerr (l'ancienne option de création de compte via Plex y a été désactivée). Chaque compte famille est créé à la main.
 
-Cette dernière ligne a justement failli ne pas exister. Pendant le déploiement de l'exposition publique, un test a révélé que Traefik route uniquement sur le `Host:` de la requête, indépendamment de l'interface réseau d'origine du paquet - n'importe qui atteignant le port public avec le bon `Host:` (et le bon SNI) pouvait donc atteindre Vaultwarden, Forgejo ou Grafana depuis Internet, alors que seul Jellyfin devait être joignable. Corrigé par un middleware `ipAllowList` sur toutes les routes sauf `jellyfin-public`.
+Pendant le déploiement de l'exposition publique, un test a révélé que Traefik route uniquement sur le `Host:` de la requête, indépendamment de l'interface réseau d'origine du paquet - n'importe qui atteignant le port public avec le bon `Host:` (et le bon SNI) pouvait donc atteindre Vaultwarden, Forgejo ou Grafana depuis Internet, alors que seul Jellyfin devait être joignable. Corrigé par un middleware `ipAllowList` sur toutes les routes sauf `jellyfin-public`.
 
 Autre presque-incident, découvert pendant le test CrowdSec : Jellyfin loggait l'IP de Traefik plutôt que celle du vrai client, faute de `<KnownProxies>` renseigné. Sans ce correctif, un ban CrowdSec aurait fini par bannir Traefik lui-même - coupant l'accès à tout le monde, famille comprise.
 
@@ -112,6 +114,6 @@ Un correctif jamais reconfirmé depuis une vraie IP externe reste une hypothèse
 - **TLS noté A+** (testssl.sh) : aucune faille historique (Heartbleed, POODLE, BEAST, CRIME, DROWN...), TLS 1.3 par défaut.
 - **0 CVE** détectée par nuclei sur le catalogue complet de templates.
 
-Quelques points mineurs relevés au passage sont en cours de traitement. Rien de bloquant, mais rien d'inventé non plus : la liste ci-dessus est celle d'un vrai scan, pas d'une checklist recopiée.
+Rien de bloquant, mais rien d'inventé non plus : la liste ci-dessus est celle d'un vrai scan, pas d'une checklist recopiée.
 
-Le résultat n'est pas une démo figée : c'est une infra qui tourne pour une dizaine de personnes, avec de vrais incidents en cours de route et une sécurité vérifiée plutôt que supposée - c'est aussi ce qui en fait un bon terrain d'apprentissage.
+Le code complet (playbooks Ansible, config Riven, rôle Traefik) sera publié prochainement en lien avec cet article. Merci de l'avoir lu.

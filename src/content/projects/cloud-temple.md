@@ -35,6 +35,10 @@ Alternance de 3 ans chez **Cloud Temple**, hébergeur cloud. Les clients finaux 
 - **Audit matériel** : rôle Ansible dédié à l'audit ESXi/iLO/iDRAC, avec génération automatique de PDF d'audit et de fiches de recette - le même principe appliqué à l'audit des VM Windows/Linux.
 - **Monitoring automatisé** de l'ensemble de ces processus, pour détecter une dérive sans intervention manuelle.
 
+## Plateforme d'automatisation interne
+
+En fin d'alternance, la multiplication de ces outils isolés (audit, supervision, reporting, IA) a produit sa propre dette technique - points d'entrée dispersés, secrets dupliqués, connaissance de l'architecture concentrée sur une seule personne. J'ai conçu et construit en réponse une plateforme interne qui les unifie derrière un portail sécurisé (SSO, edge unique, microservices conteneurisés) - détails dans le projet dédié [Plateforme interne d'automatisation](/projets/plateforme-automatisation/).
+
 ## Méthode et posture
 
 Travail quotidien en Bash, Python et YAML, avec une exigence de documentation systématique (toute automatisation doit pouvoir être reprise par un collègue). Au-delà du volet technique, cette alternance a aussi été l'occasion de prendre en charge le suivi de projets transverses - planification, coordination avec plusieurs équipes - avec une appétence affirmée pour évoluer vers des responsabilités combinant expertise technique et pilotage de projet.

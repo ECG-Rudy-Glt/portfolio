@@ -25,16 +25,32 @@ for (const project of projects) {
   }
 }
 
-function colorFor(tag: string) {
-  const hash = [...tag].reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  return `var(--skill-${hash % 6})`;
-}
-
-const skills = [...skillMap.entries()]
-  .map(([tag, data]) => ({ tag, color: colorFor(tag), ...data }))
+const allSkills = [...skillMap.entries()]
+  .map(([tag, data]) => ({ tag, ...data }))
   .sort((a, b) => b.count - a.count);
 
-const max = Math.max(...skills.map((s) => s.count));
+const total = allSkills.reduce((sum, s) => sum + s.count, 0);
+
+const TOP_N = 6;
+const topSkills = allSkills.slice(0, TOP_N);
+const tailSkills = allSkills.slice(TOP_N);
+
+const skills = topSkills.map((s) => ({ ...s, pct: (s.count / total) * 100 }));
+
+if (tailSkills.length > 0) {
+  const tailCount = tailSkills.reduce((sum, s) => sum + s.count, 0);
+  const tailProjects = new Map<string, { slug: string; title: string }>();
+  for (const s of tailSkills) {
+    for (const p of s.projects) tailProjects.set(p.slug, p);
+  }
+  skills.push({
+    tag: "Autres",
+    count: tailCount,
+    pct: (tailCount / total) * 100,
+    projects: [...tailProjects.values()],
+    included: tailSkills.map((s) => s.tag),
+  });
+}
 
 const softSkills = [
   {
@@ -92,7 +108,7 @@ const softSkills = [
 <Layout title="Compétences - Rudy Gault">
   <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Compétences</h1>
   <p class="mb-10 max-w-2xl text-[var(--fg-muted)]">
-    Compétences techniques classées par nombre de projets - clique sur une barre pour voir les projets
+    Compétences techniques réparties par part de projets - survole une part pour voir les projets
     concernés - et compétences humaines illustrées par des situations concrètes.
   </p>
 
@@ -111,7 +127,7 @@ const softSkills = [
       </svg>
       Techniques
     </summary>
-    <SkillsExplorer client:load skills={skills} max={max} />
+    <SkillsExplorer client:load skills={skills} total={total} />
   </details>
 
   <h2 class="mb-4 mt-16 text-sm font-semibold uppercase tracking-wide text-[var(--relevance-pertinent)]">
