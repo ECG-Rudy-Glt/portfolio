@@ -1,0 +1,117 @@
+<svg viewBox="0 0 1200 920" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e0a868" />
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ad9a85" />
+    </marker>
+    <linearGradient id="jellyfinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#AA5CC3" />
+      <stop offset="100%" stop-color="#00A4DC" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="920" fill="#14100c" />
+
+  <!-- section labels -->
+  <text x="40" y="26" fill="#ad9a85" font-size="13" letter-spacing="2">ACCÈS PUBLIC</text>
+  <text x="870" y="330" fill="#ad9a85" font-size="13" letter-spacing="2">PIPELINE CONTENU (debrid)</text>
+  <text x="400" y="602" fill="#ad9a85" font-size="13" letter-spacing="2">K3S — NODE-2 (interne)</text>
+  <text x="470" y="792" fill="#ad9a85" font-size="13" letter-spacing="2">CLIENTS FAMILLE</text>
+
+  <!-- Public path column -->
+  <g>
+    <rect x="440" y="34" width="300" height="46" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="590" y="62" fill="#f0e6d8" font-size="15" text-anchor="middle">Internet</text>
+
+    <line x1="590" y1="80" x2="590" y2="104" stroke="#e0a868" stroke-width="2" marker-end="url(#arrow)" />
+
+    <rect x="440" y="104" width="300" height="50" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="590" y="126" fill="#f0e6d8" font-size="14" text-anchor="middle">Bbox (FAI)</text>
+    <text x="590" y="144" fill="#ad9a85" font-size="12" text-anchor="middle">NAT port externe → 443</text>
+
+    <line x1="590" y1="154" x2="590" y2="178" stroke="#e0a868" stroke-width="2" marker-end="url(#arrow)" />
+
+    <rect x="440" y="178" width="300" height="56" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="590" y="200" fill="#f0e6d8" font-size="14" text-anchor="middle">OPNsense (firewall WAN)</text>
+    <text x="590" y="218" fill="#ad9a85" font-size="12" text-anchor="middle">GeoIP — bloque hors France</text>
+
+    <line x1="590" y1="234" x2="590" y2="258" stroke="#e0a868" stroke-width="2" marker-end="url(#arrow)" />
+
+    <rect x="420" y="258" width="340" height="72" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="590" y="280" fill="#f0e6d8" font-size="14" text-anchor="middle">Traefik (lxc-traefik)</text>
+    <text x="590" y="298" fill="#ad9a85" font-size="12" text-anchor="middle">bouncer CrowdSec + rate-limit (avg 10 / burst 20)</text>
+    <text x="590" y="315" fill="#ad9a85" font-size="12" text-anchor="middle">ipAllowList : tout bloqué sauf jellyfin-public</text>
+
+    <line x1="590" y1="330" x2="590" y2="352" stroke="#e0a868" stroke-width="2" marker-end="url(#arrow)" />
+
+    <rect x="440" y="352" width="300" height="74" rx="8" fill="#1e1712" stroke="url(#jellyfinGrad)" stroke-width="2.5" />
+    <text x="590" y="376" fill="#f0e6d8" font-size="15" font-weight="bold" text-anchor="middle">Jellyfin — lxc-jellyfin</text>
+    <text x="590" y="394" fill="#ad9a85" font-size="12" text-anchor="middle">GPU Intel UHD630 (VAAPI)</text>
+    <text x="590" y="411" fill="#ad9a85" font-size="12" text-anchor="middle">seul host exposé publiquement</text>
+  </g>
+
+  <!-- Backend debrid pipeline -->
+  <g>
+    <rect x="860" y="352" width="300" height="60" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="1010" y="372" fill="#f0e6d8" font-size="14" text-anchor="middle">Riven — scrapers</text>
+    <text x="1010" y="390" fill="#ad9a85" font-size="12" text-anchor="middle">Torrentio + Zilean + Prowlarr (Torrent9…)</text>
+
+    <line x1="1010" y1="412" x2="1010" y2="436" stroke="#e0a868" stroke-width="2" marker-end="url(#arrow)" />
+
+    <rect x="860" y="436" width="300" height="50" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="1010" y="456" fill="#f0e6d8" font-size="14" text-anchor="middle">AllDebrid (cloud)</text>
+    <text x="1010" y="474" fill="#ad9a85" font-size="12" text-anchor="middle">downloader — pas de filtre copyright FR</text>
+
+    <line x1="1010" y1="486" x2="1010" y2="510" stroke="#e0a868" stroke-width="2" marker-end="url(#arrow)" />
+
+    <rect x="860" y="510" width="300" height="50" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="1010" y="530" fill="#f0e6d8" font-size="14" text-anchor="middle">RivenVFS (FUSE)</text>
+    <text x="1010" y="548" fill="#ad9a85" font-size="12" text-anchor="middle">mount /mnt/media (rshared → hôte)</text>
+
+    <!-- arrow from RivenVFS back into Jellyfin -->
+    <path d="M 860 535 L 760 535 L 760 400 L 742 400" fill="none" stroke="#e0a868" stroke-width="2" marker-end="url(#arrow)" />
+    <text x="748" y="470" fill="#ad9a85" font-size="11" text-anchor="end">lit les symlinks</text>
+  </g>
+
+  <!-- K3s box -->
+  <g>
+    <rect x="380" y="606" width="440" height="150" rx="10" fill="none" stroke="#2f261d" stroke-dasharray="5,4" />
+
+    <rect x="410" y="646" width="180" height="70" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="500" y="674" fill="#f0e6d8" font-size="14" text-anchor="middle">Jellyseerr</text>
+    <text x="500" y="692" fill="#ad9a85" font-size="12" text-anchor="middle">requests (interne)</text>
+
+    <rect x="610" y="646" width="180" height="70" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="700" y="674" fill="#f0e6d8" font-size="14" text-anchor="middle">Jellyfin-Vue</text>
+    <text x="700" y="692" fill="#ad9a85" font-size="12" text-anchor="middle">web UI (interne, optionnel)</text>
+
+    <!-- Jellyfin plugins -> Jellyseerr -->
+    <path d="M 560 426 L 500 426 L 500 646" fill="none" stroke="#ad9a85" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-muted)" />
+    <text x="510" y="440" fill="#ad9a85" font-size="11">plugins Enhanced / JellyBridge</text>
+
+    <!-- Jellyseerr -> Riven request -->
+    <path d="M 590 646 L 590 590 L 1010 590 L 1010 412" fill="none" stroke="#ad9a85" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-muted)" />
+    <text x="1015" y="586" fill="#ad9a85" font-size="11">demande de scrape</text>
+  </g>
+
+  <!-- Family clients -->
+  <g>
+    <rect x="150" y="810" width="220" height="60" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="260" y="836" fill="#f0e6d8" font-size="13" text-anchor="middle">Android TV / Fire TV</text>
+    <text x="260" y="854" fill="#ad9a85" font-size="11" text-anchor="middle">app native</text>
+
+    <rect x="400" y="810" width="220" height="60" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="510" y="836" fill="#f0e6d8" font-size="13" text-anchor="middle">Android / iOS</text>
+    <text x="510" y="854" fill="#ad9a85" font-size="11" text-anchor="middle">app native / Swiftfin</text>
+
+    <rect x="650" y="810" width="220" height="60" rx="8" fill="#1e1712" stroke="#2f261d" />
+    <text x="760" y="836" fill="#f0e6d8" font-size="13" text-anchor="middle">Navigateur</text>
+    <text x="760" y="854" fill="#ad9a85" font-size="11" text-anchor="middle">Jellyfin-Vue — LAN/Tailscale</text>
+
+    <path d="M 260 810 L 260 460 L 440 460" fill="none" stroke="#e0a868" stroke-width="1.5" marker-end="url(#arrow)" />
+    <path d="M 510 810 L 510 500 L 440 500" fill="none" stroke="#e0a868" stroke-width="1.5" marker-end="url(#arrow)" />
+    <path d="M 760 810 L 760 730 L 700 716" fill="none" stroke="#ad9a85" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-muted)" />
+  </g>
+</svg>
