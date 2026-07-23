@@ -40,4 +40,4 @@ Une collection de 13 outils indépendants, chacun packagé pour être réutilis�
 
 ## Bilan
 
-11 outils sur 13 sont terminés et utilisables en production, les 2 restants sont en cours de finalisation. Le volet commercial a été abandonné par manque de temps, mais cette suite est directement utilisée pour exploiter le [homelab](/projets/homelab/) et déployer ce portfolio - la leçon retenue : savoir arbitrer sa charge de travail plutôt que de tout vouloir mener de front.
+11 outils sur 13 sont terminés et utilisables en production, les 2 restants sont en cours de finalisation. Le volet commercial packagé autour de cette suite n'est pas abandonné mais mis en pause le temps de finaliser un site dédié à mon activité de freelance et à mes services - un projet distinct, qui pourra s'appuyer sur cette suite comme base technique. En attendant, elle est déjà utilisée pour exploiter le [homelab](/projets/homelab/) et déployer ce portfolio. La leçon retenue : savoir arbitrer sa charge de travail plutôt que de tout vouloir mener de front.
