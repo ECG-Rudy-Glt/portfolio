@@ -6,10 +6,18 @@ import { getCollection } from "astro:content";
 
 const relevanceWeight = { majeur: 0, pertinent: 1, secondaire: 2 } as const;
 
-const projects = (await getCollection("projects")).sort((a, b) => {
+const sortByRelevance = (a: Awaited<ReturnType<typeof getCollection<"projects">>>[number], b: typeof a) => {
   const relevanceDiff = relevanceWeight[a.data.relevance] - relevanceWeight[b.data.relevance];
   return relevanceDiff !== 0 ? relevanceDiff : a.data.order - b.data.order;
-});
+};
+
+const allProjects = await getCollection("projects");
+
+const isMinorSchoolProject = (project: (typeof allProjects)[number]) =>
+  project.data.category === "ecole" && project.data.relevance === "secondaire";
+
+const projects = allProjects.filter((p) => !isMinorSchoolProject(p)).sort(sortByRelevance);
+const minorSchoolProjects = allProjects.filter(isMinorSchoolProject).sort(sortByRelevance);
 ---
 
 <Layout title="Projets - Rudy Gault">
@@ -48,4 +56,25 @@ const projects = (await getCollection("projects")).sort((a, b) => {
       />
     ))}
   </div>
+
+  {minorSchoolProjects.length > 0 && (
+    <details class="mt-10 rounded-xl border border-[var(--border)]">
+      <summary class="cursor-pointer select-none px-6 py-4 text-sm font-medium text-[var(--fg-muted)] hover:text-[var(--fg)]">
+        Autres projets école ({minorSchoolProjects.length})
+      </summary>
+      <div class="grid gap-6 p-6 pt-0 sm:grid-cols-2">
+        {minorSchoolProjects.map((project) => (
+          <ProjectCard
+            slug={project.id}
+            title={project.data.title}
+            summary={project.data.summary}
+            period={project.data.period}
+            tags={project.data.tags}
+            category={project.data.category}
+            relevance={project.data.relevance}
+          />
+        ))}
+      </div>
+    </details>
+  )}
 </Layout>
