@@ -98,6 +98,7 @@ Le vrai risque de ce projet n'est pas Jellyfin lui-même, mais le fait d'ouvrir 
 - **CrowdSec** sur Traefik : détection de brute-force sur le login Jellyfin. Testé en conditions réelles depuis un réseau externe : ban confirmé et effectif.
 - **Rate-limit** Traefik : confirmé fonctionnel en conditions de charge réelle.
 - **ipAllowList** : toutes les routes Traefik sauf celle de Jellyfin sont restreintes aux VLANs internes + Tailscale.
+- **Comptes verrouillés** : aucune auto-inscription possible nulle part dans la chaîne - ni sur Jellyfin, ni sur Jellyseerr (l'ancienne option de création de compte via Plex y a été désactivée). Chaque compte famille est créé à la main.
 
 Cette dernière ligne a justement failli ne pas exister. Pendant le déploiement de l'exposition publique, un test a révélé que Traefik route uniquement sur le `Host:` de la requête, indépendamment de l'interface réseau d'origine du paquet - n'importe qui atteignant le port public avec le bon `Host:` (et le bon SNI) pouvait donc atteindre Vaultwarden, Forgejo ou Grafana depuis Internet, alors que seul Jellyfin devait être joignable. Corrigé par un middleware `ipAllowList` sur toutes les routes sauf `jellyfin-public`.
 
