@@ -79,7 +79,23 @@ silencieuse entre "ce qui est documenté" et "ce qui tourne réellement".
 
 Toute cette chaîne (Terraform, Ansible, manifestes Kubernetes) vit dans un dépôt Git self-hébergé
 sur Forgejo, avec sa propre CI/CD qui valide chaque changement (lint Terraform, lint Ansible)
-avant qu'il ne soit appliqué. C'est aussi ce qui build et déploie ce portfolio.
+avant qu'il ne soit appliqué.
+
+## Ce portfolio lui-même : Cloudflare Tunnel + CI/CD Forgejo Actions
+
+Ce site tourne sur le même lab, avec un modèle d'exposition différent de celui de
+[Jellyfin](/projets/homelab/jellyfin/). Jellyfin sort en direct (port-forward + GeoIP + CrowdSec)
+parce que le cast Chromecast a besoin d'accès direct au flux. Le portfolio n'a aucune contrainte
+de ce genre - pages statiques, pas de flux lourd - donc le modèle le plus restrictif possible a
+été retenu : **Cloudflare Tunnel**. Le conteneur qui héberge le site n'ouvre **aucun port entrant**
+sur le réseau domestique - il initie lui-même une connexion sortante vers Cloudflare, qui relaie
+le trafic public jusqu'à lui. Zéro port à défendre côté maison, contrairement au chemin Jellyfin.
+
+Le déploiement suit le même principe GitOps que le reste du lab : chaque `git push` sur ce dépôt
+déclenche une pipeline **Forgejo Actions**, exécutée sur le runner auto-hébergé déjà mentionné
+plus haut (LXC isolé, executor Docker) - build du site, puis déploiement, sans intervention
+manuelle. Le portfolio que tu es en train de lire s'est littéralement construit et publié tout
+seul au dernier commit.
 
 ## Pourquoi cette discipline compte
 
