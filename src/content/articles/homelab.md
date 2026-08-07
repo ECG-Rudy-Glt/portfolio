@@ -33,9 +33,3 @@ pentest, le stockage, Jellyfin, et la suite.
 Deux morceaux ont déjà leur propre article : la mise en place de la
 [PKI interne et du coffre à secrets](/blog/homelab-pki-secrets/), et le
 [démontage d'un iMac](/blog/imac-ecran/) dont le disque dur sert aujourd'hui de premier NAS au lab.
-
-## Ce que j'en retiens
-
-Un pentest qui ne trouve jamais rien n'a pas été fait sérieusement. La partie la plus utile de ce
-projet n'est pas la liste de services qui tournent - c'est la discipline de tout documenter, y
-compris ce qui casse et ce qui ne tient pas encore, plutôt que de ne montrer que ce qui fonctionne.
