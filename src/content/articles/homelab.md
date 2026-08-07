@@ -18,8 +18,7 @@ qu'elle a tourné en conditions réelles pour ma famille.
 Ce projet a démarré dans le cadre de la fin de ma 4e année à Supinfo (parcours DevOps, en
 alternance), mais il ne s'arrête pas à un rendu académique : c'est une démarche pour monter en
 compétences sur une pile complète plutôt qu'un seul maillon, me former par la pratique sur des
-sujets que l'alternance ne couvre pas, et préparer une activité indépendante - jusqu'à du
-freelance en sécurité à terme.
+sujets que l'alternance ne couvre pas, et préparer une activité indépendante a cause d'un avenir incertain avec le marché de l'emploie actuel. 
 
 ## Le projet complet
 
