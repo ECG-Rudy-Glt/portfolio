@@ -23,20 +23,26 @@ Choix volontaire de mini-PCs plutôt que de serveurs rack traditionnels, pour re
 | Compute ×2 | HP EliteDesk 800 G6 Mini ×2 | ~370 € | Intel Core i5-10500 6c/12t, 32 Go DDR4 chacun, SSD NVMe 512 Go, 10-20W idle |
 | RAM upgrade | 32 Go DDR4 ×2 nœuds | ~100 € | 64 Go au total sur le cluster |
 | Switch | TP-Link TL-SG108E | ~40 € | 8 ports Gigabit manageable, 802.1Q |
+| Réseau WAN | Adaptateur USB 3.0 → 2.5G (RTL8156B) | ~20 € | Réserve, stable sous FreeBSD/OPNsense |
 | Câblage | Patch panel 1U Cat6 + câbles | ~35 € | |
-| NAS phase 1 | HDD 2 To (ex-iMac, USB) | ~0 € | Stockage temporaire en attendant le NAS définitif |
+| NAS phase 1 | HDD 1 To (ex-iMac, USB) | ~0 € | Stockage temporaire en attendant le NAS définitif |
+| **Total** | | **~735 €** | |
 
 Consommation visée : 46-73W en idle, jusqu'à 90-120W en charge - environ 50 à 80 €/an d'électricité.
 
 ## Architecture réseau
 
-```
-Internet ─► OPNsense (firewall, VLANs 802.1Q, Tailscale VPN)
-                │
-       ┌────────┴────────┐
-  node-1 (Proxmox)   node-2 (Proxmox)
-  services permanents   dev / CI/CD / K8s
-```
+<pre class="mermaid">
+flowchart TB
+    INTERNET["Internet"]
+    OPN["OPNsense<br/>firewall - VLANs 802.1Q - Tailscale VPN"]
+    N1["node-1 (Proxmox)<br/>services permanents"]
+    N2["node-2 (Proxmox)<br/>dev / CI-CD / K8s"]
+
+    INTERNET --> OPN
+    OPN --> N1
+    OPN --> N2
+</pre>
 
 4 VLANs cloisonnés par niveau de confiance, avec règles de pare-feu explicites entre chaque zone :
 
@@ -65,17 +71,38 @@ Le firewall OPNsense (mini-PC N150) héberge une couche de sécurité réseau à
 
 ## Services en production
 
+**Cœur d'infrastructure**
 - **Traefik v3** : reverse proxy HTTPS unique pour tous les services internes, certificats récupérés automatiquement auprès d'OpenBao.
 - **AdGuard Home** : DNS interne avec blocage de trackers/publicités.
+- **OpenBao** : coffre à secrets + PKI interne (voir [Identité, secrets & PKI](#identité-secrets--pki)).
+- **Authentik** : SSO OIDC/SAML.
+- **Vaultwarden** : gestionnaire de mots de passe familial.
+
+**Dev, CI/CD & Kubernetes**
 - **Forgejo + Actions** : git self-hébergé et CI/CD, avec un runner auto-hébergé dédié (LXC isolé, executor Docker) - c'est ce qui build et déploie ce portfolio, et qui valide Terraform/Ansible à chaque push.
-- **Prometheus, Grafana, Loki, Grafana Alloy** : observabilité complète (métriques, logs, conteneurs) avec dashboards dédiés - vue d'ensemble des hôtes, santé des services avec alerte sur expiration des certificats TLS, et consommation par conteneur.
-- **Home Assistant** : domotique, seul service autorisé à parler au VLAN IoT isolé.
 - **vm-dev** : poste de travail à distance (Debian, Docker, kubectl, Terraform, Ansible) pour ne jamais développer directement sur l'infrastructure de prod.
+- **k3s + FluxCD** : cluster Kubernetes léger avec GitOps (MetalLB, cert-manager), namespace dédié au streaming média.
+- **Harbor** : registry Docker/OCI privé avec scan de vulnérabilités Trivy.
+
+**Observabilité**
+- **Prometheus, Grafana, Loki, Grafana Alloy** : observabilité complète (métriques, logs, conteneurs) avec dashboards dédiés - vue d'ensemble des hôtes, santé des services avec alerte sur expiration des certificats TLS, et consommation par conteneur.
+- **Zabbix** : provisionné en LXC, non actif en continu (redondant avec Prometheus/Grafana pour l'instant).
+
+**Domotique & usage personnel**
+- **Home Assistant** : domotique, seul service autorisé à parler au VLAN IoT isolé.
+- **Vikunja** : gestion de tâches personnelle.
+- **Nextcloud** : cloud fichiers / calendrier / contacts personnel.
+- **Immich** : galerie photo avec reconnaissance faciale locale.
+- **Cal.com** : prise de rendez-vous auto-hébergée, pour l'activité freelance à venir.
+- **Sandbox client** : LXC isolé dédié aux petites missions freelance (sites clients légers, exécution Ansible ponctuelle) - séparé du reste du lab.
+
+**Backup**
+- **Proxmox Backup Server** : datastore dédié sur le NAS phase 1, déduplication et incrémental permanent (voir [le stockage](/projets/homelab/stockage-hdd/) pour le détail).
 
 ## Streaming média : Jellyfin sans stockage local
 
-Plutôt que d'investir dans plusieurs To de disques, la chaîne média repose sur du debrid : un abonnement Real-Debrid stocke les fichiers dans le cloud, `rclone` les monte localement, Riven génère les liens symboliques correspondants, et Jellyfin les lit comme s'ils étaient en local - avec transcodage matériel via le GPU Intel intégré du mini-PC. Accessible en interne via une interface web façon Netflix (Jellyfin-Vue) et via les apps natives (Android TV, iOS).
+Plutôt que d'investir dans plusieurs To de disques, la chaîne média repose sur un service cloud de debrid : les fichiers restent stockés à distance, Riven orchestre la récupération, et un système de fichiers virtuel (FUSE) les présente à Jellyfin comme s'ils étaient en local - avec transcodage matériel via le GPU Intel intégré du mini-PC. Accessible en interne via une interface web façon Netflix (Jellyfin-Vue) et via les apps natives (Android TV, iOS). Détail complet sur [la page dédiée](/projets/homelab/jellyfin/).
 
 ## Ce qui reste à faire
 
-Cluster Kubernetes (K3s) pour la suite de la stack applicative, Nextcloud pour le stockage de fichiers personnel, NAS définitif (Proxmox Backup Server) pour des sauvegardes testées et déduppliquées, un outil de suivi de tâches personnel self-hosted, et une exploration d'automatisation pilotée par un LLM local (n8n + Ollama) pour la suite. Réseau, sécurité (PKI, SSO, IDS), observabilité, CI/CD et streaming sont déjà opérationnels au quotidien.
+Un NAS définitif pour remplacer le disque de récupération actuel, un streaming musique lossless auto-hébergé pour remplacer Spotify, et une exploration d'automatisation pilotée par un LLM local (n8n + Ollama). Réseau, sécurité (PKI, SSO, IDS), observabilité, CI/CD, Kubernetes, cloud personnel et streaming vidéo sont déjà opérationnels au quotidien. Détail complet en [la suite](/projets/homelab/perspectives/).

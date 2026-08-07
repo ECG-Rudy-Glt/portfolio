@@ -27,6 +27,16 @@ const projects = defineCollection({
   }),
 });
 
+const projectPages = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/project-pages" }),
+  schema: z.object({
+    project: z.string(),
+    title: z.string(),
+    summary: z.string(),
+    order: z.number().default(0),
+  }),
+});
+
 const articles = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/articles" }),
   schema: z.object({
@@ -40,4 +50,4 @@ const articles = defineCollection({
   }),
 });
 
-export const collections = { projects, articles };
+export const collections = { projects, projectPages, articles };

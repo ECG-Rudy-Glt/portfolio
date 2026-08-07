@@ -3,7 +3,7 @@ title: "SUPINFO Lab - Lab pédagogique collaboratif"
 category: perso
 summary: "Initiative personnelle : conception et montage d'un lab informatique physique sur le campus SUPINFO de Tours pour permettre aux étudiants de pratiquer l'infrastructure de A à Z."
 period: "2026 - en cours"
-role: "Initiateur du projet - cahier des charges, budget, équipement"
+role: "Initiateur du projet - cahier des charges, budget, équipement ; montage physique porté en équipe dès la 5e année"
 stack: ["Proxmox", "K3s", "Terraform", "Ansible", "OPNsense", "Ludus", "Gitea", "Woodpecker CI", "Wazuh", "ELK", "Authentik", "BookStack"]
 tags: ["Initiative", "Gestion de projet", "Infra as Code", "Kubernetes", "Sécurité", "Pédagogie"]
 featured: true
@@ -31,6 +31,10 @@ Plutôt que d'attendre qu'on me propose quelque chose, j'ai pris l'initiative de
 ## Méthode de déploiement
 
 Quatre phases pensées pour livrer de la valeur dès le début plutôt que d'attendre un "grand soir" : fondation (virtualisation/réseau), observabilité, labs cyber, puis enrichissement à long terme selon les retours des premiers utilisateurs.
+
+## Où en est le projet aujourd'hui
+
+Le budget vient d'être débloqué - une étape concrète après le travail de cadrage et de chiffrage. Mais entre l'alternance, le travail personnel, le sport et mon propre [homelab](/projets/homelab/), je ne peux pas assurer seul le montage physique du lab en plus du reste : ce serait promettre une exécution que je n'ai matériellement pas le temps de tenir. Plutôt que de forcer un montage solo au détriment de la qualité, la suite logique est de constituer une équipe à accompagner sur ce sujet dès ma 5e année - reprendre le rôle d'initiateur/cadreur pour en faire un rôle de pilotage, avec d'autres étudiants qui prennent part à l'exécution.
 
 ## Ce que ça démontre
 

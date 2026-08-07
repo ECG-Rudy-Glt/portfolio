@@ -14,6 +14,8 @@ type: article
 
 Sur mon [homelab](/projets/homelab/), je voulais offrir à une dizaine de proches (famille, amis) une expérience de streaming façon Netflix - un catalogue, une recherche, "je clique et ça joue" - sans gérer moi-même des To de disques, et sans jamais exposer autre chose que le strict nécessaire sur Internet. Ça a donné une stack complète : Jellyfin comme media server, un pipeline debrid pour le contenu, et une exposition publique durcie et testée en conditions réelles - pas juste supposée sûre.
 
+Cet article raconte le cheminement et les choix. Pour le détail technique le plus à jour (chaîne complète, choix du client Streamyfin pour le cast, résultats du pentest), voir la [page dédiée du projet](/projets/homelab/jellyfin/).
+
 ## Jellyfin plutôt qu'Emby ou Plex
 
 Jellyfin et Emby partagent la même base de code historique (Jellyfin est un fork communautaire d'Emby créé en 2018 quand celui-ci est passé propriétaire) ; Plex vient d'une lignée différente (issu de XBMC/Kodi côté serveur), mais pose le même problème de fond : un modèle payant sur exactement les fonctions dont j'avais besoin.
