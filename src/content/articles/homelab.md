@@ -13,6 +13,8 @@ vrai coffre-fort, une CI/CD self-hébergée, un cluster Kubernetes, et - parce q
 jamais été attaquée n'a jamais été testée - un pentest mené sur ma propre infrastructure une fois
 qu'elle a tourné en conditions réelles pour ma famille.
 
+![Le cluster homelab empilé : mini-PC firewall, deux HP EliteDesk et boîtier de stockage USB](/articles/homelab/pile-mini-pcs.png)
+
 ## Pourquoi
 
 Ce projet a démarré dans le cadre de la fin de ma 4e année à Supinfo (parcours DevOps, en
