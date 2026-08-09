@@ -16,7 +16,7 @@ Infrastructure self-hosted pensée comme un environnement de production plutôt 
 
 ## Le matériel
 
-Choix volontaire de mini-PCs plutôt que de serveurs rack traditionnels, pour rester sous 80W en idle. Budget total : environ 735 € pour la phase 1.
+Choix volontaire de mini-PCs plutôt que de serveurs rack traditionnels, pour rester sous 80W en idle. Budget total : environ 715 € pour la phase 1.
 
 | Composant | Modèle | Prix | Specs |
 |---|---|---|---|
@@ -24,10 +24,9 @@ Choix volontaire de mini-PCs plutôt que de serveurs rack traditionnels, pour re
 | Compute ×2 | HP EliteDesk 800 G6 Mini ×2 | ~370 € | Intel Core i5-10500 6c/12t, 32 Go DDR4 chacun, SSD NVMe 512 Go, 10-20W idle |
 | RAM upgrade | 32 Go DDR4 ×2 nœuds | ~100 € | 64 Go au total sur le cluster |
 | Switch | TP-Link TL-SG108E | ~40 € | 8 ports Gigabit manageable, 802.1Q |
-| Réseau WAN | Adaptateur USB 3.0 → 2.5G (RTL8156B) | ~20 € | Réserve, stable sous FreeBSD/OPNsense |
 | Câblage | Patch panel 1U Cat6 + câbles | ~35 € | |
 | NAS phase 1 | HDD 1 To (ex-iMac, USB) | ~0 € | Stockage temporaire en attendant le NAS définitif |
-| **Total** | | **~735 €** | |
+| **Total** | | **~715 €** | |
 
 Consommation visée : 46-73W en idle, jusqu'à 90-120W en charge - environ 50 à 80 €/an d'électricité.
 
