@@ -55,7 +55,7 @@ Côté acquisition/gestion de la bibliothèque, deux approches s'affrontent dans
 
 Riven l'emporte sur la simplicité opérationnelle - moins de services à faire vivre - au prix d'un contrôle qualité moins fin que la stack *arr historique. Un compromis assumé : je préfère 2 services à maintenir plutôt que 6, quitte à perdre un peu de granularité sur le tri.
 
-En interne, Riven combine trois scrapers en parallèle - **Torrentio**, **Zilean** (hashlists DMM) et **Prowlarr** (indexeurs publics : Torrent9, World-torrent, Knaben, The Pirate Bay, LimeTorrents) - pour maximiser les chances de trouver une release correcte, avant de l'envoyer au debrider (AllDebrid en pratique aujourd'hui) puis de la monter via **RivenVFS**, un filesystem FUSE qui streame à la demande. Jellyfin lit ce montage comme un dossier local classique.
+En interne, Riven combine trois scrapers en parallèle - **Torrentio**, **Zilean** (hashlists DMM) et **Prowlarr** (indexeurs publics : Torrent9, World-torrent, Knaben, The Pirate Bay, LimeTorrents) - pour maximiser les chances de trouver une release correcte, avant de l'envoyer au debrideur puis de la monter via **RivenVFS**, un filesystem FUSE qui streame à la demande. Jellyfin lit ce montage comme un dossier local classique.
 
 ## Architecture
 
@@ -64,7 +64,7 @@ En interne, Riven combine trois scrapers en parallèle - **Torrentio**, **Zilean
 Deux chemins bien distincts :
 
 - **Le chemin public** (accès famille) : `Internet → Bbox (NAT) → OPNsense (GeoIP, France uniquement) → Traefik (bouncer CrowdSec + rate-limit + ipAllowList) → Jellyfin`. Jellyfin est le **seul** service de tout le homelab exposé publiquement - tout le reste (Vaultwarden, Forgejo, Grafana, Authentik, Riven...) reste strictement interne.
-- **Le pipeline de contenu** (jamais exposé) : une demande famille part de Jellyseerr, Riven scrape les trois sources, envoie le meilleur candidat à AllDebrid, RivenVFS monte le résultat, et Jellyfin le sert avec transcodage matériel GPU si besoin.
+- **Le pipeline de contenu** (jamais exposé) : une demande famille part de Jellyseerr, Riven scrape les trois sources, envoie le meilleur candidat au debrideur, RivenVFS monte le résultat, et Jellyfin le sert avec transcodage matériel GPU si besoin.
 
 Jellyseerr et Jellyfin-Vue tournent sur le cluster K3s (node-2), en stateless - aucune contrainte de filesystem partagé, donc aucune raison de les sortir du cluster. Riven, lui, doit obligatoirement cohabiter avec Jellyfin sur le même LXC : RivenVFS est un montage FUSE local, il ne se partage pas entre machines.
 
@@ -88,7 +88,7 @@ Plutôt que de faire jongler la famille entre Jellyfin, Jellyseerr et Jellyfin-V
 - **Jellyfin-Enhanced** ajoute la recherche et la demande Jellyseerr directement dans l'UI web/mobile native.
 - **JellyBridge** crée une bibliothèque "Discover" peuplée de tendances (placeholders vidéo) : un simple ♥ sur un titre déclenche la demande Jellyseerr - ça marche même sur Android TV, où l'intégration Enhanced ne fonctionne pas.
 
-Un thème CSS custom (ElegantFin) habille l'UI native en quelque chose de plus proche d'un vrai service de streaming, sans rien installer côté famille. Test de bout en bout validé : ♥ sur une série dans Discover → demande Jellyseerr → scrape Riven → AllDebrid → RivenVFS → disponible dans la bibliothèque, en **environ 30 secondes**.
+Un thème CSS custom (ElegantFin) habille l'UI native en quelque chose de plus proche d'un vrai service de streaming, sans rien installer côté famille. Test de bout en bout validé : ♥ sur une série dans Discover → demande Jellyseerr → scrape Riven → debrid → RivenVFS → disponible dans la bibliothèque, en **environ 30 secondes**.
 
 ## Le tri par langue : le vrai point dur du projet
 
