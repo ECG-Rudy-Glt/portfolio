@@ -24,7 +24,7 @@ const personSchema = {
   url: (Astro.site ?? Astro.url.origin).toString(),
   image: new URL("/avatar.png", Astro.site ?? Astro.url.origin).toString(),
   jobTitle: "Alternant infrastructure & développement",
-  email: "gault.rudy@gmail.com",
+  email: "contact@rudy-ops.fr",
   worksFor: { "@type": "Organization", name: "Cloud Temple" },
   alumniOf: { "@type": "CollegeOrUniversity", name: "SUPINFO" },
   sameAs: ["https://www.linkedin.com/in/rudy-gault/"],
@@ -75,7 +75,20 @@ const personSchema = {
       <p>© {new Date().getFullYear()} Rudy Gault</p>
       <div class="flex items-center gap-4">
         <a
-          href="mailto:gault.rudy@gmail.com"
+          href="https://rudy-ops.fr"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="rudy-ops.fr, activité freelance"
+          title="rudy-ops.fr"
+          class="transition-colors hover:text-[var(--accent)]"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+        </a>
+        <a
+          href="mailto:contact@rudy-ops.fr"
           aria-label="Email"
           title="Email"
           class="transition-colors hover:text-[var(--accent)]"

@@ -32,10 +32,6 @@ Un site Astro/React (accueil, services, tarifs, disponibilités, contact) coupl�
 - **Exposition publique** : Cloudflare Tunnel (connexion sortante uniquement, aucun port ouvert sur mon réseau), DNS et certificats gérés par Cloudflare.
 - **SEO** : JSON-LD `ProfessionalService`, sitemap, `robots.txt`, mots-clés ciblés sur mon activité et ma localisation.
 
-## Un vrai incident en le mettant en ligne
-
-Le LXC qui héberge ce portfolio n'était dimensionné que pour lui seul (256 Mo de RAM). Le déploiement de rudy-ops.fr en co-location a saturé la mémoire disponible et fait tomber les deux sites en même temps, pas seulement le nouveau. Diagnostic et correctif appliqués en conditions réelles (RAM remontée, infrastructure resynchronisée) - l'occasion de vérifier concrètement l'impact d'un partage de ressources entre services avant de le faire à plus grande échelle.
-
 ## Résultat
 
 Site en ligne sur [rudy-ops.fr](https://rudy-ops.fr), formulaire de contact et assistant de devis fonctionnels, chaque demande tracée automatiquement.
