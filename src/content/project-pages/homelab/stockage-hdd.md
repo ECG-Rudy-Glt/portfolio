@@ -55,3 +55,11 @@ L'objectif : 3 copies des données, sur 2 supports différents, dont 1 hors site
 
 Le chiffrement de la copie hors site se fait **avant** que les données ne quittent le réseau
 local - rien en clair n'est envoyé vers le stockage cloud tiers.
+
+## Une sauvegarde jamais restaurée n'est qu'une espérance
+
+Un job de sauvegarde qui tourne sans erreur ne prouve rien en soi - seule une restauration réelle
+le prouve. Test effectué en conditions réelles : restauration complète d'un conteneur de
+production (Vikunja) depuis PBS, puis à nouveau depuis la copie hors site chiffrée - les deux
+restaurations ont abouti sans perte de données. C'est cette vérification, plus que l'existence du
+job lui-même, qui rend la stratégie 3-2-1 ci-dessus crédible plutôt que théorique.

@@ -1,7 +1,7 @@
 ---
 project: homelab
 title: "Pourquoi ce projet"
-summary: "La motivation derrière 870€ et plusieurs mois de soirées : monter en compétences sur toute une infrastructure, préparer l'après-alternance et l'indépendance."
+summary: "La motivation derrière 735€ et plusieurs mois de soirées : monter en compétences sur toute une infrastructure, préparer l'après-alternance et l'indépendance."
 order: 1
 ---
 
@@ -46,10 +46,3 @@ régulier. Hors de question que mes expérimentations réseau viennent perturber
 pendant qu'elle travaille. Cette contrainte a pesé sur l'architecture dès le premier schéma : le
 lab devait être isolé proprement du reste du foyer, pas l'inverse. Voir
 [l'infrastructure](/projets/homelab/infrastructure/) pour le détail de cette segmentation.
-
-## Pourquoi ça tient dans la durée
-
-Ma famille utilise réellement ce qui tourne ici (streaming, mots de passe, bientôt musique et
-photos), ce qui crée une pression opérationnelle authentique - quand quelque chose tombe,
-quelqu'un le remarque. Cette contrainte est volontaire : elle force à traiter les pannes et la
-sécurité comme on le ferait en production, pas comme un TP qu'on peut laisser cassé.

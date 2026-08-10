@@ -14,9 +14,10 @@ nulle part ailleurs : la démarche de vérification, et ce qu'un vrai test d'int
 ## Ne pas se contenter de documenter qu'on pense être sécurisé
 
 Beaucoup de projets personnels s'arrêtent à "j'ai mis un firewall et un VPN, donc c'est
-sécurisé". Une fois les protections construites, elles ont été **attaquées volontairement**,
-depuis l'intérieur et depuis l'extérieur, pour vérifier qu'elles tiennent vraiment - pas juste
-sur le papier.
+sécurisé". Une fois les protections construites, elles ont été **attaquées volontairement** depuis
+l'extérieur pour vérifier qu'elles tiennent vraiment - pas juste sur le papier. Le volet interne
+(scénario d'un attaquant déjà présent sur un VLAN) est en cours de test au moment où j'écris ces
+lignes.
 
 ## La rotation complète des credentials avant tout test
 
@@ -43,16 +44,15 @@ interne, qui aurait contourné les protections et faussé les résultats) :
 - **Le filtrage géographique bloque réellement** : testé depuis un VPN localisé hors de la zone
   autorisée, la connexion est coupée avant même d'atteindre l'application
 
+### Le volet interne, en cours
+
+Le test externe ne couvre qu'un scénario : un attaquant qui n'a jamais mis un pied sur le réseau.
+Le scénario complémentaire - un attaquant qui dispose déjà d'un accès partiel, sur un VLAN
+compromis par exemple - est actuellement en cours de test, depuis l'intérieur du réseau cette
+fois. Les résultats viendront compléter cette page une fois le test terminé.
+
 Le pentest a aussi remonté plusieurs points à corriger, traités au fur et à mesure - un audit qui
 ne trouve jamais rien n'a pas été fait sérieusement. Le détail précis de chaque écart n'a pas sa
 place ici (surface d'attaque publique), mais la méthode et l'honnêteté du résultat, elles, sont
 le vrai objet de cette page : ce n'est pas une affirmation vague de "sécurité renforcée", c'est
 un audit avec des faits vérifiés, corrigés, et suivis.
-
-## Ce que cette démarche prépare
-
-Mener un pentest complet sur sa propre infrastructure - avec l'autorisation la plus totale
-possible puisqu'elle est la sienne - est un exercice difficile à reproduire ailleurs de façon
-aussi réaliste : la cible n'est pas un CTF conçu pour être résolu, c'est une vraie infrastructure
-avec de vrais compromis de conception et de vraies conséquences si quelque chose casse pendant le
-test. Voir [la suite](/projets/homelab/perspectives/) pour où ça mène.

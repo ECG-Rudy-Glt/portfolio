@@ -41,17 +41,3 @@ du foyer, notamment le télétravail de ma conjointe (voir [pourquoi ce projet](
 Le WiFi partagé avec le reste de la maison peut suffire pour du streaming, mais un CPL filaire
 dédié évite toute contention avec le trafic domestique - la fiabilité prime sur le prix (~35€
 l'adaptateur).
-
-## Ce que ce budget remplace
-
-Le calcul qui rend l'investissement intéressant n'est pas "combien j'ai dépensé" mais "qu'est-ce
-que ça remplace". Sur ce lab tournent, entre autres : un gestionnaire de mots de passe familial,
-un service de streaming, une forge Git avec CI/CD, un hub domotique - et bientôt un cloud
-personnel et une galerie photo (voir [la suite](/projets/homelab/perspectives/)). Additionner les
-abonnements équivalents sur 2-3 ans dépasse largement le coût matériel initial, sans compter que
-les données restent chez moi plutôt que chez un tiers.
-
-Le vrai coût de ce projet n'est de toute façon pas dans le matériel - c'est le temps. Documenter
-chaque décision et chaque panne (voir [les incidents](/projets/homelab/incidents/)) prend
-largement plus d'heures que le montage physique. C'est un choix assumé : c'est ce qui transforme
-un homelab en preuve de compétence exploitable, pas juste une infra qui tourne.

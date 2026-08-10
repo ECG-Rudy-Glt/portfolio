@@ -4,7 +4,7 @@ category: perso
 summary: "Infrastructure personnelle de production : 2 nœuds Proxmox + firewall OPNsense, 4 VLANs, PKI interne, SSO, observabilité complète et stack streaming Jellyfin - tout piloté en Infrastructure as Code."
 period: "2026 - en cours"
 role: "Conception, achat du matériel, déploiement et exploitation en solo"
-stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Forgejo", "Suricata", "CrowdSec", "Jellyfin", "Home Assistant", "K3s", "Nextcloud"]
+stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Alertmanager", "Forgejo", "Suricata", "CrowdSec", "Jellyfin", "Home Assistant", "K3s", "Nextcloud"]
 tags: ["Infra as Code", "Réseau", "Sécurité", "Observabilité", "CI/CD", "Self-hosting"]
 images: ["/projets/homelab/pile-mini-pcs.png"]
 featured: true
@@ -16,7 +16,7 @@ Infrastructure self-hosted pensée comme un environnement de production plutôt 
 
 ## Le matériel
 
-Choix volontaire de mini-PCs plutôt que de serveurs rack traditionnels, pour rester sous 80W en idle. Budget total : environ 715 € pour la phase 1.
+Choix volontaire de mini-PCs plutôt que de serveurs rack traditionnels, pour rester sous 80W en idle. Budget total : environ 735 € pour la phase 1.
 
 | Composant | Modèle | Prix | Specs |
 |---|---|---|---|
@@ -25,8 +25,9 @@ Choix volontaire de mini-PCs plutôt que de serveurs rack traditionnels, pour re
 | RAM upgrade | 32 Go DDR4 ×2 nœuds | ~100 € | 64 Go au total sur le cluster |
 | Switch | TP-Link TL-SG108E | ~40 € | 8 ports Gigabit manageable, 802.1Q |
 | Câblage | Patch panel 1U Cat6 + câbles | ~35 € | |
+| Adaptateur réseau | USB 3.0 → 2.5G (RTL8156B) | ~20 € | Pour le NAS phase 1 |
 | NAS phase 1 | HDD 1 To (ex-iMac, USB) | ~0 € | Stockage temporaire en attendant le NAS définitif |
-| **Total** | | **~715 €** | |
+| **Total** | | **~735 €** | |
 
 Consommation visée : 46-73W en idle, jusqu'à 90-120W en charge - environ 50 à 80 €/an d'électricité.
 
@@ -85,7 +86,7 @@ Le firewall OPNsense (mini-PC N150) héberge une couche de sécurité réseau à
 - **Harbor** : registry Docker/OCI privé avec scan de vulnérabilités Trivy.
 
 **Observabilité**
-- **Prometheus, Grafana, Loki, Grafana Alloy** : observabilité complète (métriques, logs, conteneurs) avec dashboards dédiés - vue d'ensemble des hôtes, santé des services avec alerte sur expiration des certificats TLS, et consommation par conteneur.
+- **Prometheus, Grafana, Loki, Grafana Alloy, Alertmanager** : observabilité complète (métriques, logs, conteneurs) avec dashboards dédiés et alertes réelles (SMTP) - certificat qui expire, service down, SMART disque.
 - **Zabbix** : provisionné en LXC, non actif en continu (redondant avec Prometheus/Grafana pour l'instant).
 
 **Domotique & usage personnel**

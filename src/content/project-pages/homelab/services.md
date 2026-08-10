@@ -28,7 +28,7 @@ Le cluster Proxmox, socle de tout provisionnement ultérieur - voir
    [Construire une PKI interne](/blog/homelab-pki-secrets/)
 3. **Authentik** (SSO) - authentification centralisée
 4. **Vaultwarden** - gestionnaire de mots de passe familial
-5. **Forgejo** - forge Git self-hébergée, source de vérité de tout le code IaC, avec CI/CD
+5. **Forgejo** - hébergement Git auto-hébergé, source de vérité de tout le code IaC, avec CI/CD
 6. **Home Assistant** - hub domotique, seul service autorisé à parler au VLAN IoT
 7. **Vikunja** - gestion de tâches personnelle
 
