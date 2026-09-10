@@ -31,9 +31,10 @@ détaillées : pourquoi ce projet, l'équipement et ses choix, l'infrastructure 
 et leur ordre de déploiement, l'IaC en détail, les vraies pannes rencontrées, la sécurité et le
 pentest, le stockage, Jellyfin, et la suite.
 
-Deux morceaux ont déjà leur propre article : la mise en place de la
-[PKI interne et du coffre à secrets](/blog/homelab-pki-secrets/), et le
-[démontage d'un iMac](/blog/imac-ecran/) dont le disque dur sert aujourd'hui de premier NAS au lab.
+Plusieurs morceaux ont déjà leur propre article : la mise en place de la
+[PKI interne et du coffre à secrets](/blog/homelab-pki-secrets/), le
+[démontage d'un iMac](/blog/imac-ecran/) dont le disque dur sert aujourd'hui de premier NAS au lab,
+et la [recherche de livres avec envoi direct sur Kindle](/blog/shelfmark/) via Shelfmark.
 
 L'infra cœur (réseau, Proxmox, Traefik, PKI, SSO, observabilité, CI/CD, Kubernetes) est publiée en
 open source : [github.com/ECG-Rudy-Glt/HOMELAB](https://github.com/ECG-Rudy-Glt/HOMELAB) — Terraform

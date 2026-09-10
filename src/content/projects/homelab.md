@@ -108,4 +108,4 @@ Plutôt que d'investir dans plusieurs To de disques, la chaîne média repose su
 
 ## Ce qui reste à faire
 
-Un NAS définitif pour remplacer le disque de récupération actuel, un streaming musique lossless auto-hébergé pour remplacer Spotify, et une exploration d'automatisation pilotée par un LLM local (n8n + Ollama). Réseau, sécurité (PKI, SSO, IDS), observabilité, CI/CD, Kubernetes, cloud personnel et streaming vidéo sont déjà opérationnels au quotidien. Détail complet en [la suite](/projets/homelab/perspectives/).
+Un NAS définitif pour remplacer le disque de récupération actuel, un streaming musique lossless auto-hébergé pour remplacer Spotify, une exploration d'automatisation pilotée par un LLM local (n8n + Ollama), et une extension réseau WiFi + caméra de vidéosurveillance 100% locale (conception bouclée, matériel à commander — détail dans [domotique, réseau et vidéosurveillance](/projets/homelab/domotique-reseau/)). Réseau, sécurité (PKI, SSO, IDS), observabilité, CI/CD, Kubernetes, cloud personnel et streaming vidéo sont déjà opérationnels au quotidien. Détail complet en [la suite](/projets/homelab/perspectives/).

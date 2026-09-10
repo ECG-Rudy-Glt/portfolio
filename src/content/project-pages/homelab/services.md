@@ -29,7 +29,8 @@ Le cluster Proxmox, socle de tout provisionnement ultérieur - voir
 3. **Authentik** (SSO) - authentification centralisée
 4. **Vaultwarden** - gestionnaire de mots de passe familial
 5. **Forgejo** - hébergement Git auto-hébergé, source de vérité de tout le code IaC, avec CI/CD
-6. **Home Assistant** - hub domotique, seul service autorisé à parler au VLAN IoT
+6. **Home Assistant** - hub domotique, seul service autorisé à parler au VLAN IoT (détail de
+   l'extension réseau/caméra en cours dans [domotique, réseau et vidéosurveillance](/projets/homelab/domotique-reseau/))
 7. **Vikunja** - gestion de tâches personnelle
 
 Chaque service de cette liste dépend d'au moins un des précédents : Authentik a besoin
