@@ -47,6 +47,9 @@ const articles = defineCollection({
     type: z.enum(["article", "linkedin"]).default("article"),
     externalUrl: z.string().url().optional(),
     cover: z.string().optional(),
+    // Clé vers un pool de questions dans src/data/quizzes/<quiz>.ts (ex. "az-104") -
+    // affiche un QCM interactif en bas de l'article si renseigné.
+    quiz: z.string().optional(),
   }),
 });
 

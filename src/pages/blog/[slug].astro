@@ -1,6 +1,22 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
+import Quiz from "../../components/Quiz.tsx";
+
+const quizPools = import.meta.glob("../../data/quizzes/*.ts", { eager: true }) as Record<
+  string,
+  { default?: unknown; [key: string]: unknown }
+>;
+
+function getQuizQuestions(key?: string) {
+  if (!key) return null;
+  const mod = quizPools[`../../data/quizzes/${key}.ts`];
+  if (!mod) return null;
+  // Le module exporte `<key>Questions` (ex. `azQuestions` pour az-104) - on prend
+  // le premier export nommé qui est un tableau, peu importe son nom exact.
+  const arr = Object.values(mod).find((v) => Array.isArray(v));
+  return (arr as import("../../components/Quiz").QuizQuestion[] | undefined) ?? null;
+}
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles", ({ data }) => data.type === "article");
@@ -14,6 +30,7 @@ const { article } = Astro.props;
 const { Content } = await render(article);
 
 const dateFormatter = new Intl.DateTimeFormat("fr-FR", { year: "numeric", month: "long", day: "numeric" });
+const quizQuestions = getQuizQuestions(article.data.quiz);
 ---
 
 <Layout title={`${article.data.title} - Rudy Gault`} description={article.data.summary}>
@@ -33,4 +50,15 @@ const dateFormatter = new Intl.DateTimeFormat("fr-FR", { year: "numeric", month:
   <article class="prose-content">
     <Content />
   </article>
+
+  {quizQuestions && (
+    <section class="mt-12 border-t border-[var(--border)] pt-8">
+      <h2 class="mb-2 text-xl font-bold text-[var(--fg)]">Teste-toi</h2>
+      <p class="mb-4 text-sm text-[var(--fg-muted)]">
+        {quizQuestions.length} questions au total, {Math.min(10, quizQuestions.length)} tirées au
+        hasard à chaque partie - relance pour un nouveau tirage.
+      </p>
+      <Quiz client:visible questions={quizQuestions} count={10} />
+    </section>
+  )}
 </Layout>
