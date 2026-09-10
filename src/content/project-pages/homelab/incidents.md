@@ -70,9 +70,3 @@ Avant tout pentest sérieux, tous les mots de passe et secrets créés pendant l
 lab ont été considérés comme "brûlés" et roulés méthodiquement - voir
 [la sécurité](/projets/homelab/securite/) pour pourquoi cette étape précède le pentest plutôt que
 l'inverse.
-
-## Ce que ces incidents ont en commun
-
-Aucun n'a de cause unique et évidente. Tous ont demandé de résister à la tentation de la première
-explication plausible, et de vérifier méthodiquement avant d'agir - la même discipline qui
-sous-tend la partie sécurité du projet.

@@ -35,11 +35,11 @@ Plex a un vrai atout : c'est objectivement l'écosystème de clients le plus lar
 
 ## Zéro disque : le pari du debrid
 
-L'idée vient de mon propre usage avant ce projet : j'utilisais déjà Stremio avec un debrideur pour moi-même, et l'évidence s'est imposée assez vite - garder des films en dur sur un disque qui prend de la place, alors qu'un service cloud peut stocker et streamer à la demande pour quelques dizaines d'euros par an, n'avait plus vraiment de sens. J'ai repris exactement ce principe pour la version familiale : plutôt que d'investir dans plusieurs To de stockage, toute la bibliothèque vit dans le cloud d'un service de "debrid" (au départ Real-Debrid, ~30 €/an - AllDebrid est au même tarif) : je demande un film, le service le télécharge dans son propre cloud, et je le re-stream vers la famille sans qu'un seul octet ne touche mes disques.
+L'idée vient de mon propre usage avant ce projet : j'utilisais déjà Stremio avec un debrideur pour moi-même, et l'évidence s'est imposée assez vite - garder des films en dur sur un disque qui prend de la place, alors qu'un service cloud peut stocker et streamer à la demande pour quelques dizaines d'euros par an, n'avait plus vraiment de sens. J'ai repris exactement ce principe pour la version familiale : plutôt que d'investir dans plusieurs To de stockage, toute la bibliothèque vit dans le cloud d'un service de "debrid" : je demande un film, le service le télécharge dans son propre cloud, et je le re-stream vers la famille sans qu'un seul octet ne touche mes disques.
 
 Bénéfice secondaire, pas négligeable : c'est l'infrastructure du debrideur qui échange directement avec les autres utilisateurs du torrent, jamais ma connexion domestique. Pas besoin de VPN pour se protéger de cet échange peer-to-peer - le homelab ne fait que du HTTPS classique vers le cloud du debrideur, comme n'importe quel autre service en ligne.
 
-Ce pari a pris un coup en mai 2026 : Real-Debrid a mis en place un filtrage par mots-clés sur les fichiers en cache, suite à une décision de la Cour d'appel de Paris s'appuyant sur l'article 16 du DSA européen - des ayants droit français ont fait remonter des listes de mots-clés, et RD les applique. Résultat concret : des pans entiers de contenu (tags `WEB-DL`, `WEBRip`, `BDRip`...) devenaient injouables. La première réponse a été de garder RD en priorité avec AllDebrid en fallback automatique, mais les deux services pouvaient se retrouver en cooldown simultanément, rendant le comportement imprévisible. RD a fini par être **complètement désactivé** : aujourd'hui, seul AllDebrid est utilisé, tant que RD reste soumis à ce filtre copyright français.
+Ce pari a pris un coup en mai 2026 : mon service de debrid principal a mis en place un filtrage par mots-clés sur les fichiers en cache, suite à une décision de justice française qui a fait remonter des listes de mots-clés aux fournisseurs. Résultat concret : des pans entiers de contenu (tags `WEB-DL`, `WEBRip`, `BDRip`...) devenaient injouables. La première réponse a été de garder ce service en priorité avec un second service de debrid en fallback automatique, mais les deux pouvaient se retrouver en cooldown simultanément, rendant le comportement imprévisible. Le premier service a fini par être **complètement désactivé** : aujourd'hui, seul le second est utilisé, tant que le premier reste soumis à ce filtre copyright.
 
 ## Riven plutôt que Zurg + Radarr/Sonarr/Prowlarr
 
@@ -55,7 +55,7 @@ Côté acquisition/gestion de la bibliothèque, deux approches s'affrontent dans
 
 Riven l'emporte sur la simplicité opérationnelle - moins de services à faire vivre - au prix d'un contrôle qualité moins fin que la stack *arr historique. Un compromis assumé : je préfère 2 services à maintenir plutôt que 6, quitte à perdre un peu de granularité sur le tri.
 
-En interne, Riven combine trois scrapers en parallèle - **Torrentio**, **Zilean** (hashlists DMM) et **Prowlarr** (indexeurs publics : Torrent9, World-torrent, Knaben, The Pirate Bay, LimeTorrents) - pour maximiser les chances de trouver une release correcte, avant de l'envoyer au debrider (AllDebrid en pratique aujourd'hui) puis de la monter via **RivenVFS**, un filesystem FUSE qui streame à la demande. Jellyfin lit ce montage comme un dossier local classique.
+En interne, Riven combine trois scrapers en parallèle - **Torrentio**, **Zilean** (hashlists DMM) et **Prowlarr** (indexeurs publics : Torrent9, World-torrent, Knaben, The Pirate Bay, LimeTorrents) - pour maximiser les chances de trouver une release correcte, avant de l'envoyer au debrideur puis de la monter via **RivenVFS**, un filesystem FUSE qui streame à la demande. Jellyfin lit ce montage comme un dossier local classique.
 
 ## Architecture
 
@@ -64,7 +64,7 @@ En interne, Riven combine trois scrapers en parallèle - **Torrentio**, **Zilean
 Deux chemins bien distincts :
 
 - **Le chemin public** (accès famille) : `Internet → Bbox (NAT) → OPNsense (GeoIP, France uniquement) → Traefik (bouncer CrowdSec + rate-limit + ipAllowList) → Jellyfin`. Jellyfin est le **seul** service de tout le homelab exposé publiquement - tout le reste (Vaultwarden, Forgejo, Grafana, Authentik, Riven...) reste strictement interne.
-- **Le pipeline de contenu** (jamais exposé) : une demande famille part de Jellyseerr, Riven scrape les trois sources, envoie le meilleur candidat à AllDebrid, RivenVFS monte le résultat, et Jellyfin le sert avec transcodage matériel GPU si besoin.
+- **Le pipeline de contenu** (jamais exposé) : une demande famille part de Jellyseerr, Riven scrape les trois sources, envoie le meilleur candidat au debrideur, RivenVFS monte le résultat, et Jellyfin le sert avec transcodage matériel GPU si besoin.
 
 Jellyseerr et Jellyfin-Vue tournent sur le cluster K3s (node-2), en stateless - aucune contrainte de filesystem partagé, donc aucune raison de les sortir du cluster. Riven, lui, doit obligatoirement cohabiter avec Jellyfin sur le même LXC : RivenVFS est un montage FUSE local, il ne se partage pas entre machines.
 
@@ -88,7 +88,7 @@ Plutôt que de faire jongler la famille entre Jellyfin, Jellyseerr et Jellyfin-V
 - **Jellyfin-Enhanced** ajoute la recherche et la demande Jellyseerr directement dans l'UI web/mobile native.
 - **JellyBridge** crée une bibliothèque "Discover" peuplée de tendances (placeholders vidéo) : un simple ♥ sur un titre déclenche la demande Jellyseerr - ça marche même sur Android TV, où l'intégration Enhanced ne fonctionne pas.
 
-Un thème CSS custom (ElegantFin) habille l'UI native en quelque chose de plus proche d'un vrai service de streaming, sans rien installer côté famille. Test de bout en bout validé : ♥ sur une série dans Discover → demande Jellyseerr → scrape Riven → AllDebrid → RivenVFS → disponible dans la bibliothèque, en **environ 30 secondes**.
+Un thème CSS custom (ElegantFin) habille l'UI native en quelque chose de plus proche d'un vrai service de streaming, sans rien installer côté famille. Test de bout en bout validé : ♥ sur une série dans Discover → demande Jellyseerr → scrape Riven → debrid → RivenVFS → disponible dans la bibliothèque, en **environ 30 secondes**.
 
 ## Le tri par langue : le vrai point dur du projet
 

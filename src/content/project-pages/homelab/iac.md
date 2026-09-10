@@ -68,7 +68,7 @@ reverse proxy.
 Pour tout ce qui tourne sur k3s, pas de `kubectl apply` manuel :
 
 1. Un manifeste est modifié dans le dépôt
-2. `git push` vers la forge Git self-hébergée
+2. `git push` vers Forgejo, le dépôt Git self-hébergé du lab
 3. FluxCD détecte le changement et l'applique automatiquement au cluster
 4. L'état est vérifiable directement : `flux get kustomizations`
 
