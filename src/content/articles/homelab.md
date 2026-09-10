@@ -34,3 +34,7 @@ pentest, le stockage, Jellyfin, et la suite.
 Deux morceaux ont déjà leur propre article : la mise en place de la
 [PKI interne et du coffre à secrets](/blog/homelab-pki-secrets/), et le
 [démontage d'un iMac](/blog/imac-ecran/) dont le disque dur sert aujourd'hui de premier NAS au lab.
+
+L'infra cœur (réseau, Proxmox, Traefik, PKI, SSO, observabilité, CI/CD, Kubernetes) est publiée en
+open source : [github.com/ECG-Rudy-Glt/HOMELAB](https://github.com/ECG-Rudy-Glt/HOMELAB) — Terraform
+et Ansible prêts à provisionner la même base sur 1 ou 2 nœuds Proxmox.
