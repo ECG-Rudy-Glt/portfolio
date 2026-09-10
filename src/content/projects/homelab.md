@@ -6,6 +6,8 @@ period: "2026 - en cours"
 role: "Conception, achat du matériel, déploiement et exploitation en solo"
 stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Forgejo", "Suricata", "CrowdSec", "Jellyfin", "Home Assistant", "K3s", "Nextcloud"]
 tags: ["Infra as Code", "Réseau", "Sécurité", "Observabilité", "CI/CD", "Self-hosting"]
+links:
+  repo: "https://github.com/ECG-Rudy-Glt/HOMELAB"
 images: ["/projets/homelab/pile-mini-pcs.png"]
 featured: true
 relevance: "majeur"
