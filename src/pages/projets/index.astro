@@ -20,7 +20,10 @@ const projects = allProjects.filter((p) => !isMinorSchoolProject(p)).sort(sortBy
 const minorSchoolProjects = allProjects.filter(isMinorSchoolProject).sort(sortByRelevance);
 ---
 
-<Layout title="Projets - Rudy Gault">
+<Layout
+  title="Projets - Rudy Gault"
+  description="Projets de Rudy Gault classés par pertinence : homelab self-hosted en IaC, suite d'outils DevOps, alternance Cloud Temple, projets SUPINFO (Kubernetes, Docker, cloud)."
+>
   <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Projets</h1>
   <p class="mb-4 text-[var(--fg-muted)]">
     Projets personnels, projets école et mission d'alternance, classés par pertinence.
