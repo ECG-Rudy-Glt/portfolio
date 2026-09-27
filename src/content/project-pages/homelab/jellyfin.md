@@ -23,13 +23,13 @@ Famille (♥ favori OU recherche + demande)
 Jellyseerr (interface de demande, style Netflix)
    │
    ▼
-Riven (orchestrateur : cherche, résout la meilleure source)
+Radarr / Sonarr (bibliothèque films / séries, profils de qualité, langue)
+   │  ← Prowlarr (sources) · Bazarr (sous-titres)
+   ▼
+Client de débridage (le fichier reste stocké à distance)
    │
    ▼
-Service cloud de debrid (le fichier reste stocké à distance)
-   │
-   ▼
-Système de fichiers virtuel (FUSE) - présente le fichier comme s'il était local
+Montage WebDAV (rclone) + liens symboliques - le fichier apparaît comme local
    │
    ▼
 Jellyfin core (transcodage matériel via l'iGPU si besoin, catalogue, comptes)
@@ -43,6 +43,12 @@ Deux mécanismes de demande coexistent, indépendants du client utilisé : le �
 cette action standard de l'API Jellyfin - universelle, disponible sur tous les clients. La
 recherche manuelle avec sélection de qualité passe par une intégration différente selon le
 client (voir plus bas pour Streamyfin).
+
+> **Septembre 2026 : Riven remplacé par la stack *arr.** La première version reposait sur Riven,
+> un orchestrateur tout-en-un. Il a été abandonné par ses mainteneurs, et il fallait de plus en plus
+> de scripts de surveillance maison pour le garder stable. Radarr/Sonarr sont des briques
+> standard, maintenues et largement documentées : moins d'originalité, beaucoup moins de code à
+> maintenir soi-même.
 
 ## Pourquoi Streamyfin pour la famille
 

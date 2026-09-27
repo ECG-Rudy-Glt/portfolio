@@ -6,6 +6,8 @@ tags: ["Homelab", "Streaming", "Jellyfin", "Sécurité", "Self-hosting"]
 type: article
 ---
 
+> **Mise à jour - septembre 2026** : cet article décrit la version d'origine, basée sur Riven. Riven a depuis été abandonné par ses mainteneurs et remplacé dans le lab par la stack *arr (Radarr, Sonarr, Prowlarr, Bazarr) - voir [la page Jellyfin du homelab](/projets/homelab/jellyfin/). Le reste (exposition publique, clients, incidents) reste valable.
+
 <div style="display:inline-block; background:#f3efe4; padding:1rem 1.5rem; border-radius:0.75rem;">
   <img src="/logos/jellyfin.svg" alt="Logo Jellyfin" style="width:220px; height:auto; display:block; margin:0;" />
 </div>

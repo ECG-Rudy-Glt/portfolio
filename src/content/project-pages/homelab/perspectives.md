@@ -1,7 +1,7 @@
 ---
 project: homelab
 title: "La suite"
-summary: "Cluster Kubernetes, NAS définitif, cloud personnel, streaming musique auto-hébergé, automatisation par IA locale, migration Linux du poste client - et le fil conducteur derrière tout ça : l'indépendance."
+summary: "NAS définitif, cloud personnel, streaming musique auto-hébergé, automatisation par IA locale, migration Linux du poste client - et le fil conducteur derrière tout ça : l'indépendance."
 order: 10
 ---
 
@@ -22,11 +22,12 @@ d'un cloud tiers. Techniquement déjà provisionnés, pas encore mis à disposit
 données - la priorité a été donnée aux fondations (réseau, sécurité, observabilité) avant
 d'exposer un service que la famille utiliserait au quotidien avec des données sensibles.
 
-## NAS définitif et Proxmox Backup Server
+## NAS définitif
 
-Le disque récupéré d'un iMac (voir [le stockage](/projets/homelab/stockage-hdd/)) est une
-solution phase 1, pas la cible finale. Un NAS dédié suivra, avec Proxmox Backup Server pour des
-sauvegardes réellement testées et déduppliquées plutôt qu'une simple copie de fichiers.
+Proxmox Backup Server tourne déjà, avec une copie hors site chiffrée et une restauration testée.
+Mais son datastore vit sur un disque récupéré d'un iMac (voir [le stockage](/projets/homelab/stockage-hdd/)) :
+une solution phase 1, pas la cible finale. Un NAS dédié le remplacera, sans changer la chaîne de
+sauvegarde elle-même.
 
 ## Streaming musique auto-hébergé
 

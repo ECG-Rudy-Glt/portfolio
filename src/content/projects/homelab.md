@@ -4,7 +4,7 @@ category: perso
 summary: "Infrastructure personnelle de production : 2 nœuds Proxmox + firewall OPNsense, 4 VLANs, PKI interne, SSO, observabilité complète et stack streaming Jellyfin - tout piloté en Infrastructure as Code."
 period: "2026 - en cours"
 role: "Conception, achat du matériel, déploiement et exploitation en solo"
-stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Alertmanager", "Forgejo", "Suricata", "CrowdSec", "Jellyfin", "Home Assistant", "K3s", "Nextcloud"]
+stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Alertmanager", "Forgejo", "Suricata", "CrowdSec", "Jellyfin", "Home Assistant", "K3s", "FluxCD", "Proxmox Backup Server"]
 tags: ["Infra as Code", "Réseau", "Sécurité", "Observabilité", "CI/CD", "Self-hosting"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/HOMELAB"
@@ -56,7 +56,7 @@ flowchart TB
 | TRUST | Services sensibles : SSO, secrets, gestionnaire de mots de passe, domotique |
 | IoT | Appareils domotique, isolés du reste du réseau (DNS uniquement) |
 
-Accès distant exclusivement via Tailscale (mesh WireGuard) - aucun port exposé directement sur Internet.
+Administration à distance exclusivement via Tailscale (mesh WireGuard) - aucun port d'administration exposé sur Internet. Deux exceptions volontaires pour les usages publics : ce portfolio passe par Cloudflare Tunnel (aucun port entrant), et le streaming familial sort par un port-forward durci (GeoIP, CrowdSec, rate-limiting) - voir [la sécurité](/projets/homelab/securite/).
 
 ## Identité, secrets & PKI
 
@@ -94,17 +94,29 @@ Le firewall OPNsense (mini-PC N150) héberge une couche de sécurité réseau à
 **Domotique & usage personnel**
 - **Home Assistant** : domotique, seul service autorisé à parler au VLAN IoT isolé.
 - **Vikunja** : gestion de tâches personnelle.
-- **Nextcloud** : cloud fichiers / calendrier / contacts personnel.
-- **Immich** : galerie photo avec reconnaissance faciale locale.
-- **Cal.com** : prise de rendez-vous auto-hébergée, pour l'activité freelance à venir.
-- **Sandbox client** : LXC isolé dédié aux petites missions freelance (sites clients légers, exécution Ansible ponctuelle) - séparé du reste du lab.
+- *Provisionnés mais pas encore en service* : Nextcloud et Immich (cloud personnel), Cal.com et un VLAN isolé pour de futurs environnements clients.
 
 **Backup**
-- **Proxmox Backup Server** : datastore dédié sur le NAS phase 1, déduplication et incrémental permanent (voir [le stockage](/projets/homelab/stockage-hdd/) pour le détail).
+- **Proxmox Backup Server** : datastore dédié sur un disque séparé, déduplication et incrémental permanent (voir [le stockage](/projets/homelab/stockage-hdd/) pour le détail).
+- **Copie hors site chiffrée** (rclone crypt) des services sensibles vers un stockage objet S3.
+- **Restauration testée** de bout en bout : une sauvegarde qui n'a jamais été restaurée ne compte pas.
 
 ## Streaming média : Jellyfin sans stockage local
 
-Plutôt que d'investir dans plusieurs To de disques, la chaîne média repose sur un service cloud de debrid : les fichiers restent stockés à distance, Riven orchestre la récupération, et un système de fichiers virtuel (FUSE) les présente à Jellyfin comme s'ils étaient en local - avec transcodage matériel via le GPU Intel intégré du mini-PC. Accessible en interne via une interface web façon Netflix (Jellyfin-Vue) et via les apps natives (Android TV, iOS). Détail complet sur [la page dédiée](/projets/homelab/jellyfin/).
+Plutôt que d'investir dans plusieurs To de disques, la chaîne média repose sur un service cloud de debrid : les fichiers restent stockés à distance. Radarr et Sonarr gèrent la bibliothèque, un client de débridage résout les demandes, et un montage WebDAV (rclone) présente les fichiers à Jellyfin comme s'ils étaient en local - avec transcodage matériel via le GPU Intel intégré du mini-PC. Accessible en interne via une interface web façon Netflix (Jellyfin-Vue) et via les apps natives (Android TV, iOS). Détail complet sur [la page dédiée](/projets/homelab/jellyfin/).
+
+## Limites connues
+
+Une infrastructure sérieuse se juge aussi à ce qu'on sait d'elle. Ce qui n'est pas encore au niveau, et pourquoi :
+
+| Limite | Risque | Suite prévue |
+|---|---|---|
+| State Terraform local, sans verrou | Deux postes d'administration peuvent diverger | Backend distant verrouillé |
+| Firewall unique, cartes réseau Realtek | Point de défaillance unique, pannes sous charge soutenue | Cartes Intel |
+| Cluster Proxmox à 2 nœuds sans quorum tiers | Pas de bascule automatique | QDevice externe |
+| k3s à un seul serveur | Plan de contrôle non redondant | Acceptable pour un lab |
+| Descellement manuel du coffre à secrets | Services dépendants bloqués après un redémarrage | Ordre de démarrage déjà posé, auto-unseal à étudier |
+| Alertes par e-mail uniquement | Aucune alerte si c'est le réseau qui tombe | Canal hors bande |
 
 ## Cartographie du dépôt
 
@@ -114,4 +126,4 @@ Le dépôt Git de ce lab (Terraform, Ansible, manifestes Kubernetes, documentati
 
 ## Ce qui reste à faire
 
-Un NAS définitif pour remplacer le disque de récupération actuel, un streaming musique lossless auto-hébergé pour remplacer Spotify, une exploration d'automatisation pilotée par un LLM local (n8n + Ollama), et une extension réseau WiFi + caméra de vidéosurveillance 100% locale (conception bouclée, matériel à commander — détail dans [domotique, réseau et vidéosurveillance](/projets/homelab/domotique-reseau/)). Réseau, sécurité (PKI, SSO, IDS), observabilité, CI/CD, Kubernetes, cloud personnel et streaming vidéo sont déjà opérationnels au quotidien. Détail complet en [la suite](/projets/homelab/perspectives/).
+Un NAS définitif pour remplacer le disque de récupération actuel, un streaming musique lossless auto-hébergé pour remplacer Spotify, une exploration d'automatisation pilotée par un LLM local (n8n + Ollama), et une extension réseau WiFi + caméra de vidéosurveillance 100% locale (conception bouclée, matériel à commander — détail dans [domotique, réseau et vidéosurveillance](/projets/homelab/domotique-reseau/)). Réseau, sécurité (PKI, SSO, IDS), observabilité, CI/CD, Kubernetes, sauvegardes et streaming vidéo sont déjà opérationnels au quotidien ; le cloud personnel (Nextcloud, Immich) est provisionné mais pas encore ouvert. Détail complet en [la suite](/projets/homelab/perspectives/).

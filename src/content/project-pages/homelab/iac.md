@@ -23,8 +23,14 @@ resource "proxmox_virtual_environment_vm" "vm_pbs" {
   vm_id     = 116
   name      = "vm-pbs"
 
-  cpu    { cores = 2; sockets = 1 }
-  memory { dedicated = 2048 }
+  cpu {
+    cores   = 2
+    sockets = 1
+  }
+
+  memory {
+    dedicated = 2048
+  }
 
   disk {
     datastore_id = "local-lvm"
