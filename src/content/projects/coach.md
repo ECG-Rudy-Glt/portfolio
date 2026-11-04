@@ -8,6 +8,8 @@ stack: ["Python", "FastAPI", "PostgreSQL", "JavaScript", "PWA", "Docker Compose"
 tags: ["Full-stack", "IA / Assistant conversationnel", "Sécurité applicative", "CI/CD", "Docker", "Self-hosting"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/COACH"
+  demo: "https://coach.rudy-ops.fr"
+  sandbox: "https://coach-demo.rudy-ops.fr"
 images: ["/projets/coach/home-light.png", "/projets/coach/plan-dark.png", "/projets/coach/nutrition-eco.png"]
 featured: true
 relevance: "majeur"
@@ -46,3 +48,7 @@ Une application web installable sur téléphone (PWA, iPhone et Android) :
 Version **0.1.0** publiée sur [GitHub](https://github.com/ECG-Rudy-Glt/COACH), avec une feuille de route de 24 tickets (import de fichiers FIT pour Coros et autres montres, interface en anglais, double authentification, export et suppression des données, revue humaine des règles). En usage quotidien sur mon homelab (k3s, déploiement GitOps) en parallèle de la version publique.
 
 L'application donne des suggestions générales et n'est ni un dispositif médical ni un avis diététique.
+
+## Site et démonstration
+
+Le projet a son propre site, avec documentation en français et en anglais : [coach.rudy-ops.fr](https://coach.rudy-ops.fr). Une **démonstration en lecture seule**, sans inscription et avec des données fictives, est accessible sur [coach-demo.rudy-ops.fr](https://coach-demo.rudy-ops.fr) : elle tourne sur la dernière version publiée de l'application.

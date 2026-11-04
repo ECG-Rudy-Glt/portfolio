@@ -45,3 +45,5 @@ Version 0.x publiée sur GitHub, avec documentation en français et en anglais s
 [relai.rudy-ops.fr](https://relai.rudy-ops.fr). Les gains en tokens sont mesurés une fois par cas et
 restent des indications ; le tableau d'équipe apporte peu à une seule personne. Voir l'article
 [Relai : reprendre un projet avec un agent IA sans tout relire](/blog/relai/).
+
+Site et documentation (français et anglais) : [relai.rudy-ops.fr](https://relai.rudy-ops.fr). Code : [Relai](https://github.com/ECG-Rudy-Glt/RELAI) et [Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM).
