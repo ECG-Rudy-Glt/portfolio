@@ -63,18 +63,36 @@ Ces chiffres sont des **indications**, mesurées une fois par cas, pas une garan
 
 - Pour un seul humain, le tableau d'équipe apporte peu ; c'est `workspace` et le résumé de
   reprise qui rapportent.
-- Relai ne lit pas les tâches tenues dans un `TODO.md` libre : seulement Beads et OpenSpec.
-- Les worktrees d'un même dépôt sont comptés comme des projets distincts, ce qui fausse certains
-  liens.
-- Les liens entre projets et les conventions partagées ne sont pas encore construits.
+- Le résumé de reprise ne lit pas les tâches tenues dans un `TODO.md` libre : seulement Beads et
+  OpenSpec. Le tableau d'équipe, lui, lit maintenant les listes `TODO.md` et `TASKS.md`.
+- Les conventions partagées et les changements amont des projets liés dans le résumé de reprise ne
+  sont pas encore construits. Les liens entre projets, eux, le sont (`links:` dans `relai.yaml`,
+  `relai discover --links`).
+- Personne n'a testé le tableau d'équipe à plusieurs : je suis le seul humain, avec plusieurs
+  agents. Seuls des agents Claude ont été mesurés.
 
 C'est une version 0.x : tout peut changer.
+
+## Mise à jour du 5 novembre
+
+Un deuxième test, indépendant, sur mes 16 dépôts réels, a trouvé des défauts que j'ai corrigés :
+les worktrees d'un même dépôt comptaient comme des projets distincts (ils comptent maintenant pour
+un seul), le tableau d'équipe ignorait les `TODO.md` et n'affichait aucune priorité (il les lit et
+trie par priorité), et `relai tidy` pouvait fermer une tâche à tort sur un message comme « Fixes
+typo, see p-4 » (le mot-clé doit maintenant être suivi directement de l'identifiant).
+
+Côté mesures : avec des agents Claude Haiku, partir de la vue d'ensemble et du résumé de reprise a
+fait économiser environ 100 000 tokens par tâche en médiane. C'est **une seule exécution par cas** :
+une indication, pas une garantie. Un cas a même coûté plus cher avec Relai que sans, et sur deux
+petits projets le résumé de reprise coûtait plus que la lecture du minimum. Les releases sont
+maintenant publiées automatiquement.
 
 ## Ce que j'en retiens
 
 Le plus utile n'est pas l'outil mais la discipline qu'il impose : un dépôt qui dit clairement où il
-en est se reprend aussi bien pour un agent que pour moi dans trois semaines. Je le déploie
-maintenant sur mes propres dépôts, et je mettrai cet article à jour avec les mesures réelles.
+en est se reprend aussi bien pour un agent que pour moi dans trois semaines. Je l'utilise
+maintenant sur mes propres dépôts, et je continuerai à mettre cet article à jour avec les mesures
+réelles.
 
 Code : [Relai](https://github.com/ECG-Rudy-Glt/RELAI) et
 [Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM). Documentation : [relai.rudy-ops.fr](https://relai.rudy-ops.fr/fr/docs/).
