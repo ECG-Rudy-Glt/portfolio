@@ -33,7 +33,7 @@ const dateFormatter = new Intl.DateTimeFormat("fr-FR", { year: "numeric", month:
 const quizQuestions = getQuizQuestions(article.data.quiz);
 ---
 
-<Layout title={`${article.data.title} - Rudy Gault`} description={article.data.summary}>
+<Layout title={`${article.data.title} - Rudy Gault`} description={article.data.summary} article={{ datePublished: article.data.date, keywords: article.data.tags }}>
   <a href="/blog/" class="mb-8 inline-block text-sm text-[var(--accent)] hover:underline">← Tous les articles</a>
 
   <p class="mb-3 text-xs text-[var(--fg-muted)]">{dateFormatter.format(article.data.date)}</p>

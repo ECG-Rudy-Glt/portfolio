@@ -51,4 +51,4 @@ L'application donne des suggestions générales et n'est ni un dispositif médic
 
 ## Site et démonstration
 
-Le projet a son propre site, avec documentation en français et en anglais : [coach.gault-rudy.com](https://coach.gault-rudy.com). Une **démonstration en lecture seule**, sans inscription et avec des données fictives, est accessible sur [coach-demo.gault-rudy.com](https://coach-demo.gault-rudy.com) : elle tourne sur la dernière version publiée de l'application.
+Le projet a son propre site, avec documentation en français et en anglais : [coach.gault-rudy.com](https://coach.gault-rudy.com). Une **démonstration en lecture seule**, sans inscription et avec des données fictives, est accessible sur [coach-demo.gault-rudy.com](https://coach-demo.gault-rudy.com) : elle tourne sur la dernière version publiée de l'application. Le code est sur [GitHub](https://github.com/ECG-Rudy-Glt/COACH). Pour le raisonnement complet, voir l'article [COACH : un coach sportif auto-hébergé dont chaque séance s'explique par une règle](/blog/coach/). Même principe de chiffres calculés et d'IA qui cite ses sources dans [Patrimoine](/projets/patrimoine/).

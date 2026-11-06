@@ -6,12 +6,14 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  article?: { datePublished: Date; keywords?: string[] };
 }
 
 const {
   title = "Rudy Gault - Portfolio",
   description = "Alternant infrastructure & développement - projets école, projets personnels et alternance.",
   image = "/avatar.png",
+  article,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
@@ -33,6 +35,22 @@ const personSchema = {
     "https://rudy-ops.fr",
   ],
 };
+
+const articleSchema = article
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: title.replace(/ - Rudy Gault$/, ""),
+      description,
+      datePublished: article.datePublished.toISOString(),
+      dateModified: article.datePublished.toISOString(),
+      inLanguage: "fr-FR",
+      keywords: article.keywords?.join(", "),
+      image: absoluteImage,
+      mainEntityOfPage: canonicalURL.toString(),
+      author: { "@type": "Person", name: "Rudy Gault", url: (Astro.site ?? Astro.url.origin).toString() },
+    }
+  : null;
 ---
 
 <!doctype html>
@@ -46,7 +64,7 @@ const personSchema = {
     <link rel="icon" type="image/png" href="/avatar.png" />
     <title>{title}</title>
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? "article" : "website"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={absoluteImage} />
@@ -59,6 +77,7 @@ const personSchema = {
     <meta name="twitter:image" content={absoluteImage} />
 
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
 
     <script is:inline src="/oss-flag.js?v=1"></script>
     <script is:inline>
