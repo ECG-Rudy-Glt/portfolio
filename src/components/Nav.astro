@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "./ThemeToggle";
+import SolutionsMenu from "./SolutionsMenu.astro";
 
 const links = [
   { href: "/parcours/", label: "Parcours" },
@@ -29,6 +30,7 @@ const isActive = (href: string) => path === href || (href !== "/" && path.starts
           )}
         </a>
       ))}
+      <SolutionsMenu id="oss-d" variant="desktop" />
       <ThemeToggle client:load />
     </div>
 
@@ -48,6 +50,7 @@ const isActive = (href: string) => path === href || (href !== "/" && path.starts
             {link.label}
           </a>
         ))}
+        <SolutionsMenu id="oss-m" variant="mobile" />
         <div class="mt-1 border-t border-[var(--border)] px-3 pt-3">
           <ThemeToggle client:load />
         </div>

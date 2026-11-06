@@ -19,7 +19,7 @@ vivent déjà dans git (Beads, OpenSpec). Je voulais seulement que la reprise so
 
 ## Ce que fait Relai
 
-[Relai](https://relai.rudy-ops.fr) est un utilitaire en ligne de commande, open source (Apache 2.0),
+[Relai](https://relai.gault-rudy.com) est un utilitaire en ligne de commande, open source (Apache 2.0),
 et un ensemble de fichiers versionnés avec le code :
 
 - un **contrat de dépôt** : `AGENTS.md`, un manifeste `relai.yaml` (ce que le projet fournit et
@@ -95,4 +95,4 @@ maintenant sur mes propres dépôts, et je continuerai à mettre cet article à 
 réelles.
 
 Code : [Relai](https://github.com/ECG-Rudy-Glt/RELAI) et
-[Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM). Documentation : [relai.rudy-ops.fr](https://relai.rudy-ops.fr/fr/docs/).
+[Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM). Documentation : [relai.gault-rudy.com](https://relai.gault-rudy.com/fr/docs/).

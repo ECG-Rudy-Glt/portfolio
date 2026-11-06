@@ -1,0 +1,34 @@
+---
+import { solutions, solutionsLabel } from "../data/solutions";
+
+interface Props {
+  id: string;
+  variant?: "desktop" | "mobile";
+}
+const { id, variant = "desktop" } = Astro.props;
+const panelId = `${id}-panel`;
+---
+
+<div class={`oss oss-${variant}`} data-oss>
+  <button type="button" class="oss-btn" aria-expanded="false" aria-controls={panelId} data-oss-btn>
+    <span>{solutionsLabel}</span>
+    <svg class="oss-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </button>
+  <div class="oss-panel" id={panelId} role="group" aria-label={solutionsLabel} data-oss-panel>
+    <ul class="oss-list">
+      {solutions.map((s) => (
+        <li class="oss-item">
+          <p class="oss-name">{s.name}</p>
+          <p class="oss-desc">{s.description}</p>
+          <p class="oss-links">
+            {s.links.map((l) => (
+              <a href={l.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.name} : ${l.label} (nouvel onglet)`}>{l.label}</a>
+            ))}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

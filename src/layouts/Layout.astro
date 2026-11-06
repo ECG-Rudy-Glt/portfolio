@@ -60,6 +60,7 @@ const personSchema = {
 
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 
+    <script is:inline src="/oss-flag.js?v=1"></script>
     <script is:inline>
       const stored = localStorage.getItem("theme");
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -74,6 +75,7 @@ const personSchema = {
     </main>
     <script>
       import "../scripts/mermaid-init.ts";
+      import "../scripts/oss-menu.ts";
     </script>
     <footer class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 border-t border-[var(--border)] px-4 py-8 text-sm text-[var(--fg-muted)] sm:px-6">
       <p>© {new Date().getFullYear()} Rudy Gault</p>

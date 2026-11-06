@@ -8,7 +8,7 @@ stack: ["Go", "Git", "MCP", "Docker", "OpenSpec", "Beads", "GitHub Actions"]
 tags: ["IA / Assistant conversationnel", "CI/CD", "Docker", "Git"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/RELAI"
-  demo: "https://relai.rudy-ops.fr"
+  demo: "https://relai.gault-rudy.com"
 featured: false
 relevance: "pertinent"
 order: 3
@@ -42,8 +42,8 @@ relit des dizaines de fichiers, et deux sessions peuvent écrire en même temps 
 ## Résultat et limites
 
 Version 0.x publiée sur GitHub, avec documentation en français et en anglais sur
-[relai.rudy-ops.fr](https://relai.rudy-ops.fr). Les gains en tokens sont mesurés une fois par cas et
+[relai.gault-rudy.com](https://relai.gault-rudy.com). Les gains en tokens sont mesurés une fois par cas et
 restent des indications ; le tableau d'équipe apporte peu à une seule personne. Voir l'article
 [Relai : reprendre un projet avec un agent IA sans tout relire](/blog/relai/).
 
-Site et documentation (français et anglais) : [relai.rudy-ops.fr](https://relai.rudy-ops.fr). Code : [Relai](https://github.com/ECG-Rudy-Glt/RELAI) et [Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM).
+Site et documentation (français et anglais) : [relai.gault-rudy.com](https://relai.gault-rudy.com). Code : [Relai](https://github.com/ECG-Rudy-Glt/RELAI) et [Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM).

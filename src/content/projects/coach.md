@@ -8,8 +8,8 @@ stack: ["Python", "FastAPI", "PostgreSQL", "JavaScript", "PWA", "Docker Compose"
 tags: ["Full-stack", "IA / Assistant conversationnel", "Sécurité applicative", "CI/CD", "Docker", "Self-hosting"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/COACH"
-  demo: "https://coach.rudy-ops.fr"
-  sandbox: "https://coach-demo.rudy-ops.fr"
+  demo: "https://coach.gault-rudy.com"
+  sandbox: "https://coach-demo.gault-rudy.com"
 images: ["/projets/coach/home-light.png", "/projets/coach/plan-dark.png", "/projets/coach/nutrition-eco.png"]
 featured: true
 relevance: "majeur"
@@ -51,4 +51,4 @@ L'application donne des suggestions générales et n'est ni un dispositif médic
 
 ## Site et démonstration
 
-Le projet a son propre site, avec documentation en français et en anglais : [coach.rudy-ops.fr](https://coach.rudy-ops.fr). Une **démonstration en lecture seule**, sans inscription et avec des données fictives, est accessible sur [coach-demo.rudy-ops.fr](https://coach-demo.rudy-ops.fr) : elle tourne sur la dernière version publiée de l'application.
+Le projet a son propre site, avec documentation en français et en anglais : [coach.gault-rudy.com](https://coach.gault-rudy.com). Une **démonstration en lecture seule**, sans inscription et avec des données fictives, est accessible sur [coach-demo.gault-rudy.com](https://coach-demo.gault-rudy.com) : elle tourne sur la dernière version publiée de l'application.
