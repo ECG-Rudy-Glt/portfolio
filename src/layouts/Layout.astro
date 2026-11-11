@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Nav from "../components/Nav.astro";
+import ModeInit from "../components/ModeInit.astro";
 
 interface Props {
   title?: string;
@@ -79,6 +80,7 @@ const articleSchema = article
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
 
+    <ModeInit />
     <script is:inline src="/oss-flag.js?v=1"></script>
     <script is:inline>
       const stored = localStorage.getItem("theme");

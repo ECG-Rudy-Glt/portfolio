@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const modes = [
+  { id: "classique", href: "/", title: "Classique", text: "Le site habituel : cartes, filtres, fiches détaillées. Thèmes clair, sombre ou éco." },
+  { id: "minimal", href: "/minimal/", title: "Minimal", text: "Une liste dense façon Hacker News : tous les projets, démos et articles sur un seul écran, sans image." },
+  { id: "eco", href: "/", title: "Éco (noir et blanc)", text: "Même contenu en noir et blanc, sobre et léger : le moins d'énergie possible." },
+];
+---
+
+<Layout title="Choisir un mode - Rudy Gault" description="Plusieurs façons de parcourir le portfolio : classique, minimal ou éco.">
+  <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Choisir un mode</h1>
+  <p class="mb-8 max-w-2xl text-[var(--fg-muted)]">
+    Le contenu est le même, seule la présentation change. Votre choix est mémorisé sur cet appareil.
+  </p>
+
+  <div class="grid gap-4 sm:grid-cols-3">
+    {modes.map((m) => (
+      <a
+        href={m.href}
+        data-mode={m.id}
+        class="mode-card flex min-h-[7rem] flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-5 transition-transform hover:-translate-y-1"
+      >
+        <span class="text-lg font-semibold text-[var(--fg)]">{m.title}</span>
+        <span class="text-sm text-[var(--fg-muted)]">{m.text}</span>
+      </a>
+    ))}
+  </div>
+
+  <script>
+    document.querySelectorAll<HTMLAnchorElement>(".mode-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const id = card.dataset.mode;
+        const root = document.documentElement;
+        try {
+          localStorage.setItem("mode", id === "minimal" ? "minimal" : "classique");
+          if (id === "eco") {
+            root.classList.remove("dark");
+            root.classList.add("eco");
+            localStorage.setItem("theme", "eco");
+          } else if (localStorage.getItem("theme") === "eco") {
+            root.classList.remove("eco");
+            localStorage.setItem("theme", "light");
+          }
+        } catch (e) {}
+      });
+    });
+  </script>
+</Layout>

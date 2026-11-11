@@ -194,3 +194,54 @@ html.js .oss-panel:not([data-open]) { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .oss-chevron, .oss-btn { transition: none; }
 }
+
+/* ---------- Mode « Minimal » (style liste dense, façon Hacker News) ---------- */
+:root.hn {
+  --bg: #f6f6ef;
+  --bg-elevated: #ffffff;
+  --fg: #111111;
+  --fg-muted: #5c5c55;
+  --border: #d9d9cf;
+  --accent: #d2500a;
+  --accent-fg: #ffffff;
+  --font-sans: Verdana, Geneva, "DejaVu Sans", sans-serif;
+}
+:root.hn.dark {
+  --bg: #1b1b18;
+  --bg-elevated: #242420;
+  --fg: #e8e8e0;
+  --fg-muted: #a5a59a;
+  --border: #3a3a33;
+  --accent: #ff8a3d;
+  --accent-fg: #1b1b18;
+}
+:root.hn body { font-size: 14px; line-height: 1.45; }
+:root.hn *, :root.hn *::before, :root.hn *::after {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+:root.hn header { background: #ff6600 !important; border-color: #ff6600 !important; backdrop-filter: none; }
+:root.hn header a, :root.hn header summary, :root.hn header button { color: #111 !important; }
+:root.hn header span.absolute { display: none; }
+:root.hn a.group:hover { transform: none !important; }
+:root.hn h1 { font-size: 1.25rem !important; }
+
+/* Page /minimal/ : liste dense */
+.hn-list { font-family: Verdana, Geneva, "DejaVu Sans", sans-serif; font-size: 13px; background: #f6f6ef; color: #111; padding: 0.5rem 0.75rem 1.25rem; border: 1px solid #d9d9cf; }
+:root.dark .hn-list { background: #1b1b18; color: #e8e8e0; border-color: #3a3a33; }
+.hn-list h2 { font-size: 13px; font-weight: 700; margin: 1.1rem 0 0.4rem; text-transform: uppercase; letter-spacing: 0.04em; color: #828282; }
+.hn-list ol { list-style: none; margin: 0; padding: 0; counter-reset: n; }
+.hn-list li { counter-increment: n; display: grid; grid-template-columns: 2.2rem 1fr; padding: 0.3rem 0; }
+.hn-list li::before { content: counter(n) "."; color: #828282; text-align: right; padding-right: 0.5rem; }
+.hn-list .t a { color: inherit; font-size: 14px; text-decoration: none; }
+.hn-list .t a:hover { text-decoration: underline; }
+.hn-list .d { color: #828282; font-size: 11px; margin-left: 0.3rem; }
+.hn-list .s { color: #828282; font-size: 11px; margin-top: 0.1rem; }
+.hn-list .s a { color: #828282; text-decoration: none; }
+.hn-list .s a:hover { text-decoration: underline; }
+.hn-list .s b { color: #d2500a; font-weight: 600; }
+.hn-list a { min-height: 1.25rem; }
+@media (max-width: 640px) {
+  .hn-list { font-size: 14px; }
+  .hn-list .s a, .hn-list .s span { display: inline-block; padding: 0.3rem 0.15rem; }
+}

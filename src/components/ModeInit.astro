@@ -1,0 +1,8 @@
+---
+// Applique le mode d'affichage mémorisé (classique | minimal) avant le premier rendu.
+---
+<script is:inline>
+  try {
+    if (localStorage.getItem("mode") === "minimal") document.documentElement.classList.add("hn");
+  } catch (e) {}
+</script>

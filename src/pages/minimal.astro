@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const weight = { majeur: 0, pertinent: 1, secondaire: 2 } as const;
+const projects = (await getCollection("projects")).sort(
+  (a, b) => weight[a.data.relevance] - weight[b.data.relevance] || a.data.order - b.data.order,
+);
+const articles = (await getCollection("articles")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const groups = [
+  { key: "entreprise", label: "Entreprise" },
+  { key: "perso", label: "Projets personnels et produits" },
+  { key: "ecole", label: "École (SUPINFO)" },
+] as const;
+
+const host = (u?: string) => (u ? new URL(u).hostname.replace(/^www\./, "") : "portfolio");
+const fmt = new Intl.DateTimeFormat("fr-FR", { year: "numeric", month: "short" });
+---
+
+<Layout
+  title="Liste minimale - Rudy Gault"
+  description="Tous les projets, démos et articles de Rudy Gault dans une liste dense et sans fioritures."
+>
+  <div class="hn-list">
+    <h1 style="font-size:14px;margin:0.2rem 0 0.1rem;font-weight:700">Rudy Gault : projets, démos et articles</h1>
+    <p style="color:#828282;font-size:11px;margin:0">
+      Alternant infrastructure &amp; développement. <a href="/modes/" style="color:inherit">Changer de mode</a> ·
+      <a href="/parcours/" style="color:inherit">parcours</a> ·
+      <a href="/competences/" style="color:inherit">compétences</a>
+    </p>
+
+    {groups.map((g) => (
+      <>
+        <h2>{g.label}</h2>
+        <ol>
+          {projects.filter((p) => p.data.category === g.key).map((p) => (
+            <li>
+              <div>
+                <div class="t">
+                  <a href={`/projets/${p.id}/`}>{p.data.title}</a>
+                  <span class="d">({host(p.data.links.demo)})</span>
+                </div>
+                <div class="s">
+                  <b>{p.data.period}</b> · {p.data.role} · {p.data.stack.slice(0, 4).join(", ")}
+                  {" | "}<a href={`/projets/${p.id}/`}>fiche</a>
+                  {p.data.links.demo && <> | <a href={p.data.links.demo} rel="noreferrer">démo</a></>}
+                  {p.data.links.sandbox && <> | <a href={p.data.links.sandbox} rel="noreferrer">bac à sable</a></>}
+                  {p.data.links.repo && <> | <a href={p.data.links.repo} rel="noreferrer">code</a></>}
+                </div>
+                <div class="s">{p.data.summary}</div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </>
+    ))}
+
+    <h2>Articles</h2>
+    <ol>
+      {articles.map((a) => {
+        const external = a.data.type === "linkedin";
+        const href = external ? a.data.externalUrl : `/blog/${a.id}/`;
+        return (
+          <li>
+            <div>
+              <div class="t">
+                <a href={href} rel={external ? "noreferrer" : undefined}>{a.data.title}</a>
+                <span class="d">({external ? "linkedin.com" : "portfolio"})</span>
+              </div>
+              <div class="s">{fmt.format(a.data.date)} · {a.data.tags.slice(0, 4).join(", ")}</div>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</Layout>
