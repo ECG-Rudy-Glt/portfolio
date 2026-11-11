@@ -32,7 +32,7 @@ const isActive = (href: string) => path === href || (href !== "/" && path.starts
         </a>
       ))}
       <SolutionsMenu id="oss-d" variant="desktop" />
-      <a href="/cv-rudy-gault.pdf" download="CV-Rudy-Gault.pdf" class="rounded-full border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--fg)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]">CV ↓</a>
+      <a href="/cv-rudy-gault.pdf?v=2" download="CV-Rudy-Gault.pdf" class="rounded-full border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--fg)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]">CV ↓</a>
       <ThemeToggle client:load />
     </div>
 
@@ -53,7 +53,7 @@ const isActive = (href: string) => path === href || (href !== "/" && path.starts
           </a>
         ))}
         <SolutionsMenu id="oss-m" variant="mobile" />
-        <a href="/cv-rudy-gault.pdf" download="CV-Rudy-Gault.pdf" class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--accent)]">Télécharger mon CV ↓</a>
+        <a href="/cv-rudy-gault.pdf?v=2" download="CV-Rudy-Gault.pdf" class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--accent)]">Télécharger mon CV ↓</a>
         <div class="mt-1 border-t border-[var(--border)] px-3 pt-3">
           <ThemeToggle client:load />
         </div>
