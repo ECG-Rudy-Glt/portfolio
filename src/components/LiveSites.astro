@@ -1,13 +1,17 @@
 ---
 import { getCollection } from "astro:content";
+import { existsSync } from "node:fs";
 
+// supchat.fr n'existe plus (NXDOMAIN) : pas de carte vers un site mort.
+const EXCLUDE = new Set(["supchat"]);
 const weight = { majeur: 0, pertinent: 1, secondaire: 2 } as const;
 const items = (await getCollection("projects"))
-  .filter((p) => p.data.links.demo || p.data.links.sandbox)
+  .filter((p) => (p.data.links.demo || p.data.links.sandbox) && !EXCLUDE.has(p.id))
   .sort((a, b) => weight[a.data.relevance] - weight[b.data.relevance] || a.data.order - b.data.order)
   .map((p) => ({
     id: p.id,
     name: p.data.title.split(" - ")[0],
+    img: existsSync(`./public/sites/${p.id}.webp`) ? `/sites/${p.id}.webp` : undefined,
     text: (p.data.title.split(" - ")[1] ?? p.data.summary).replace(/^./, (c) => c.toUpperCase()),
     site: p.data.links.demo,
     live: p.data.links.sandbox,
@@ -26,6 +30,9 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
       {[0, 1].map((copy) =>
         items.map((it) => (
           <li class="live-card" aria-hidden={copy === 1 ? "true" : undefined}>
+            {it.img && (
+              <a class="live-shot" href={it.live ?? it.site} rel="noreferrer" tabindex="-1" aria-hidden="true"><img src={it.img} alt="" width="640" height="400" loading="lazy" decoding="async" /></a>
+            )}
             <a class="live-name" href={it.live ?? it.site} rel="noreferrer" tabindex={copy === 1 ? -1 : undefined}>{it.name}<span aria-hidden="true"> ↗</span></a>
             <span class="live-text">{it.text}</span>
             <span class="live-host">{it.host}</span>
@@ -51,6 +58,9 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
   .live-viewport:hover .live-track, .live-viewport:focus-within .live-track { animation-play-state: paused; }
   @keyframes live-scroll { to { transform: translateX(calc(-50% - 0.5rem)); } }
   .live-card { display: flex; flex-direction: column; gap: 0.35rem; width: 18.5rem; flex: none; padding: 1rem 1.1rem; border: 1px solid var(--border); border-radius: 0.9rem; background: var(--bg-elevated); }
+  .live-shot { display: block; margin: -1rem -1.1rem 0.4rem; border-radius: 0.9rem 0.9rem 0 0; overflow: hidden; border-bottom: 1px solid var(--border); aspect-ratio: 16 / 10; background: var(--bg); }
+  .live-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform 0.4s ease; }
+  .live-card:hover .live-shot img { transform: scale(1.04); }
   .live-name { font-weight: 600; color: var(--fg); text-decoration: none; }
   .live-name:hover { color: var(--accent); }
   .live-text { font-size: 0.85rem; color: var(--fg-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.5em; }
@@ -59,6 +69,7 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
   .live-links a { font-size: 0.8rem; padding: 0.4rem 0.7rem; min-height: 36px; display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid var(--border); color: var(--fg); text-decoration: none; }
   .live-links a:first-child { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
   .live-links a:hover { border-color: var(--accent); }
+  :global(:root.no-anim) .live-shot img { transition: none; }
   @media (prefers-reduced-motion: reduce) {
     .live-viewport { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
     .live-track { animation: none; }
