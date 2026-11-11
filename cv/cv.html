@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Rudy Gault, CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  :root { --ink:#1f1a15; --mu:#6a5f53; --ac:#a2532c; --rule:#e2d8c8; --bg2:#f6f1e8; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: 'Inter', 'Liberation Sans', Arial, sans-serif; font-size: 8.55pt; line-height: 1.38; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 210mm; height: 297mm; padding: 11mm 12mm 9mm; display: flex; flex-direction: column; gap: 4.2mm; overflow: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm; padding-bottom: 3.6mm; border-bottom: 2.2px solid var(--ink); }
+  h1 { margin: 0; font-size: 27pt; line-height: 1; font-weight: 800; letter-spacing: -0.02em; }
+  .title { margin: 1.8mm 0 0; font-size: 11pt; font-weight: 600; color: var(--ac); }
+  .contact { margin: 0; padding: 0; list-style: none; text-align: right; font-size: 8.2pt; line-height: 1.55; color: var(--mu); }
+  .contact b { color: var(--ink); font-weight: 600; }
+
+  .grid { flex: 1; display: grid; grid-template-columns: 1fr 55mm; gap: 7mm; min-height: 0; }
+  h2 { margin: 0 0 1.8mm; padding-bottom: 1mm; font-size: 7.6pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ac); border-bottom: 1px solid var(--rule); }
+  section + section { margin-top: 4mm; }
+  p { margin: 0; }
+
+  .profil { font-size: 8.7pt; line-height: 1.45; }
+  .job { margin-bottom: 2.4mm; }
+  .job-h { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
+  .job-h b { font-size: 9.6pt; font-weight: 700; }
+  .job-h span { font-size: 8pt; color: var(--mu); white-space: nowrap; }
+  .job-s { margin: 0.2mm 0 1.4mm; font-size: 8.3pt; color: var(--mu); }
+  .job-s i { font-style: normal; font-weight: 600; color: var(--ink); }
+  ul.b { margin: 0; padding: 0; list-style: none; }
+  ul.b li { position: relative; padding-left: 3.2mm; margin: 0 0 1.05mm; }
+  ul.b li::before { content: ''; position: absolute; left: 0.2mm; top: 0.62em; width: 1.3mm; height: 1.3mm; border-radius: 50%; background: var(--ac); }
+  ul.b li b { font-weight: 650; }
+  .em { color: var(--ac); font-weight: 650; }
+
+  .proj { margin: 0 0 1.25mm; }
+  .proj b { font-weight: 650; }
+  .proj .tag { color: var(--mu); }
+
+  aside section + section { margin-top: 3.6mm; }
+  .edu { margin-bottom: 2mm; }
+  .edu b { display: block; font-size: 8.6pt; font-weight: 650; line-height: 1.3; }
+  .edu span { display: block; color: var(--mu); font-size: 8pt; }
+  .sk { margin: 0 0 1.9mm; }
+  .sk dt { margin: 0; font-size: 7.4pt; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink); }
+  .sk dd { margin: 0.3mm 0 0; color: var(--mu); line-height: 1.38; }
+  .links { margin: 0 0 1.6mm; color: var(--mu); font-size: 8pt; line-height: 1.35; }
+  .links b { color: var(--ink); font-weight: 650; }
+  .side-note { padding: 2.2mm 2.6mm; background: var(--bg2); border-radius: 1.2mm; color: var(--mu); font-size: 8pt; line-height: 1.4; }
+  .side-note b { color: var(--ink); font-weight: 650; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Rudy Gault</h1>
+      <p class="title">Ingénieur DevOps / Platform Engineer : IA &amp; Cloud</p>
+    </div>
+    <ul class="contact">
+      <li><b>Tours (37)</b> · 06 52 28 19 76</li>
+      <li>gault.rudy@gmail.com</li>
+      <li>linkedin.com/in/rudy-gault</li>
+      <li>github.com/ECG-Rudy-Glt · portfolio.gault-rudy.com</li>
+    </ul>
+  </header>
+
+  <div class="grid">
+    <main>
+      <section>
+        <h2>Profil</h2>
+        <p class="profil">Alternant DevOps depuis 4 ans, dont 2 ans et demi chez <b>Cloud Temple</b> (cloud souverain SecNumCloud) : automatisation d'infrastructure VMware (Ansible, Terraform), CI/CD GitLab, outillage Python et intégration de LLM via API. Je construis aujourd'hui une <b>plateforme interne</b> qui rend les équipes autonomes pour déployer leurs services. Profil junior, déjà confronté à ce périmètre en conditions réelles. <span class="em">Disponible en CDI à la fin de mon alternance, en septembre 2027.</span></p>
+      </section>
+
+      <section>
+        <h2>Expérience</h2>
+        <div class="job">
+          <div class="job-h"><b>Cloud Temple</b><span>Sept. 2024 à sept. 2027</span></div>
+          <p class="job-s"><i>Alternant ingénieur de production DevOps</i> · Tours · client agro-industrie</p>
+          <ul class="b">
+            <li><b>Automatisation ESXi et post-configuration de VM (Ansible)</b> : installation et post-configuration d'hyperviseurs HPE/Dell (ISO kickstart, iLO/iDRAC, 55 rôles) et des VM, <span class="em">80 % de temps de déploiement en moins</span>.</li>
+            <li><b>Automatisation d'audit</b> : audit automatisé de parcs de centaines de VM (état conservé sur S3, rapport PDF généré), en quelques heures au lieu de plusieurs semaines : <span class="em">des dizaines de jours-homme économisés</span>.</li>
+            <li><b>Déploiement de VM (Terraform, GitOps)</b> : provisioning via Terraform et, sur ESXi standalone, via govc, cloud-init et templates OVA pilotés par <i>git push</i>.</li>
+            <li><b>Kanban Azure DevOps automatisé</b> : fiches build PDF, DEX, synchronisation des dates et des états des tickets.</li>
+            <li><b>Scripting Python et reporting</b> : audits de conformité ESXi, Windows, Linux et Redfish ; delivery plan et KPI de mise en production livrés par CI planifiée ; package Python interne publié sur GitLab.</li>
+            <li><b>Supervision automatisée</b> : mise en monitoring à la création de chaque équipement (<span class="em">1 h à moins d'1 min</span>), moteur multithread, secrets chiffrés de bout en bout.</li>
+            <li><b>LLM via API, cadrés</b> : LLM open weight (LLMaaS SecNumCloud) toujours couplés à des règles déterministes pour la conformité et la génération de DEX (<span class="em">~1 h à quelques secondes</span>) ; référent IA de l'équipe.</li>
+            <li><b>Plateforme interne (2026, en cours)</b> : edge Caddy, SSO Authelia, portail React ; ~30 conteneurs déjà hébergés. Objectif : rendre les SDM autonomes pour déployer sur le portail les outils qu'ils créent avec Claude, encadrés par des règles de sécurité, des skills, des plugins et une CI/CD GitLab imposée à chaque projet (template de sécurité : SAST, gitleaks sur historique complet, hadolint, Grype, SBOM Syft, déploiement push vers VM sans accès registre).</li>
+          </ul>
+        </div>
+        <div class="job">
+          <div class="job-h"><b>Ethan Consulting</b><span>2022 à 2024</span></div>
+          <p class="job-s"><i>Développeur en alternance</i> · Montigny-le-Bretonneux</p>
+          <ul class="b"><li>Crawler à visée médicale en TypeScript/Node.js ; modélisation de base de données ; cadrage d'un site web client (agile).</li></ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Projets</h2>
+        <p class="proj"><b>Homelab en production</b> : infrastructure pensée pour se rapprocher d'une TPE/PME (4 VLAN, pare-feu OPNsense, PKI interne, SSO, supervision Prometheus/Grafana/Loki, CI), 2 nœuds Proxmox, tout en Terraform et Ansible.</p>
+        <p class="proj"><b>Ops Delivery Suite</b> : 13 outils DevOps réutilisables (templates CI/CD, hardening Ansible, audit Trivy, Traefik, backup chiffré, runners).</p>
+        <p class="proj"><b>SUPCHAT</b> <span class="tag">(SUPINFO 3<sup>e</sup> année, 1<sup>er</sup> du campus de Tours, projet que j'ai dirigé)</span> : chat temps réel web/iOS/Android avec IA Mistral.</p>
+        <p class="proj"><b>SUPFile</b> <span class="tag">(SUPINFO 4<sup>e</sup> année, 2<sup>e</sup> du campus de Tours, projet que j'ai dirigé)</span> : stockage cloud souverain avec chiffrement par utilisateur (AES-256), MFA, coffre-fort, IA documentaire (RAG).</p>
+        <p class="proj"><b>COACH</b> <span class="tag">(open source AGPL)</span> : application auto-hébergée, moteur de règles et LLM bridé côté serveur.</p>
+      </section>
+    </main>
+
+    <aside>
+      <section>
+        <h2>Formation</h2>
+        <div class="edu"><b>SUPINFO Tours, Bachelor &amp; Master (Expert en informatique)</b><span>2024 à 2027</span><span>Cloud (Azure, GCP), architecture microservices, sécurité applicative. Mémoire envisagé : plateforme commune à toute l'entreprise (MSP) où chacun pourra utiliser son Claude Code pour pousser ses propres outils.</span></div>
+        <div class="edu"><b>ENSITECH, BTS SIO option SLAM</b><span>2022 à 2024, en alternance · 15,5/20</span></div>
+      </section>
+
+      <section>
+        <h2>Compétences</h2>
+        <dl class="sk">
+          <dt>Conteneurs &amp; orchestration</dt><dd>Docker, Docker Compose, notions de Kubernetes</dd>
+        </dl>
+        <dl class="sk">
+          <dt>CI/CD &amp; GitOps</dt><dd>GitLab CI/CD (templates partagés), GitHub Actions, Azure DevOps, Forgejo Actions</dd>
+        </dl>
+        <dl class="sk">
+          <dt>IaC &amp; Cloud</dt><dd>Terraform, Ansible, VMware ESXi / govc, Proxmox, Azure, GCP, S3</dd>
+        </dl>
+        <dl class="sk">
+          <dt>Sécurité &amp; qualité</dt><dd>SAST, gitleaks, Grype, Syft (SBOM), Trivy, hadolint, Authelia, OpenBao PKI</dd>
+        </dl>
+        <dl class="sk">
+          <dt>IA</dt><dd>LLM open weight, tool-calling, Claude Code (skills, plugins, hooks, agents), RAG</dd>
+        </dl>
+        <dl class="sk">
+          <dt>Dév &amp; observabilité</dt><dd>Python (Pydantic, pytest), Bash, TypeScript, React · Prometheus, Grafana, Loki, Nagios</dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>En ligne, sans compte</h2>
+        <p class="links"><b>Démo SUPFile</b><br>supfile-demo.gault-rudy.com</p>
+        <p class="links"><b>Démo COACH</b><br>coach-demo.gault-rudy.com</p>
+        <p class="links"><b>Visite 3D du homelab</b><br>homelab.gault-rudy.com</p>
+      </section>
+
+      <section>
+        <h2>Langues &amp; certifications</h2>
+        <p class="side-note"><b>Anglais C1</b><br>AWS Cloud Quest, Microsoft AI Skills Fest, Yubico Essentials</p>
+      </section>
+    </aside>
+  </div>
+</div>
+</body>
+</html>
