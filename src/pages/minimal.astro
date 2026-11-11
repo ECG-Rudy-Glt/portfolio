@@ -8,71 +8,133 @@ const projects = (await getCollection("projects")).sort(
 );
 const articles = (await getCollection("articles")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const groups = [
-  { key: "entreprise", label: "Entreprise" },
-  { key: "perso", label: "Projets personnels et produits" },
-  { key: "ecole", label: "École (SUPINFO)" },
-] as const;
-
-const host = (u?: string) => (u ? new URL(u).hostname.replace(/^www\./, "") : "portfolio");
-const fmt = new Intl.DateTimeFormat("fr-FR", { year: "numeric", month: "short" });
+const catLabel = { entreprise: "entreprise", perso: "perso", ecole: "école" } as const;
+const host = (u?: string) => (u ? new URL(u).hostname.replace(/^www\./, "") : "portfolio.gault-rudy.com");
+// « demo » = page de présentation, « sandbox » = démo en ligne sans compte.
+const demos = projects.filter((p) => p.data.links.sandbox);
+const palettes = ["Orange HN", "Parchemin", "Nuit", "Éco", "Forêt", "Ardoise"];
 ---
 
 <Layout
-  title="Liste minimale - Rudy Gault"
-  description="Tous les projets, démos et articles de Rudy Gault dans une liste dense et sans fioritures."
+  bare
+  title="Rudy Gault - version minimale"
+  description="Tous les projets, démos et articles de Rudy Gault dans une liste dense, sans JavaScript requis."
 >
-  <div class="hn-list">
-    <h1 style="font-size:14px;margin:0.2rem 0 0.1rem;font-weight:700">Rudy Gault : projets, démos et articles</h1>
-    <p style="color:#828282;font-size:11px;margin:0">
-      Alternant infrastructure &amp; développement. <a href="/modes/" style="color:inherit">Changer de mode</a> ·
-      <a href="/parcours/" style="color:inherit">parcours</a> ·
-      <a href="/competences/" style="color:inherit">compétences</a>
-    </p>
-
-    {groups.map((g) => (
-      <>
-        <h2>{g.label}</h2>
-        <ol>
-          {projects.filter((p) => p.data.category === g.key).map((p) => (
-            <li>
-              <div>
-                <div class="t">
-                  <a href={`/projets/${p.id}/`}>{p.data.title}</a>
-                  <span class="d">({host(p.data.links.demo)})</span>
-                </div>
-                <div class="s">
-                  <b>{p.data.period}</b> · {p.data.role} · {p.data.stack.slice(0, 4).join(", ")}
-                  {" | "}<a href={`/projets/${p.id}/`}>fiche</a>
-                  {p.data.links.demo && <> | <a href={p.data.links.demo} rel="noreferrer">démo</a></>}
-                  {p.data.links.sandbox && <> | <a href={p.data.links.sandbox} rel="noreferrer">bac à sable</a></>}
-                  {p.data.links.repo && <> | <a href={p.data.links.repo} rel="noreferrer">code</a></>}
-                </div>
-                <div class="s">{p.data.summary}</div>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </>
-    ))}
-
-    <h2>Articles</h2>
-    <ol>
-      {articles.map((a) => {
-        const external = a.data.type === "linkedin";
-        const href = external ? a.data.externalUrl : `/blog/${a.id}/`;
-        return (
-          <li>
+  <div class="hnp" data-palette="Parchemin">
+    <div class="hnp-body">
+      <header class="hnp-bar">
+        <a href="/minimal/" class="hnp-logo" aria-label="Accueil">R</a>
+        <a href="/minimal/" style="font-weight:700">Rudy Gault</a>
+        <nav aria-label="Navigation principale">
+          <a href="#projets">projets</a><span aria-hidden="true">|</span><a href="#demos">démos</a><span aria-hidden="true">|</span><a href="#articles">articles</a><span aria-hidden="true">|</span><a href="#parcours">parcours</a><span aria-hidden="true">|</span><a href="#competences">compétences</a><span aria-hidden="true">|</span><a href="/">site classique</a>
+        </nav>
+        <span class="hnp-right">
+          <details class="hnp-style"><summary>style : <span id="hnp-name">Parchemin</span> ▾</summary>
             <div>
-              <div class="t">
-                <a href={href} rel={external ? "noreferrer" : undefined}>{a.data.title}</a>
-                <span class="d">({external ? "linkedin.com" : "portfolio"})</span>
-              </div>
-              <div class="s">{fmt.format(a.data.date)} · {a.data.tags.slice(0, 4).join(", ")}</div>
+              {palettes.map((n) => <button type="button" data-pal={n}>{n}</button>)}
+              <a href="/modes/">autres modes…</a>
             </div>
-          </li>
-        );
-      })}
-    </ol>
+          </details>
+          <a href="/cv-rudy-gault.pdf">cv.pdf</a>
+        </span>
+      </header>
+
+      <section class="hnp-sec" style="padding-top:14px">
+        <h1>Rudy Gault : alternant infrastructure &amp; DevOps</h1>
+        <p class="hnp-mu" style="max-width:78ch;line-height:1.5">Cloud Temple (3 ans d'alternance) · SUPINFO 4<sup>e</sup> année, fin de cursus en septembre 2027. Je construis des infrastructures reproductibles, j'automatise leur livraison et j'héberge mes propres applications. {projects.length} projets, {articles.length} articles, {demos.length} démos sans compte. Aucun JavaScript requis.</p>
+      </section>
+
+      <section id="demos" class="hnp-sec">
+        <div class="hnp-h">Show RG : démos en ligne, sans compte</div>
+        {demos.map((p, i) => (
+          <div class="hnp-row">
+            <span class="hnp-n">{i + 1}.</span>
+            <span><span class="t"><a href={p.data.links.sandbox} rel="noreferrer">Show RG : {p.data.title.split(" - ")[0]}, {(p.data.title.split(" - ")[1] ?? "").replace(/^./, (c) => c.toLowerCase())}</a></span> <span class="hnp-mu hnp-sm">({host(p.data.links.sandbox)})</span><br />
+              <span class="s hnp-mu hnp-sm">sans compte, données fictives{p.data.links.demo && <> | <a href={p.data.links.demo} rel="noreferrer">présentation</a></>} | <a href={`/projets/${p.id}/`}>fiche</a></span></span>
+          </div>
+        ))}
+      </section>
+
+      <section id="projets" class="hnp-sec">
+        <div class="hnp-h" style="display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline">
+          <span>Projets ({projects.length})</span>
+          <span class="s hnp-mu hnp-sm" id="hnp-filters"><a href="#projets" data-f="all" class="on">tous</a> | <a href="#projets" data-f="entreprise">entreprise</a> | <a href="#projets" data-f="perso">perso</a> | <a href="#projets" data-f="ecole">école</a></span>
+        </div>
+        {projects.map((p, i) => (
+          <div class="hnp-row" data-cat={p.data.category}>
+            <span class="hnp-n">{i + 1}.</span>
+            <span><span class="t"><a href={`/projets/${p.id}/`}>{p.data.title}</a></span> <span class="hnp-mu hnp-sm">({host(p.data.links.demo ?? p.data.links.sandbox)})</span><br />
+              <span class="s hnp-mu hnp-sm">{p.data.summary.length > 110 ? p.data.summary.slice(0, 107).trimEnd() + "…" : p.data.summary} | {catLabel[p.data.category]}{p.data.links.demo && <> | <a href={p.data.links.demo} rel="noreferrer">site</a></>}{p.data.links.sandbox && <> | <a href={p.data.links.sandbox} rel="noreferrer">démo</a></>}{p.data.links.repo && <> | <a href={p.data.links.repo} rel="noreferrer">code</a></>}</span></span>
+          </div>
+        ))}
+      </section>
+
+      <section id="articles" class="hnp-sec">
+        <div class="hnp-h" style="display:flex;justify-content:space-between"><span>Articles ({articles.length})</span><span class="s hnp-mu hnp-sm"><a href="/blog/">blog</a></span></div>
+        {articles.map((a, i) => {
+          const ext = a.data.type === "linkedin";
+          return (
+            <div class="hnp-row">
+              <span class="hnp-n">{i + 1}.</span>
+              <span><span class="t"><a href={ext ? a.data.externalUrl : `/blog/${a.id}/`} rel={ext ? "noreferrer" : undefined}>{a.data.title}</a></span><br />
+                <span class="s hnp-mu hnp-sm">{a.data.date.toISOString().slice(0, 10)} | {ext ? "linkedin" : a.data.tags[0] ?? "article"}</span></span>
+            </div>
+          );
+        })}
+      </section>
+
+      <section id="parcours" class="hnp-sec">
+        <div class="hnp-h">Parcours</div>
+        <div class="hnp-row"><span class="hnp-w hnp-mu hnp-sm">2024</span><span>Diplôme du BTS SIO</span></div>
+        <div class="hnp-row"><span class="hnp-w hnp-mu hnp-sm">3 ans</span><span>Alternance chez Cloud Temple : infrastructure et automatisation</span></div>
+        <div class="hnp-row"><span class="hnp-w hnp-mu hnp-sm">SUPINFO</span><span>4<sup>e</sup> année, fin de cursus prévue en septembre 2027</span></div>
+        <div class="hnp-row"><span class="hnp-w hnp-mu hnp-sm"></span><span><a href="/parcours/" style="text-decoration:underline">parcours détaillé</a></span></div>
+      </section>
+
+      <section id="competences" class="hnp-sec">
+        <div class="hnp-h">Compétences</div>
+        <div style="padding:3px 4px;line-height:1.7">Proxmox · Terraform · Ansible · Kubernetes · Docker · CI/CD · Azure · Sécurité · Observabilité · Automatisation</div>
+        <div class="s hnp-mu hnp-sm" style="padding:3px 4px"><a href="/competences/">explorer toutes les compétences</a></div>
+      </section>
+
+      <footer class="hnp-foot s hnp-mu hnp-sm">
+        <a href="https://github.com/ECG-Rudy-Glt">github</a> | <a href="https://www.linkedin.com/in/rudy-gault/">linkedin</a> | <a href="/cv-rudy-gault.pdf">cv.pdf</a> | <a href="/modes/">changer de mode</a><br />
+        <span>© Rudy Gault</span>
+      </footer>
+    </div>
   </div>
+
+  <script>
+    const PAL: Record<string, [string, string, string, string, string, string, string, string]> = {
+      // page, corps, texte, discret, lien, barre, texte barre, filet
+      "Orange HN": ["#ffffff", "#f6f6ef", "#000000", "#6d6d6d", "#b34700", "#ff6600", "#000000", "#d4d4c8"],
+      Parchemin: ["#e3dcc9", "#ece6d9", "#2a1d13", "#6f5a45", "#8a4a1f", "#a8602f", "#fbf6ec", "#cdbfa6"],
+      Nuit: ["#0d0a07", "#14100c", "#f0e6d8", "#ad9a85", "#e0a868", "#e0a868", "#14100c", "#3a2f24"],
+      Éco: ["#ffffff", "#f7f5f1", "#111111", "#4d4d4d", "#111111", "#111111", "#ffffff", "#cfccc5"],
+      Forêt: ["#dbe3d3", "#e9eee4", "#14200f", "#4c5c46", "#2d5a27", "#2d5a27", "#f3f6ef", "#bccab3"],
+      Ardoise: ["#0a0f14", "#0f141a", "#e6edf3", "#9aa7b4", "#e39a5c", "#d98a4e", "#0f141a", "#2c3a49"],
+    };
+    const root = document.querySelector<HTMLElement>(".hnp")!;
+    function apply(name: string) {
+      const v = PAL[name] ?? PAL.Parchemin;
+      ["page", "body", "fg", "mu", "ink", "bar", "onbar", "rule"].forEach((k, i) => root.style.setProperty("--" + k, v[i]));
+      document.getElementById("hnp-name")!.textContent = name;
+      document.documentElement.style.colorScheme = ["Nuit", "Ardoise"].includes(name) ? "dark" : "light";
+      try { localStorage.setItem("hn-palette", name); } catch (e) {}
+    }
+    let saved = "Parchemin";
+    try { saved = localStorage.getItem("hn-palette") || saved; } catch (e) {}
+    apply(saved);
+    document.querySelectorAll<HTMLButtonElement>("[data-pal]").forEach((b) => b.addEventListener("click", () => apply(b.dataset.pal!)));
+    document.querySelectorAll<HTMLAnchorElement>("#hnp-filters a").forEach((a) =>
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const f = a.dataset.f!;
+        document.querySelectorAll("#hnp-filters a").forEach((x) => x.classList.toggle("on", x === a));
+        document.querySelectorAll<HTMLElement>("#projets .hnp-row").forEach((r, i) => {
+          r.style.display = f === "all" || r.dataset.cat === f ? "" : "none";
+        });
+      }),
+    );
+  </script>
 </Layout>

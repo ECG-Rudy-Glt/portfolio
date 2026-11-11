@@ -9,7 +9,8 @@ const themes: { value: Theme; label: string; icon: string }[] = [
 ];
 
 function applyTheme(theme: Theme) {
-  document.documentElement.classList.remove("dark", "eco");
+  document.documentElement.classList.remove("dark", "eco", "pal-foret", "pal-ardoise");
+  localStorage.setItem("palette", theme === "dark" ? "nuit" : "parchemin");
   if (theme !== "light") document.documentElement.classList.add(theme);
   localStorage.setItem("theme", theme);
 }

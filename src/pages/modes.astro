@@ -2,19 +2,32 @@
 import Layout from "../layouts/Layout.astro";
 
 const modes = [
-  { id: "classique", href: "/", title: "Classique", text: "Le site habituel : cartes, filtres, fiches détaillées. Thèmes clair, sombre ou éco." },
-  { id: "minimal", href: "/minimal/", title: "Minimal", text: "Une liste dense façon Hacker News : tous les projets, démos et articles sur un seul écran, sans image." },
-  { id: "eco", href: "/", title: "Éco (noir et blanc)", text: "Même contenu en noir et blanc, sobre et léger : le moins d'énergie possible." },
+  { id: "classique", href: "/", title: "Classique", text: "Le site habituel : cartes, filtres, fiches détaillées." },
+  { id: "minimal", href: "/minimal/", title: "Minimal", text: "Liste dense façon Hacker News : projets, démos « Show RG » et articles sur un écran, sans image." },
+  { id: "eco", href: "/", title: "Éco", text: "Noir et blanc, texte sobre, sans animation : le moins d'énergie possible." },
+];
+const palettes = [
+  { id: "parchemin", name: "Parchemin", sw: ["#ece6d9", "#a8602f"] },
+  { id: "nuit", name: "Nuit", sw: ["#14100c", "#e0a868"] },
+  { id: "foret", name: "Forêt", sw: ["#e9eee4", "#2d5a27"] },
+  { id: "ardoise", name: "Ardoise", sw: ["#0f141a", "#d98a4e"] },
+];
+const anims = [
+  { id: "auto", name: "Auto", text: "suit les réglages de l'appareil" },
+  { id: "on", name: "Activées", text: "" },
+  { id: "off", name: "Désactivées", text: "" },
 ];
 ---
 
-<Layout title="Choisir un mode - Rudy Gault" description="Plusieurs façons de parcourir le portfolio : classique, minimal ou éco.">
+<Layout title="Choisir un mode - Rudy Gault" description="Plusieurs façons de parcourir le portfolio : classique, minimal ou éco, avec palettes et réglage des animations.">
   <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Choisir un mode</h1>
   <p class="mb-8 max-w-2xl text-[var(--fg-muted)]">
-    Le contenu est le même, seule la présentation change. Votre choix est mémorisé sur cet appareil.
+    Le contenu est le même dans tous les modes : projets, démos, articles, parcours. Seule la présentation change.
+    Votre choix est mémorisé sur cet appareil et modifiable à tout moment depuis cette page.
   </p>
 
-  <div class="grid gap-4 sm:grid-cols-3">
+  <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--fg-muted)]">1. Mode</h2>
+  <div class="mb-8 grid gap-4 sm:grid-cols-3">
     {modes.map((m) => (
       <a
         href={m.href}
@@ -27,23 +40,66 @@ const modes = [
     ))}
   </div>
 
+  <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--fg-muted)]">2. Palette (mode classique)</h2>
+  <div class="mb-8 flex flex-wrap gap-3" role="group" aria-label="Palette">
+    {palettes.map((p) => (
+      <button type="button" data-pal={p.id} aria-pressed="false" class="pal-btn flex min-h-[44px] items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2 text-sm text-[var(--fg)]">
+        <span class="inline-flex overflow-hidden rounded-full border border-[var(--border)]"><i style={`display:block;width:14px;height:20px;background:${p.sw[0]}`}></i><i style={`display:block;width:14px;height:20px;background:${p.sw[1]}`}></i></span>
+        {p.name}
+      </button>
+    ))}
+  </div>
+
+  <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--fg-muted)]">3. Animations</h2>
+  <div class="mb-8 flex flex-wrap gap-3" role="group" aria-label="Animations">
+    {anims.map((a) => (
+      <button type="button" data-anim={a.id} aria-pressed="false" class="anim-btn min-h-[44px] rounded-full border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2 text-sm text-[var(--fg)]">
+        {a.name}{a.text && <span class="text-[var(--fg-muted)]"> · {a.text}</span>}
+      </button>
+    ))}
+  </div>
+  <p id="saved" role="status" class="text-sm text-[var(--accent)]"></p>
+
+  <style>
+    .pal-btn[aria-pressed="true"], .anim-btn[aria-pressed="true"] { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: 1px; }
+  </style>
   <script>
+    const root = document.documentElement;
+    const get = (k: string) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+    const set = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch (e) {} };
+
+    function applyPalette(id: string) {
+      root.classList.remove("dark", "eco", "pal-foret", "pal-ardoise");
+      if (id === "nuit") root.classList.add("dark");
+      if (id === "foret" || id === "ardoise") root.classList.add("pal-" + id);
+      set("palette", id);
+      set("theme", id === "nuit" ? "dark" : "light");
+      mark();
+    }
+    function applyAnim(id: string) {
+      set("anim", id);
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      root.classList.toggle("no-anim", id === "off" || (id === "auto" && reduced));
+      mark();
+    }
+    function mark() {
+      const pal = get("palette") || (get("theme") === "dark" ? "nuit" : "parchemin");
+      document.querySelectorAll<HTMLElement>("[data-pal]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.pal === pal)));
+      const an = get("anim") || "auto";
+      document.querySelectorAll<HTMLElement>("[data-anim]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.anim === an)));
+      const s = document.getElementById("saved");
+      if (s) s.textContent = "Enregistré : palette " + pal + ", animations " + an + ".";
+    }
+    document.querySelectorAll<HTMLElement>("[data-pal]").forEach((b) => b.addEventListener("click", () => applyPalette(b.dataset.pal!)));
+    document.querySelectorAll<HTMLElement>("[data-anim]").forEach((b) => b.addEventListener("click", () => applyAnim(b.dataset.anim!)));
     document.querySelectorAll<HTMLAnchorElement>(".mode-card").forEach((card) => {
       card.addEventListener("click", () => {
         const id = card.dataset.mode;
-        const root = document.documentElement;
-        try {
-          localStorage.setItem("mode", id === "minimal" ? "minimal" : "classique");
-          if (id === "eco") {
-            root.classList.remove("dark");
-            root.classList.add("eco");
-            localStorage.setItem("theme", "eco");
-          } else if (localStorage.getItem("theme") === "eco") {
-            root.classList.remove("eco");
-            localStorage.setItem("theme", "light");
-          }
-        } catch (e) {}
+        set("mode", id === "minimal" ? "minimal" : "classique");
+        if (id === "eco") { root.classList.remove("dark", "pal-foret", "pal-ardoise"); set("theme", "eco"); set("palette", "parchemin"); }
+        else if (get("theme") === "eco") set("theme", "light");
       });
     });
+    mark();
   </script>
 </Layout>

@@ -1,8 +1,13 @@
 ---
-// Applique le mode d'affichage mémorisé (classique | minimal) avant le premier rendu.
+// Applique le mode, la palette et le réglage d'animation mémorisés avant le premier rendu.
 ---
 <script is:inline>
   try {
-    if (localStorage.getItem("mode") === "minimal") document.documentElement.classList.add("hn");
+    var r = document.documentElement, ls = localStorage;
+    if (ls.getItem("mode") === "minimal") r.classList.add("hn");
+    var p = ls.getItem("palette");
+    if (p === "foret" || p === "ardoise") r.classList.add("pal-" + p);
+    var a = ls.getItem("anim");
+    if (a === "off" || (a !== "on" && matchMedia("(prefers-reduced-motion: reduce)").matches)) r.classList.add("no-anim");
   } catch (e) {}
 </script>

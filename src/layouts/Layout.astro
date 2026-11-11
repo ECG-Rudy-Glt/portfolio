@@ -8,6 +8,7 @@ interface Props {
   description?: string;
   image?: string;
   article?: { datePublished: Date; keywords?: string[] };
+  bare?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   description = "Alternant infrastructure & développement - projets école, projets personnels et alternance.",
   image = "/avatar.png",
   article,
+  bare = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
@@ -90,15 +92,16 @@ const articleSchema = article
     </script>
   </head>
   <body class="min-h-screen bg-[var(--bg)] text-[var(--fg)]">
-    <Nav />
+    {!bare && <Nav />}
+    {bare ? <slot /> : (
     <main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
       <slot />
-    </main>
+    </main>)}
     <script>
       import "../scripts/mermaid-init.ts";
       import "../scripts/oss-menu.ts";
     </script>
-    <footer class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 border-t border-[var(--border)] px-4 py-8 text-sm text-[var(--fg-muted)] sm:px-6">
+    {!bare && (<footer class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 border-t border-[var(--border)] px-4 py-8 text-sm text-[var(--fg-muted)] sm:px-6">
       <p>© {new Date().getFullYear()} Rudy Gault</p>
       <div class="flex items-center gap-4">
         <a
@@ -153,6 +156,6 @@ const articleSchema = article
           </svg>
         </a>
       </div>
-    </footer>
+    </footer>)}
   </body>
 </html>
