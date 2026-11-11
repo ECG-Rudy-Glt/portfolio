@@ -17,6 +17,14 @@ order: 2
 
 Infrastructure self-hosted pensée comme un environnement de production plutôt qu'un empilement de conteneurs : réseau segmenté, gestion centralisée des secrets et des certificats, authentification unifiée et supervision complète - le tout en Infrastructure as Code, avec un budget et une consommation électrique maîtrisés.
 
+## Visite interactive en 3D
+
+La baie en 3D : cliquez une machine pour voir les conteneurs et les machines virtuelles qu'elle héberge, lancez une visite guidée, suivez le chemin d'une requête et ouvrez les projets hébergés. Sur mobile, le même contenu s'ouvre en liste. Les données sont assainies : aucune adresse, aucun port, aucun identifiant.
+
+<iframe src="https://homelab.gault-rudy.com/?embed=1" title="Visite interactive du homelab en 3D" loading="lazy" allow="fullscreen" style="width:100%;height:min(78vh,720px);min-height:520px;border:1px solid var(--border);border-radius:0.75rem;background:var(--bg-elevated);"></iframe>
+
+<p><a href="https://homelab.gault-rudy.com/">Ouvrir la visite en plein écran →</a></p>
+
 ## Le matériel
 
 Choix volontaire de mini-PCs plutôt que de serveurs rack traditionnels, pour rester sous 80W en idle. Budget total : environ 735 € pour la phase 1.

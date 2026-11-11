@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import ProjectFilter from "../../components/ProjectFilter";
+import LiveSites from "../../components/LiveSites.astro";
 import { getCollection } from "astro:content";
 
 const relevanceWeight = { majeur: 0, pertinent: 1, secondaire: 2 } as const;
@@ -43,6 +44,8 @@ const minorSchoolProjects = allProjects.filter(isMinorSchoolProject).sort(sortBy
       Secondaire
     </span>
   </div>
+
+  <LiveSites title="À essayer tout de suite" note="Sites et démos en ligne, sans compte" />
 
   <ProjectFilter client:load />
 

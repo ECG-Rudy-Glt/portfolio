@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
+import LiveSites from "../components/LiveSites.astro";
 
 const projects = await getCollection("projects");
 const featured = projects.filter((p) => p.data.featured).sort((a, b) => a.data.order - b.data.order);
@@ -62,6 +63,8 @@ const stats = [
       ))}
     </div>
   </section>
+
+  <LiveSites />
 
   <section class="mb-16">
     <a
