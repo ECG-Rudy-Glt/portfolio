@@ -7,9 +7,10 @@ role: "Membre de l'équipe projet"
 stack: ["Node.js", "React", "React Native", "Electron", "PostgreSQL", "Prisma", "Docker", "Ollama", "ChromaDB", "GitHub Actions"]
 tags: ["Sécurité", "IA / RAG", "Full-stack", "Mobile", "Desktop", "CI/CD", "Projet de groupe"]
 links:
-  demo: "https://supfile.tech"
   repo: "https://github.com/ECG-Rudy-Glt/4PROJ-"
-images: []
+  demo: "https://supfile.gault-rudy.com"
+  sandbox: "https://supfile-demo.gault-rudy.com"
+images: ["/projets/supfile/fichiers.webp", "/projets/supfile/apercu.webp", "/projets/supfile/tableau-de-bord.webp"]
 groupProject: true
 contributors: []
 relevance: "majeur"
@@ -40,4 +41,4 @@ Couvrir l'ensemble de la chaîne dans le cadre du cursus SUPINFO 4e année : bac
 
 ## Résultat
 
-Plateforme en ligne sur [supfile.tech](https://supfile.tech).
+Une [page de présentation](https://supfile.gault-rudy.com) et une [démo en ligne](https://supfile-demo.gault-rudy.com), sans compte, en lecture seule et sur des documents fictifs (l'assistant Bobby n'y est pas activé).
