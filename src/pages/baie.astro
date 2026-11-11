@@ -1,0 +1,108 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { loadPortfolio, PALETTES } from "../lib/pf";
+const { projects, articles, demos, path, skills, HOMELAB } = await loadPortfolio();
+const LED = { entreprise: "#3fa7d6", perso: "#f2792a", ecole: "#9a8cf2" } as const;
+const u = (i: number) => "U" + String(i + 1).padStart(2, "0");
+---
+<Layout bare title="Rudy Gault - Baie" description="Les projets, démos et articles de Rudy Gault présentés comme les unités d'une baie serveur.">
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </Fragment>
+  <div class="sk baie mono" data-palette="Nuit">
+    <div class="rack">
+      <i class="rail l" aria-hidden="true"></i><i class="rail r" aria-hidden="true"></i>
+      <div class="inner">
+        <header class="unit top">
+          <span class="cond brand">RG-01 · baie de projets</span>
+          <nav aria-label="Navigation principale"><a href="#projets">projets</a><a href="#demos">démos</a><a href="#articles">journal</a><a href="#parcours">parcours</a><a href="/competences/">compétences</a><a href={HOMELAB}>homelab</a></nav>
+          <details class="pal"><summary>palette : <span id="sk-pal-name">Nuit</span> ▾</summary><div>{PALETTES.map((n) => <button type="button" data-pal={n}>{n}</button>)}<a href="/modes/">autres styles…</a><a href="/?mode=classique">site classique</a></div></details>
+        </header>
+
+        <section class="unit hero">
+          <h1 class="cond">Rudy Gault</h1>
+          <p>Alternant infrastructure &amp; DevOps. Cloud Temple (3 ans), SUPINFO 4<sup>e</sup> année, fin de cursus en septembre 2027. Je construis des infrastructures reproductibles et j'héberge mes propres applications.</p>
+          <p class="stat"><span><i class="led" style="color:#5fd35f;background:#5fd35f"></i>{projects.length} projets en ligne</span><span><i class="led" style="color:var(--ac);background:var(--ac)"></i>{demos.length} démos sans compte</span><span><i class="led" style="color:#3fa7d6;background:#3fa7d6"></i>{articles.length} articles</span></p>
+          <p class="lg"><span><i style="background:#3fa7d6"></i>entreprise</span><span><i style="background:#f2792a"></i>perso</span><span><i style="background:#9a8cf2"></i>école</span> · ports : S site · D démo · C code</p>
+        </section>
+
+        <section id="demos">
+          <h2 class="cond">Démos : accès direct, sans compte</h2>
+          {demos.map((p, i) => (
+            <a class="unit strip" href={p.demo} rel="noreferrer"><span class="slot">{u(i)}</span><i class="led" style="color:#5fd35f;background:#5fd35f"></i><b class="cond">{p.title}</b><span class="sum">démo en ligne · données fictives</span><span class="ports"><em class="on">D</em></span></a>
+          ))}
+        </section>
+
+        <section id="projets">
+          <h2 class="cond">Projets</h2>
+          {projects.map((p, i) => (
+            <div class="unit strip">
+              <span class="slot">{u(i)}</span><i class="led" style={`color:${LED[p.cat]};background:${LED[p.cat]}`}></i>
+              <a class="cond ttl" href={p.fiche}>{p.title}</a><span class="sum">{p.summary}</span>
+              <span class="ports">
+                {p.site ? <a class="on" href={p.site} rel="noreferrer" title="Site">S</a> : <em>S</em>}
+                {p.demo ? <a class="on" href={p.demo} rel="noreferrer" title="Démo">D</a> : <em>D</em>}
+                {p.repo ? <a class="on" href={p.repo} rel="noreferrer" title="Code">C</a> : <em>C</em>}
+              </span>
+            </div>
+          ))}
+        </section>
+
+        <section id="articles">
+          <h2 class="cond">Journal</h2>
+          <div class="unit log">
+            {articles.map((a) => (
+              <a href={a.href} rel={a.external ? "noreferrer" : undefined}><span class="mu">{a.date}</span> <span class="tg">[{a.tag}]</span> {a.title}</a>
+            ))}
+          </div>
+        </section>
+
+        <section id="parcours">
+          <h2 class="cond">Parcours</h2>
+          <div class="unit log">{path.map((s) => <p><span class="mu">{s.when.padEnd(8, " ")}</span> {s.what}</p>)}<p class="mu">{skills.join(" · ")}</p></div>
+          <p><a class="key" href="/parcours/">parcours détaillé</a> <a class="key" href="/cv-rudy-gault.pdf">cv.pdf</a></p>
+        </section>
+        <footer class="mu">© Rudy Gault · <a href="https://github.com/ECG-Rudy-Glt">github</a> · <a href="https://www.linkedin.com/in/rudy-gault/">linkedin</a> · <a href="/modes/">changer de style</a></footer>
+      </div>
+    </div>
+  </div>
+  <script>import "../scripts/skin-palette.ts";</script>
+</Layout>
+<style is:global>
+  .baie { font-size:13px; line-height:1.45; padding:16px 8px 40px; }
+  .baie .rack { position:relative; max-width:1100px; margin:0 auto; padding:0 44px; }
+  .baie .rail { position:absolute; top:0; bottom:0; width:26px; background-color:var(--el); border:1px solid var(--bd); background-image:radial-gradient(circle at 50% 50%, var(--bg) 0 5px, var(--bd) 5.5px 6.5px, transparent 7px); background-size:26px 34px; }
+  .baie .rail.l { left:0; } .baie .rail.r { right:0; }
+  .baie .unit { background:var(--el); border:1px solid var(--bd); border-top:2px solid color-mix(in srgb, var(--fg) 22%, var(--bd)); box-shadow:inset 0 1px 0 color-mix(in srgb, var(--fg) 8%, transparent); margin:0 0 6px; padding:10px 14px; }
+  .baie .top { display:flex; flex-wrap:wrap; gap:6px 20px; align-items:center; position:relative; }
+  .baie .brand { font-size:17px; font-weight:700; letter-spacing:.06em; }
+  .baie nav { display:flex; flex-wrap:wrap; gap:4px 14px; flex:1; } .baie nav a:hover { color:var(--ink); }
+  .baie .hero h1 { font-size:clamp(46px, 8vw, 84px); line-height:.95; margin:4px 0 8px; font-weight:800; }
+  .baie .hero p { max-width:70ch; margin:0 0 8px; }
+  .baie .stat, .baie .lg { display:flex; flex-wrap:wrap; gap:6px 20px; color:var(--mu); font-size:12px; }
+  .baie .lg i { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; }
+  .baie h2 { font-size:22px; letter-spacing:.06em; margin:24px 0 8px; font-weight:700; }
+  .led { width:9px; height:9px; border-radius:50%; display:inline-block; box-shadow:0 0 8px currentColor; animation:led 2.4s ease-in-out infinite; margin-right:8px; }
+  @keyframes led { 50% { opacity:.45; } }
+  .baie .strip { display:grid; grid-template-columns:38px 22px minmax(150px, 250px) 1fr auto; gap:4px 12px; align-items:center; }
+  a.strip:hover, .baie .strip:hover { background:color-mix(in srgb, var(--ac) 12%, var(--el)); }
+  .baie .slot { color:var(--mu); } .baie .strip:hover .slot { color:var(--ink); }
+  .baie .ttl, .baie .strip b { font-size:20px; font-weight:700; letter-spacing:.03em; }
+  .baie .sum { color:var(--mu); }
+  .baie .ports { display:flex; gap:6px; }
+  .baie .ports a, .baie .ports em { display:inline-grid; place-items:center; width:30px; height:26px; font-size:11px; font-style:normal; font-weight:600; border:2px solid var(--bd); color:var(--mu); opacity:.5; }
+  .baie .ports a.on, .baie .ports em.on { background:var(--ac); color:var(--on); border-color:var(--ac); opacity:1; }
+  .baie .ports a.on:hover { box-shadow:0 0 0 2px var(--ink); }
+  .baie .log { display:flex; flex-direction:column; gap:2px; } .baie .log p { margin:0; white-space:pre-wrap; } .baie .log a { padding:4px 0; } .baie .log a:hover { color:var(--ink); } .baie .tg { color:var(--ink); }
+  .baie .key { display:inline-flex; border:2px solid var(--bd); background:var(--bg); padding:8px 14px; font-weight:500; box-shadow:0 3px 0 var(--bd); margin-right:8px; min-height:40px; align-items:center; }
+  .baie .key:hover { border-color:var(--ac); box-shadow:0 3px 0 var(--ac); } .baie .key:active { transform:translateY(2px); box-shadow:0 1px 0 var(--ac); }
+  .baie footer { margin-top:30px; font-size:12px; text-align:center; }
+  .baie .pal > div { border-color:var(--bd); }
+  @media (max-width:760px) {
+    .baie .rack { padding:0 20px; } .baie .rail { width:12px; background-size:12px 34px; background-image:radial-gradient(circle at 50% 50%, var(--bg) 0 2.5px, var(--bd) 3px 4px, transparent 4.5px); }
+    .baie .strip { grid-template-columns:34px 18px 1fr auto; } .baie .strip .sum { grid-column:1 / 5; }
+    .baie .ports a, .baie .ports em { width:38px; height:34px; }
+  }
+  @media (prefers-reduced-motion:reduce) { .led { animation:none; } }
+</style>

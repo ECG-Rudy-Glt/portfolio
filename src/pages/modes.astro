@@ -4,6 +4,9 @@ import Layout from "../layouts/Layout.astro";
 const modes = [
   { id: "classique", href: "/", title: "Classique", text: "Le site habituel : cartes, filtres, fiches détaillées." },
   { id: "minimal", href: "/minimal/", title: "Minimal", text: "Liste dense façon Hacker News : projets, démos « Show RG » et articles sur un écran, sans image." },
+  { id: "dossier", href: "/dossier/", title: "Dossier", text: "Un index éditorial : grandes capitales condensées, lignes qui s'inversent au survol." },
+  { id: "baie", href: "/baie/", title: "Baie", text: "Chaque projet est une unité de baie serveur, avec ses LED et ses ports site, démo, code." },
+  { id: "topologie", href: "/topologie/", title: "Topologie", text: "Les projets en zones colorées reliées sur une carte : entreprise, perso, école." },
   { id: "homelab", href: "https://homelab.gault-rudy.com/", title: "Homelab 3D", text: "Visite guidée de mon infrastructure : baie, machines, services et flux, sur un site dédié. Liste sur mobile." },
   { id: "eco", href: "/", title: "Éco", text: "Noir et blanc, texte sobre, sans animation : le moins d'énergie possible." },
 ];
@@ -20,7 +23,7 @@ const anims = [
 ];
 ---
 
-<Layout title="Choisir un mode - Rudy Gault" description="Plusieurs façons de parcourir le portfolio : classique, minimal ou éco, avec palettes et réglage des animations.">
+<Layout title="Choisir un mode - Rudy Gault" description="Plusieurs façons de parcourir le portfolio : classique, minimal, dossier, baie, topologie, homelab 3D ou éco, avec palettes et réglage des animations.">
   <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Choisir un mode</h1>
   <p class="mb-8 max-w-2xl text-[var(--fg-muted)]">
     Le contenu est le même dans tous les modes : projets, démos, articles, parcours. Seule la présentation change.
@@ -97,7 +100,7 @@ const anims = [
       card.addEventListener("click", () => {
         const id = card.dataset.mode;
         if (id === "homelab") return;
-        set("mode", id === "minimal" ? "minimal" : "classique");
+        set("mode", ["minimal", "dossier", "baie", "topologie"].includes(id!) ? id! : "classique");
         if (id === "eco") { root.classList.remove("dark", "pal-foret", "pal-ardoise"); set("theme", "eco"); set("palette", "parchemin"); }
         else if (get("theme") === "eco") set("theme", "light");
       });

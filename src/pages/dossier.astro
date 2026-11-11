@@ -1,0 +1,113 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { loadPortfolio, PALETTES, ZONE } from "../lib/pf";
+const { projects, articles, demos, path, skills, HOMELAB } = await loadPortfolio();
+const zones = (["entreprise", "perso", "ecole"] as const).map((k) => ({ k, label: ZONE[k], items: projects.filter((p) => p.cat === k) }));
+---
+<Layout bare title="Rudy Gault - Dossier" description="Index des projets, démos et articles de Rudy Gault, présentés comme un dossier éditorial.">
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </Fragment>
+  <div class="sk dos" data-palette="Parchemin">
+    <div class="wrap">
+      <header class="bar mono">
+        <a href="/dossier/">RG/DOSSIER</a>
+        <nav aria-label="Navigation principale"><a href="#projets">Projets</a><a href="#demos">Démos</a><a href="#articles">Articles</a><a href="#parcours">Parcours</a><a href="/competences/">Compétences</a><a href={HOMELAB}>Homelab</a></nav>
+        <details class="pal"><summary>palette : <span id="sk-pal-name">Parchemin</span> ▾</summary><div>{PALETTES.map((n) => <button type="button" data-pal={n}>{n}</button>)}<a href="/modes/">autres styles…</a><a href="/?mode=classique">site classique</a></div></details>
+      </header>
+
+      <section class="mast">
+        <p class="mono mu">DOSSIER N° 2026 · INFRASTRUCTURE &amp; DEVOPS</p>
+        <h1 class="cond">Rudy<br />Gault</h1>
+        <p class="lede">Alternant infrastructure &amp; développement. Cloud Temple (3 ans d'alternance), SUPINFO 4<sup>e</sup> année, fin de cursus en septembre 2027. Je construis des infrastructures reproductibles, j'automatise leur livraison et j'héberge mes propres applications.</p>
+        <p class="mono mu">{projects.length} PROJETS · {articles.length} ARTICLES · {demos.length} DÉMOS SANS COMPTE</p>
+      </section>
+
+      <section id="demos" class="sec">
+        <h2 class="cond">Démos en ligne</h2>
+        <ul class="dm">
+          {demos.map((p) => (
+            <li><a class="btn mono" href={p.demo} rel="noreferrer">{p.title} →</a><span class="mu">sans compte, données fictives</span></li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="projets" class="sec">
+        <h2 class="cond">Index des projets</h2>
+        {zones.map((z) => (
+          <div class="zone">
+            <h3 class="mono mu">{z.label.toUpperCase()} · {z.items.length}</h3>
+            {z.items.map((p) => (
+              <article class="prow">
+                <span class="mono code">{p.code}</span>
+                <a class="ttl cond" href={p.fiche}>{p.title}</a>
+                <span class="sum">{p.summary}</span>
+                <span class="lk mono">
+                  {p.site && <a href={p.site} rel="noreferrer" title="Site">S</a>}
+                  {p.demo && <a href={p.demo} rel="noreferrer" title="Démo">D</a>}
+                  {p.repo && <a href={p.repo} rel="noreferrer" title="Code">C</a>}
+                </span>
+              </article>
+            ))}
+          </div>
+        ))}
+        <p class="mono mu leg">S = site · D = démo en ligne · C = code</p>
+      </section>
+
+      <section id="articles" class="sec">
+        <h2 class="cond">Articles</h2>
+        {articles.map((a) => (
+          <a class="art" href={a.href} rel={a.external ? "noreferrer" : undefined}><span class="mono mu">{a.date}</span><span>{a.title}</span><span class="mono mu">{a.tag}</span></a>
+        ))}
+      </section>
+
+      <section id="parcours" class="sec">
+        <h2 class="cond">Parcours</h2>
+        {path.map((s) => <div class="step"><span class="mono mu">{s.when}</span><span>{s.what}</span></div>)}
+        <p class="sk-skills mono">{skills.join(" · ")}</p>
+        <p><a class="btn mono" href="/parcours/">Parcours détaillé →</a> <a class="btn mono" href="/cv-rudy-gault.pdf">CV →</a></p>
+      </section>
+
+      <footer class="mono mu">© Rudy Gault · <a href="https://github.com/ECG-Rudy-Glt">github</a> · <a href="https://www.linkedin.com/in/rudy-gault/">linkedin</a> · <a href="/modes/">changer de style</a></footer>
+    </div>
+  </div>
+  <script>import "../scripts/skin-palette.ts";</script>
+</Layout>
+<style is:global>
+  .dos { font-family:'Newsreader', Georgia, serif; font-size:17px; line-height:1.5; }
+  .dos .wrap { max-width:1120px; margin:0 auto; padding:0 20px 40px; border-left:1px solid var(--bd); border-right:1px solid var(--bd); }
+  .dos .bar { display:flex; flex-wrap:wrap; gap:6px 22px; align-items:center; padding:12px 0; border-bottom:3px solid var(--fg); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; position:relative; }
+  .dos .bar nav { display:flex; flex-wrap:wrap; gap:4px 18px; flex:1; }
+  .dos .bar nav a:hover { text-decoration:underline; text-underline-offset:5px; text-decoration-thickness:2px; }
+  .dos .mast { padding:36px 0 28px; border-bottom:1px solid var(--bd); }
+  .dos h1 { font-size:clamp(72px, 14vw, 168px); line-height:.86; margin:10px 0 18px; font-weight:800; letter-spacing:-.01em; }
+  .dos .lede { max-width:60ch; font-size:21px; margin:0 0 14px; }
+  .dos .sec { padding:34px 0 0; }
+  .dos h2 { font-size:34px; margin:0 0 12px; font-weight:700; border-bottom:2px solid var(--fg); padding-bottom:6px; }
+  .dos h3 { font-size:12px; letter-spacing:.1em; margin:22px 0 6px; font-weight:500; }
+  .dos .btn { display:inline-block; border:2px solid var(--fg); padding:9px 14px; font-size:13px; margin:0 8px 8px 0; min-height:40px; }
+  .dos .btn:hover { background:var(--fg); color:var(--bg); }
+  .dos .dm { list-style:none; margin:0; padding:0; } .dos .dm li { display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center; }
+  .dos .prow { display:grid; grid-template-columns:34px minmax(160px, 270px) 1fr auto; gap:6px 16px; align-items:baseline; padding:10px 6px; border-bottom:1px solid var(--bd); }
+  .dos .prow:hover { background:var(--fg); color:var(--bg); }
+  .dos .prow:hover .code, .dos .prow:hover .sum { color:inherit; opacity:.85; }
+  .dos .code { color:var(--ink); font-size:13px; }
+  .dos .ttl { font-size:26px; font-weight:700; line-height:1.05; }
+  .dos .sum { color:var(--mu); font-size:16px; }
+  .dos .lk { display:flex; gap:6px; }
+  .dos .lk a { display:inline-grid; place-items:center; min-width:32px; height:32px; border:2px solid currentColor; font-size:12px; }
+  .dos .lk a:hover { background:var(--ac); border-color:var(--ac); color:var(--on); }
+  .dos .leg { font-size:12px; margin:10px 0 0; }
+  .dos .art { display:grid; grid-template-columns:110px 1fr 140px; gap:12px; padding:10px 6px; border-bottom:1px solid var(--bd); }
+  .dos .art:hover { background:var(--fg); color:var(--bg); } .dos .art:hover .mu { color:inherit; opacity:.8; }
+  .dos .step { display:grid; grid-template-columns:110px 1fr; gap:12px; padding:8px 6px; border-bottom:1px solid var(--bd); }
+  .dos .sk-skills { font-size:13px; margin:18px 0 12px; }
+  .dos footer { margin-top:44px; padding-top:14px; border-top:3px solid var(--fg); font-size:12px; }
+  @media (max-width:760px) {
+    .dos { font-size:16px; } .dos .lede { font-size:18px; }
+    .dos .prow { grid-template-columns:28px 1fr auto; } .dos .prow .sum { grid-column:2 / 4; }
+    .dos .art { grid-template-columns:1fr; gap:2px; } .dos .step { grid-template-columns:80px 1fr; }
+    .dos .lk a { min-width:40px; height:40px; }
+  }
+</style>

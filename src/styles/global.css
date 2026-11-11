@@ -264,3 +264,15 @@ html.js .oss-panel:not([data-open]) { display: none; }
   .hnp-bar nav a, .hnp .s a, .hnp-right a, .hnp-style summary { display: inline-block; padding: 6px 3px; }
   .hnp-sm { font-size: 12px; }
 }
+
+/* Styles partagés Dossier / Baie / Topologie */
+.sk { --bg:#ece6d9; --el:#f3efe4; --fg:#2a1d13; --mu:#6f5a45; --bd:#cdbfa6; --ac:#a8602f; --ink:#8a4a1f; --on:#fbf6ec; min-height:100vh; background:var(--bg); color:var(--fg); }
+.sk a { color:inherit; text-decoration:none; }
+.sk a:focus-visible, .sk button:focus-visible, .sk summary:focus-visible { outline:3px solid var(--ac); outline-offset:2px; }
+.sk .mono { font-family:'IBM Plex Mono', ui-monospace, monospace; }
+.sk .cond { font-family:'Barlow Condensed','Arial Narrow',Impact,sans-serif; text-transform:uppercase; }
+.sk .mu { color:var(--mu); }
+.pal summary { cursor:pointer; list-style:none; } .pal summary::-webkit-details-marker { display:none; }
+.pal > div { position:absolute; right:0; top:100%; z-index:5; background:var(--el); border:2px solid var(--fg); display:flex; flex-direction:column; min-width:170px; }
+.pal button, .pal a { background:none; border:0; color:inherit; font:inherit; text-align:left; padding:10px 12px; cursor:pointer; min-height:40px; }
+.pal button:hover, .pal a:hover { background:var(--fg); color:var(--bg); }

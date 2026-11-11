@@ -82,6 +82,7 @@ const articleSchema = article
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
 
+    <slot name="head" />
     <ModeInit />
     <script is:inline src="/oss-flag.js?v=1"></script>
     <script is:inline>
