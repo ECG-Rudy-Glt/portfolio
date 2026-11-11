@@ -43,6 +43,7 @@ jobs:
             docker run -d \
               --name portfolio \
               --restart unless-stopped \
+              -v portfolio-data:/data \
               -p 80:80 \
               forgejo.home.lab.rudy/rudy/portfolio:latest
           "
