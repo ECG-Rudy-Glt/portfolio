@@ -7,7 +7,7 @@
     if (/[?&]mode=classique/.test(location.search)) ls.setItem("mode", "classique");
     var m = ls.getItem("mode");
     if (m === "minimal") r.classList.add("hn");
-    var home = { minimal: "/minimal/", dossier: "/dossier/", baie: "/baie/", topologie: "/topologie/" };
+    var home = { minimal: "/minimal/" };
     if (location.pathname === "/" && home[m]) location.replace(home[m]);
     var p = ls.getItem("palette");
     if (p === "foret" || p === "ardoise") r.classList.add("pal-" + p);
