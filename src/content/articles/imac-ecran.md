@@ -4,6 +4,7 @@ summary: "Démontage de la dalle, vidage complet du Mac, et remontage avec une c
 date: 2026-06-26
 tags: ["Hardware", "Bricolage", "Réemploi"]
 type: article
+cover: "/articles/imac-ecran/resultat-final.jpeg"
 ---
 
 ## Le problème

@@ -39,6 +39,9 @@ const quizQuestions = getQuizQuestions(article.data.quiz);
   <p class="mb-3 text-xs text-[var(--fg-muted)]">{dateFormatter.format(article.data.date)}</p>
   <h1 class="mb-4 text-3xl font-bold text-[var(--fg)]">{article.data.title}</h1>
 
+  {article.data.cover && (
+    <img src={article.data.cover} alt="" width="960" height="540" class="mb-8 aspect-[16/9] w-full rounded-xl border border-[var(--border)] object-cover object-top" />
+  )}
   <div class="mb-8 flex flex-wrap gap-2">
     {article.data.tags.map((tag) => (
       <span class="rounded-full bg-[var(--bg-elevated)] px-3 py-1 text-xs text-[var(--fg-muted)] ring-1 ring-[var(--border)]">

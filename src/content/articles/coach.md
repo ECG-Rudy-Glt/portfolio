@@ -4,6 +4,7 @@ summary: "COACH construit des plans multisport avec un moteur de règles déterm
 date: 2026-11-06
 tags: ["IA / Assistant conversationnel", "Open source", "Self-hosting", "Sport"]
 type: article
+cover: "/sites/coach.webp"
 ---
 
 ## Le problème

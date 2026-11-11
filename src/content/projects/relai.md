@@ -12,6 +12,7 @@ links:
 featured: false
 relevance: "pertinent"
 order: 3
+images: ["/projets/relai/fonctionnement.webp"]
 ---
 
 ## Le besoin

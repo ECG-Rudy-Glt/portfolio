@@ -4,6 +4,7 @@ summary: "Firewall dédié, cluster Proxmox à deux nœuds, segmentation réseau
 date: 2026-08-08
 tags: ["Homelab", "DevOps", "Infrastructure"]
 type: article
+cover: "/sites/homelab.webp"
 ---
 
 Ce n'est pas un tutoriel "installe Docker sur un Raspberry Pi". C'est le récit de la construction

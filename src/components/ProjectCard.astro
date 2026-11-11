@@ -1,4 +1,5 @@
 ---
+import { existsSync } from "node:fs";
 interface Props {
   slug: string;
   title: string;
@@ -10,6 +11,8 @@ interface Props {
 }
 
 const { slug, title, summary, period, tags, category, relevance } = Astro.props;
+
+const thumb = existsSync(`./public/sites/${slug}.webp`) ? `/sites/${slug}.webp` : undefined;
 
 const categoryLabel: Record<Props["category"], string> = {
   perso: "Projet perso",
@@ -26,11 +29,16 @@ const relevanceLabel: Record<Props["relevance"], string> = {
 
 <a
   href={`/projets/${slug}/`}
-  class="group flex flex-col gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-transform hover:-translate-y-1 hover:shadow-lg"
+  class="group flex flex-col gap-3 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-transform hover:-translate-y-1 hover:shadow-lg"
   style={`border-left: 3px solid var(--relevance-${relevance})`}
   data-category={category}
   data-tags={tags.join(",")}
 >
+  {thumb && (
+    <div class="-mx-6 -mt-6 mb-1 aspect-[16/10] overflow-hidden border-b border-[var(--border)] bg-[var(--bg)]">
+      <img src={thumb} alt="" width="640" height="400" loading="lazy" decoding="async" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]" />
+    </div>
+  )}
   <div class="flex items-center justify-between text-xs text-[var(--fg-muted)]">
     <span class="rounded-full border border-[var(--border)] px-2 py-0.5">{categoryLabel[category]}</span>
     <span>{period}</span>

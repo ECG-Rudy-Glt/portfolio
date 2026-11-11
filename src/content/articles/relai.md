@@ -4,6 +4,7 @@ summary: "Avec une quinzaine de projets menés en parallèle et des sessions d'a
 date: 2026-11-04
 tags: ["IA / Assistant conversationnel", "Open source", "Git", "Outillage"]
 type: article
+cover: "/sites/relai.webp"
 ---
 
 ## Le problème

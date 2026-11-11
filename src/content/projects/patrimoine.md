@@ -13,6 +13,7 @@ links:
 featured: false
 relevance: "pertinent"
 order: 4
+images: ["/projets/patrimoine/tableau-de-bord.webp", "/projets/patrimoine/budget.webp"]
 ---
 
 ## Le besoin

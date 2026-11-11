@@ -9,7 +9,7 @@ tags: ["Infra as Code", "Réseau", "Sécurité", "Observabilité", "CI/CD", "Sel
 links:
   demo: "https://homelab.gault-rudy.com/"
   repo: "https://github.com/ECG-Rudy-Glt/HOMELAB"
-images: ["/projets/homelab/pile-mini-pcs.png"]
+images: ["/projets/homelab/visite-3d-machine.webp", "/projets/homelab/visite-3d-flux.webp", "/projets/homelab/visite-3d-cluster.webp", "/projets/homelab/pile-mini-pcs.png"]
 featured: true
 relevance: "majeur"
 order: 2

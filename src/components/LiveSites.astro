@@ -62,7 +62,8 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
   .live-btn:hover { border-color: var(--accent); color: var(--accent); }
   .live-head h2 { font-size: 1.25rem; font-weight: 600; color: var(--fg); margin: 0; }
   .live-head p { font-size: 0.875rem; color: var(--fg-muted); margin: 0; }
-  .live-viewport { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: var(--border) transparent; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); }
+  .live-viewport { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); }
+  .live-viewport::-webkit-scrollbar { display: none; }
   .live-track { display: flex; gap: 1rem; width: max-content; margin: 0; padding: 0.25rem 0; list-style: none; }
   .live-card { display: flex; flex-direction: column; gap: 0.35rem; width: 18.5rem; flex: none; padding: 1rem 1.1rem; border: 1px solid var(--border); border-radius: 0.9rem; background: var(--bg-elevated); }
   .live-shot { display: block; margin: -1rem -1.1rem 0.4rem; border-radius: 0.9rem 0.9rem 0 0; overflow: hidden; border-bottom: 1px solid var(--border); aspect-ratio: 16 / 10; background: var(--bg); }
