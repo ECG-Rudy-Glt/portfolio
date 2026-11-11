@@ -22,10 +22,16 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
 
 <section class="live" aria-label={title}>
   <div class="live-head">
-    <h2>{title}</h2>
-    <p>{note}</p>
+    <div>
+      <h2>{title}</h2>
+      <p>{note}</p>
+    </div>
+    <div class="live-nav">
+      <button type="button" class="live-btn" data-dir="-1" aria-label="Précédent">←</button>
+      <button type="button" class="live-btn" data-dir="1" aria-label="Suivant">→</button>
+    </div>
   </div>
-  <div class="live-viewport">
+  <div class="live-viewport" tabindex="0" role="group" aria-label={`${title} : faites défiler horizontalement`}>
     <ul class="live-track">
       {[0, 1].map((copy) =>
         items.map((it) => (
@@ -50,13 +56,14 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
 
 <style>
   .live { margin: 0 0 3.5rem; }
-  .live-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1rem; margin-bottom: 0.9rem; }
+  .live-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.5rem 1rem; margin-bottom: 0.9rem; }
+  .live-nav { display: flex; gap: 0.4rem; flex: none; }
+  .live-btn { width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--fg); cursor: pointer; font-size: 1rem; }
+  .live-btn:hover { border-color: var(--accent); color: var(--accent); }
   .live-head h2 { font-size: 1.25rem; font-weight: 600; color: var(--fg); margin: 0; }
   .live-head p { font-size: 0.875rem; color: var(--fg-muted); margin: 0; }
-  .live-viewport { overflow: hidden; mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); }
-  .live-track { display: flex; gap: 1rem; width: max-content; margin: 0; padding: 0.25rem 0; list-style: none; animation: live-scroll 55s linear infinite; }
-  .live-viewport:hover .live-track, .live-viewport:focus-within .live-track { animation-play-state: paused; }
-  @keyframes live-scroll { to { transform: translateX(calc(-50% - 0.5rem)); } }
+  .live-viewport { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: var(--border) transparent; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); }
+  .live-track { display: flex; gap: 1rem; width: max-content; margin: 0; padding: 0.25rem 0; list-style: none; }
   .live-card { display: flex; flex-direction: column; gap: 0.35rem; width: 18.5rem; flex: none; padding: 1rem 1.1rem; border: 1px solid var(--border); border-radius: 0.9rem; background: var(--bg-elevated); }
   .live-shot { display: block; margin: -1rem -1.1rem 0.4rem; border-radius: 0.9rem 0.9rem 0 0; overflow: hidden; border-bottom: 1px solid var(--border); aspect-ratio: 16 / 10; background: var(--bg); }
   .live-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform 0.4s ease; }
@@ -71,11 +78,41 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
   .live-links a:hover { border-color: var(--accent); }
   :global(:root.no-anim) .live-shot img { transition: none; }
   @media (prefers-reduced-motion: reduce) {
-    .live-viewport { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
-    .live-track { animation: none; }
+    .live-viewport { mask-image: none; -webkit-mask-image: none; }
     .live-card[aria-hidden="true"] { display: none; }
   }
-  :global(:root.no-anim) .live-viewport { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
-  :global(:root.no-anim) .live-track { animation: none; }
+  :global(:root.no-anim) .live-viewport { mask-image: none; -webkit-mask-image: none; }
   :global(:root.no-anim) .live-card[aria-hidden="true"] { display: none; }
+  :global(:root.no-anim) .live-shot img { transition: none; }
 </style>
+
+<script>
+  // Défilement automatique doux, qui s'arrête dès que le visiteur touche, survole, navigue au clavier ou clique une flèche.
+  document.querySelectorAll<HTMLElement>(".live").forEach((root) => {
+    const vp = root.querySelector<HTMLElement>(".live-viewport")!;
+    const track = root.querySelector<HTMLElement>(".live-track")!;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("no-anim");
+    const step = () => (track.firstElementChild as HTMLElement).offsetWidth + 16;
+    root.querySelectorAll<HTMLButtonElement>(".live-btn").forEach((b) =>
+      b.addEventListener("click", () => { hold(); vp.scrollBy({ left: Number(b.dataset.dir) * step(), behavior: still ? "auto" : "smooth" }); }),
+    );
+    let pos = 0, paused = false, until = 0, last = performance.now(), auto = false;
+    function hold(ms = 5000) { until = performance.now() + ms; }
+    ["wheel", "touchstart", "pointerdown", "keydown", "focusin"].forEach((e) => vp.addEventListener(e, () => hold(), { passive: true }));
+    vp.addEventListener("mouseenter", () => (paused = true));
+    vp.addEventListener("mouseleave", () => { paused = false; hold(1200); });
+    vp.addEventListener("scroll", () => { if (!auto) pos = vp.scrollLeft; }, { passive: true });
+    if (still) return;
+    function frame(now: number) {
+      const dt = Math.min(now - last, 64); last = now;
+      if (!paused && now > until && !document.hidden) {
+        const half = track.scrollWidth / 2;
+        pos += dt * 0.035;
+        if (pos >= half) pos -= half;
+        auto = true; vp.scrollLeft = pos; auto = false;
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  });
+</script>
