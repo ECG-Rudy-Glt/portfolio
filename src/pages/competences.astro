@@ -1,56 +1,44 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SkillsExplorer from "../components/SkillsExplorer";
+import SkillDomains from "../components/SkillDomains";
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
 
-const softSkillTags = new Set([
-  "Gestion de projet",
-  "Initiative",
-  "Travail en équipe",
-  "Projet de groupe",
-  "Pédagogie",
-  "Parcours",
-]);
+// Domaines de compétence : chaque domaine regroupe des étiquettes et des outils ; il est « démontré » par les projets qui en mobilisent au moins un.
+const DOMAINS = [
+  { id: "virt", name: "Virtualisation & systèmes", blurb: "Hyperviseurs, machines virtuelles et conteneurs système, du poste de travail à la production : Proxmox au homelab, ESXi chez Cloud Temple.", keys: ["Proxmox", "VMware ESXi", "Vagrant", "Linux", "govc", "Virtualisation", "Haute disponibilité"] },
+  { id: "iac", name: "Infrastructure as Code & automatisation", blurb: "Décrire l'infrastructure en code et l'automatiser : Terraform, Ansible, scripts. Rien ne se fait à la main, tout est rejouable.", keys: ["Terraform", "Ansible", "Infra as Code", "Automatisation", "Bash", "Scripting", "YAML", "DevOps"] },
+  { id: "cicd", name: "CI/CD & livraison continue", blurb: "Pipelines de test, de construction et de déploiement, avec analyse de sécurité des images.", keys: ["CI/CD", "GitHub Actions", "GitLab CI", "Forgejo Actions", "Woodpecker CI", "Azure DevOps", "Git", "Gitea", "Forgejo", "Trivy"] },
+  { id: "k8s", name: "Conteneurs & Kubernetes", blurb: "Docker au quotidien, orchestration avec Swarm et Kubernetes, déploiement en GitOps avec Flux.", keys: ["Docker", "Docker Compose", "K3s", "Kubernetes", "FluxCD", "Orchestration"] },
+  { id: "sec", name: "Réseau & sécurité", blurb: "Segmentation par VLAN, pare-feu, détection d'intrusion, authentification unique, gestion de secrets et durcissement.", keys: ["Réseau", "Sécurité", "OPNsense", "CrowdSec", "Suricata", "Wazuh", "Tailscale", "SSO", "Authentik", "OpenBao", "Vaultwarden", "CCNA", "Traefik", "Caddy", "Nginx", "Sécurité applicative", "Conformité (RGPD/PCI-DSS)", "JWT"] },
+  { id: "obs", name: "Supervision & observabilité", blurb: "Métriques, journaux et alertes pour savoir qu'une panne arrive avant les utilisateurs.", keys: ["Monitoring", "Observabilité", "Prometheus", "Grafana", "Loki", "Alertmanager", "Nagios", "SNMP", "ELK", "Grafana Alloy"] },
+  { id: "cloud", name: "Cloud", blurb: "Services managés Azure et Google Cloud, stockage objet, accès publics sans port ouvert.", keys: ["Azure", "GCP", "Google Cloud Platform", "Cloudflare Tunnel", "S3"] },
+  { id: "dev", name: "Développement & données", blurb: "Applications complètes : API, interfaces web et mobiles, bases relationnelles et documentaires.", keys: ["Full-stack", "Python", "Node.js", "React", "React Native", "FastAPI", "Flask", "PostgreSQL", "MySQL", "MongoDB", "GraphQL", "Mobile", "Bases de données", "NoSQL", "Go", "JavaScript", "Développement", "Next.js", "Astro", "Microservices", "Architecture"] },
+  { id: "ia", name: "IA appliquée", blurb: "Assistants et agents encadrés : outils validés côté serveur, sources citées, usage maîtrisé des modèles.", keys: ["IA", "IA / Assistant conversationnel", "IA / AIOps", "IA / RAG", "LLM / tool-calling", "Ollama", "Mistral AI", "Gemini API", "MCP"] },
+];
 
-const skillMap = new Map<string, { count: number; projects: { slug: string; title: string }[] }>();
-for (const project of projects) {
-  for (const tag of project.data.tags) {
-    if (softSkillTags.has(tag)) continue;
-    const entry = skillMap.get(tag) ?? { count: 0, projects: [] };
-    entry.count += 1;
-    entry.projects.push({ slug: project.id, title: project.data.title });
-    skillMap.set(tag, entry);
-  }
-}
-
-const allSkills = [...skillMap.entries()]
-  .map(([tag, data]) => ({ tag, ...data }))
-  .sort((a, b) => b.count - a.count);
-
-const total = allSkills.reduce((sum, s) => sum + s.count, 0);
-
-const TOP_N = 6;
-const topSkills = allSkills.slice(0, TOP_N);
-const tailSkills = allSkills.slice(TOP_N);
-
-const skills = topSkills.map((s) => ({ ...s, pct: (s.count / total) * 100 }));
-
-if (tailSkills.length > 0) {
-  const tailCount = tailSkills.reduce((sum, s) => sum + s.count, 0);
-  const tailProjects = new Map<string, { slug: string; title: string }>();
-  for (const s of tailSkills) {
-    for (const p of s.projects) tailProjects.set(p.slug, p);
-  }
-  skills.push({
-    tag: "Autres",
-    count: tailCount,
-    pct: (tailCount / total) * 100,
-    projects: [...tailProjects.values()],
-    included: tailSkills.map((s) => s.tag),
-  });
-}
+const norm = (x: string) => x.toLowerCase();
+const total = projects.length;
+const domains = DOMAINS.map((d) => {
+  const keys = new Set(d.keys.map(norm));
+  const hits = projects
+    .map((p) => ({ p, matched: [...p.data.tags, ...p.data.stack].filter((t) => keys.has(norm(t))) }))
+    .filter((x) => x.matched.length > 0);
+  const toolCount = new Map<string, number>();
+  hits.forEach((h) => new Set(h.matched).forEach((t) => toolCount.set(t, (toolCount.get(t) ?? 0) + 1)));
+  return {
+    id: d.id,
+    name: d.name,
+    blurb: d.blurb,
+    tools: [...toolCount.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([t]) => t),
+    projects: hits
+      .sort((a, b) => b.matched.length - a.matched.length)
+      .map((h) => ({ slug: h.p.id, title: h.p.data.title.split(" - ")[0], cat: h.p.data.category })),
+  };
+})
+  .filter((d) => d.projects.length > 0)
+  .sort((a, b) => b.projects.length - a.projects.length);
 
 const softSkills = [
   {
@@ -111,8 +99,9 @@ const softSkills = [
 >
   <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">Compétences</h1>
   <p class="mb-10 max-w-2xl text-[var(--fg-muted)]">
-    Compétences techniques réparties par part de projets - survole une part pour voir les projets
-    concernés - et compétences humaines illustrées par des situations concrètes.
+    Pour chaque domaine technique : dans combien de projets il est mis en pratique et dans quel cadre
+    (entreprise, projets personnels, école). Cliquez un domaine pour voir les outils et les projets.
+    Les compétences humaines sont illustrées plus bas par des situations concrètes.
   </p>
 
   <details class="group" open>
@@ -130,7 +119,7 @@ const softSkills = [
       </svg>
       Techniques
     </summary>
-    <SkillsExplorer client:load skills={skills} total={total} />
+    <SkillDomains client:visible domains={domains} total={total} />
   </details>
 
   <h2 class="mb-4 mt-16 text-sm font-semibold uppercase tracking-wide text-[var(--relevance-pertinent)]">
