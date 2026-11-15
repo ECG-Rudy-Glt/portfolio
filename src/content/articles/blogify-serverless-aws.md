@@ -10,6 +10,8 @@ type: article
 
 Blogify est un backend de blog **headless** : il n'expose qu'une API REST que n'importe quel front peut consommer. Tout tourne sur des services managés AWS, sans aucun serveur à administrer. Le dépôt contient aussi un petit front de démonstration en HTML et JavaScript, qui sert uniquement à montrer l'API.
 
+**Essayer Blogify** : le front de démonstration est en ligne sur [blogify.gault-rudy.com](https://blogify.gault-rudy.com). On peut y lire les articles, s'inscrire et commenter ; l'écriture demande qu'un administrateur promeuve le compte.
+
 En chiffres : **31 fonctions Lambda** (28 derrière l'API, 3 déclenchées par des événements), **28 routes HTTP**, **une table DynamoDB** et deux index, trois rôles métier (author, editor, admin) plus le lecteur, région `eu-north-1`.
 
 Cet article suit le chemin d'une requête, puis celui des données, puis ce qui se passe en arrière-plan, et finit par le code et l'infrastructure.
