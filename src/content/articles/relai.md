@@ -145,6 +145,30 @@ Claude Sonnet, deux à trois exécutions par cas. Les scénarios sont écrits pa
   compact a rendu Haiku sûr de lui et dans l'erreur. C'est ce qui a imposé d'afficher les tâches
   bloquées et les contradictions.
 
+## Face aux autres outils
+
+Relai n'est pas seul sur ce terrain, et la plupart des projets voisins sont bien plus utilisés. Je
+les ai comparés à partir de leurs propres pages (lues le 16 novembre 2026).
+
+| Outil | Ce qu'il fait | Par rapport à Relai |
+|---|---|---|
+| [Trellis](https://github.com/mindfold-ai/Trellis) | Injecte spécifications, tâches et journaux dans chaque session, depuis `.trellis/` | Le plus proche par l'intention. Il apporte sa propre méthode et demande Node et Python ; Relai résume ce qui existe déjà, en un seul binaire. |
+| [mem0](https://github.com/mem0ai/mem0), [claude-mem](https://github.com/thedotmack/claude-mem) | Mémorisent : un modèle extrait des souvenirs des sessions passées | Ils retiennent ce qui s'est dit, ce que Relai ne fait pas. En échange, ils demandent un modèle et une base hors de git. |
+| [Beads](https://github.com/steveyegge/beads), [OpenSpec](https://github.com/Fission-AI/OpenSpec), [Spec Kit](https://github.com/github/spec-kit) | Suivi de tâches et spécifications | Complémentaires : Relai lit les deux premiers et les résume. |
+| Mémoire intégrée à Claude Code, Codex, Cursor | Instructions et mémoire propres à chaque outil | Liée à un outil et à une machine ; le résumé de Relai est le même pour tous et voyage avec le dépôt. |
+| [agconf](https://github.com/julian-pani/agconf), [Ruler](https://github.com/intellectronica/ruler) | Partagent les règles des agents depuis une source unique | Les plus proches de `relai sync` et `relai check`. agconf fige aussi une version et vérifie les écarts en CI. |
+
+La différence tient en une phrase : les autres **mémorisent** ou proposent une **méthode**, Relai
+**calcule** un résumé à partir de ce que le dépôt contient déjà. Même état du dépôt, même texte, sans
+modèle ni serveur, et chacun peut le vérifier.
+
+Cela ne suffit pas à en faire un meilleur outil. Pour retrouver ce qui a été essayé dans une session
+passée sans que personne l'ait noté, un outil de mémoire fait mieux. Pour une méthode complète,
+Trellis ou OpenSpec font mieux. Et pour un seul dépôt avec un seul agent, la mémoire intégrée suffit
+souvent. Relai trouve sa place quand on fait tourner plusieurs agents sur plusieurs dépôts et qu'on
+ne veut rien d'autre que git. La [comparaison détaillée](https://relai.gault-rudy.com/fr/docs/compare/)
+est sur le site du projet.
+
 ## Limites
 
 - Version 0.x (0.8 à la date de cet article) : tout peut changer. Seuls le dernier tag et `main`
