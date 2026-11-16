@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 548" role="img" aria-labelledby="t d" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+<title id="t">Conventions partagées : du hub aux dépôts</title>
+<desc id="d">Un dépôt hub, à un tag, est épinglé dans relai.yaml. relai sync --apply recopie les fichiers de conventions dans chaque dépôt. relai check, en CI, compare ces fichiers au tag épinglé et échoue en cas de dérive.</desc>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#3b2a1d"/></marker></defs>
+<rect width="520" height="548" rx="12" fill="#ece6d9"/>
+<rect x="60" y="14" width="400" height="54" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="260.0" y="36.4" text-anchor="middle" font-size="14" fill="#3b2a1d" font-weight="700">Dépôt hub, au tag v1.0.0</text>
+<text x="260.0" y="55.4" text-anchor="middle" font-size="14" fill="#3b2a1d">CONVENTIONS.md, skills/, ci/</text>
+<line x1="260" y1="68" x2="260" y2="94" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="268" y="71" width="189.4" height="20" rx="3" fill="#e6dfce"/>
+<text x="273" y="86" text-anchor="start" font-size="13" fill="#3b2a1d">épinglé dans relai.yaml</text>
+<rect x="60" y="94" width="400" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="260.0" y="116.9" text-anchor="middle" font-size="14" fill="#3b2a1d">conventions: &lt;hub&gt;@v1.0.0</text>
+<line x1="260" y1="130" x2="260" y2="156" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="60" y="156" width="400" height="54" rx="18" fill="#8f4f25"/>
+<text x="260.0" y="178.4" text-anchor="middle" font-size="14" fill="#fbf6ec" font-weight="700">relai sync --apply</text>
+<text x="260.0" y="197.4" text-anchor="middle" font-size="14" fill="#fbf6ec">à blanc par défaut, ne commit jamais</text>
+<line x1="260" y1="210" x2="260" y2="236" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="268" y="213" width="205.0" height="20" rx="3" fill="#e6dfce"/>
+<text x="273" y="228" text-anchor="start" font-size="13" fill="#3b2a1d">contenu du hub non fiable</text>
+<rect x="12" y="236" width="496" height="138" rx="10" fill="#e6dfce" stroke="#cdbfa5" stroke-width="1.5"/>
+<text x="26" y="258" text-anchor="start" font-size="14" fill="#6f5a45" font-weight="700">Fichiers recopiés dans chaque dépôt</text>
+<rect x="28" y="272" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="139.0" y="294.9" text-anchor="middle" font-size="14" fill="#3b2a1d">.relai/conventions.md</text>
+<rect x="270" y="272" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="294.6" text-anchor="middle" font-size="13" fill="#3b2a1d">bloc géré dans AGENTS.md</text>
+<rect x="28" y="318" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="139.0" y="340.9" text-anchor="middle" font-size="14" fill="#3b2a1d">skills hub-*</text>
+<rect x="270" y="318" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="340.6" text-anchor="middle" font-size="13" fill="#3b2a1d">job de CI, une seule fois</text>
+<line x1="260" y1="374" x2="260" y2="400" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="60" y="400" width="400" height="54" rx="18" fill="#8f4f25"/>
+<text x="260.0" y="422.4" text-anchor="middle" font-size="14" fill="#fbf6ec" font-weight="700">relai check, en CI</text>
+<text x="260.0" y="441.4" text-anchor="middle" font-size="14" fill="#fbf6ec">compare au tag épinglé</text>
+<line x1="260" y1="454" x2="260" y2="480" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="60" y="480" width="400" height="54" rx="6" fill="#4f5f38"/>
+<text x="260.0" y="502.4" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="700">Fichier modifié à la main : code de sortie 1</text>
+<text x="260.0" y="521.4" text-anchor="middle" font-size="14" fill="#ffffff">--outdated : prévient d'un tag plus récent</text>
+</svg>

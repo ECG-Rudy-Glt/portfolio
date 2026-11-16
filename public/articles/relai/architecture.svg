@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 1148" role="img" aria-labelledby="t d" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+<title id="t">Architecture de Relai</title>
+<desc id="d">Un dépôt (AGENTS.md, relai.yaml, notes, openspec, Beads ou GitHub Issues, historique git) est lu par le binaire relai. Il produit le handoff au démarrage de session et le guide pour l'agent. Trois couches facultatives : plusieurs dépôts (index, find, workspace, discover), conventions partagées (hub, sync, check en CI) et le serveur Relai-Team joint en MCP.</desc>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#3b2a1d"/></marker></defs>
+<rect width="520" height="1148" rx="12" fill="#ece6d9"/>
+<rect x="16" y="14" width="90" height="26" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="61.0" y="31.5" text-anchor="middle" font-size="13" fill="#3b2a1d">fichier</text>
+<rect x="118" y="14" width="110" height="26" rx="13.0" fill="#8f4f25"/>
+<text x="173.0" y="31.5" text-anchor="middle" font-size="13" fill="#fbf6ec">commande</text>
+<rect x="240" y="14" width="110" height="26" rx="6" fill="#fbf6ec" stroke="#8c4a3a" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="295.0" y="31.5" text-anchor="middle" font-size="13" fill="#3b2a1d">optionnel</text>
+<rect x="362" y="14" width="142" height="26" rx="6" fill="#4f5f38"/>
+<text x="433.0" y="31.5" text-anchor="middle" font-size="13" fill="#ffffff">lu par l'agent</text>
+<rect x="12" y="56" width="496" height="184" rx="10" fill="#e6dfce" stroke="#cdbfa5" stroke-width="1.5"/>
+<text x="26" y="78" text-anchor="start" font-size="14" fill="#6f5a45" font-weight="700">Un dépôt : tout est dans git</text>
+<rect x="28" y="92" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="139.0" y="114.9" text-anchor="middle" font-size="14" fill="#3b2a1d">AGENTS.md</text>
+<rect x="270" y="92" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="114.9" text-anchor="middle" font-size="14" fill="#3b2a1d">relai.yaml</text>
+<rect x="28" y="138" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="139.0" y="160.9" text-anchor="middle" font-size="14" fill="#3b2a1d">.relai/notes.md</text>
+<rect x="270" y="138" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="160.9" text-anchor="middle" font-size="14" fill="#3b2a1d">openspec/</text>
+<rect x="28" y="184" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="139.0" y="206.9" text-anchor="middle" font-size="14" fill="#3b2a1d">Beads ou GitHub Issues</text>
+<rect x="270" y="184" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="206.9" text-anchor="middle" font-size="14" fill="#3b2a1d">historique git</text>
+<line x1="260" y1="240" x2="260" y2="268" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="60" y="268" width="400" height="76" rx="18" fill="#8f4f25"/>
+<text x="260.0" y="291.9" text-anchor="middle" font-size="14" fill="#fbf6ec" font-weight="700">relai</text>
+<text x="260.0" y="310.9" text-anchor="middle" font-size="14" fill="#fbf6ec">un binaire Go, sans serveur,</text>
+<text x="260.0" y="329.9" text-anchor="middle" font-size="14" fill="#fbf6ec">rien n'est généré par un LLM</text>
+<line x1="139" y1="344" x2="139" y2="372" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="381" y1="344" x2="381" y2="372" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="28" y="372" width="222" height="76" rx="18" fill="#8f4f25"/>
+<text x="139.0" y="395.9" text-anchor="middle" font-size="14" fill="#fbf6ec" font-weight="700">relai handoff</text>
+<text x="139.0" y="414.9" text-anchor="middle" font-size="14" fill="#fbf6ec">état du travail,</text>
+<text x="139.0" y="433.9" text-anchor="middle" font-size="14" fill="#fbf6ec">budget de 2 000 tokens</text>
+<rect x="270" y="372" width="222" height="76" rx="18" fill="#8f4f25"/>
+<text x="381.0" y="395.9" text-anchor="middle" font-size="14" fill="#fbf6ec" font-weight="700">relai init, relai guide</text>
+<text x="381.0" y="414.9" text-anchor="middle" font-size="14" fill="#fbf6ec">AGENTS.md, hook,</text>
+<text x="381.0" y="433.9" text-anchor="middle" font-size="14" fill="#fbf6ec">Agent Skill</text>
+<line x1="139" y1="448" x2="139" y2="476" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="381" y1="448" x2="381" y2="476" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="60" y="476" width="400" height="54" rx="6" fill="#4f5f38"/>
+<text x="260.0" y="498.4" text-anchor="middle" font-size="14" fill="#ffffff">L'agent qui démarre à froid</text>
+<text x="260.0" y="517.4" text-anchor="middle" font-size="14" fill="#ffffff">lit un texte court et sait quoi faire</text>
+<rect x="12" y="552" width="496" height="186" rx="10" fill="#f3e6dc" stroke-dasharray="7 5" stroke="#8c4a3a" stroke-width="1.5"/>
+<text x="26" y="574" text-anchor="start" font-size="14" fill="#8c4a3a" font-weight="700">Plusieurs dépôts (facultatif, sans serveur)</text>
+<rect x="28" y="588" width="222" height="36" rx="18.0" fill="#8f4f25"/>
+<text x="139.0" y="610.9" text-anchor="middle" font-size="14" fill="#fbf6ec">relai index build</text>
+<rect x="270" y="588" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="610.9" text-anchor="middle" font-size="14" fill="#3b2a1d">.relai/index.json</text>
+<line x1="250" y1="606" x2="270" y2="606" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="28" y="634" width="222" height="36" rx="18.0" fill="#8f4f25"/>
+<text x="139.0" y="656.9" text-anchor="middle" font-size="14" fill="#fbf6ec">relai find</text>
+<rect x="270" y="634" width="222" height="36" rx="18.0" fill="#8f4f25"/>
+<text x="381.0" y="656.9" text-anchor="middle" font-size="14" fill="#fbf6ec">relai workspace</text>
+<rect x="28" y="680" width="222" height="44" rx="18" fill="#8f4f25"/>
+<text x="139.0" y="706.9" text-anchor="middle" font-size="14" fill="#fbf6ec">relai discover --links</text>
+<rect x="270" y="680" width="222" height="44" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="697.5" text-anchor="middle" font-size="13" fill="#3b2a1d">une mention est un indice,</text>
+<text x="381.0" y="715.5" text-anchor="middle" font-size="13" fill="#3b2a1d">jamais un lien déclaré</text>
+<rect x="12" y="760" width="496" height="158" rx="10" fill="#f3e6dc" stroke-dasharray="7 5" stroke="#8c4a3a" stroke-width="1.5"/>
+<text x="26" y="782" text-anchor="start" font-size="14" fill="#8c4a3a" font-weight="700">Conventions partagées (facultatif)</text>
+<rect x="28" y="796" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="139.0" y="818.9" text-anchor="middle" font-size="14" fill="#3b2a1d">dépôt hub, tag v1.0.0</text>
+<rect x="270" y="796" width="222" height="36" rx="18.0" fill="#8f4f25"/>
+<text x="381.0" y="818.9" text-anchor="middle" font-size="14" fill="#fbf6ec">relai sync --apply</text>
+<line x1="250" y1="814" x2="270" y2="814" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="381.0" y1="832" x2="381.0" y2="850" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="28" y="850" width="222" height="44" rx="18" fill="#8f4f25"/>
+<text x="139.0" y="876.9" text-anchor="middle" font-size="14" fill="#fbf6ec">relai check, en CI</text>
+<rect x="270" y="850" width="222" height="44" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="867.5" text-anchor="middle" font-size="13" fill="#3b2a1d">fichiers recopiés</text>
+<text x="381.0" y="885.5" text-anchor="middle" font-size="13" fill="#3b2a1d">dans chaque dépôt</text>
+<line x1="270" y1="872" x2="250" y2="872" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="12" y="952" width="496" height="158" rx="10" fill="#f3e6dc" stroke-dasharray="7 5" stroke="#8c4a3a" stroke-width="1.5"/>
+<text x="26" y="974" text-anchor="start" font-size="14" fill="#8c4a3a" font-weight="700">Relai-Team : serveur séparé, facultatif</text>
+<rect x="28" y="988" width="222" height="36" rx="18.0" fill="#8f4f25"/>
+<text x="139.0" y="1010.9" text-anchor="middle" font-size="14" fill="#fbf6ec">agent : relai-mcp</text>
+<rect x="270" y="988" width="222" height="36" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="1010.9" text-anchor="middle" font-size="14" fill="#3b2a1d">relai-server</text>
+<line x1="250" y1="1006" x2="270" y2="1006" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="28" y="1042" width="222" height="44" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="139.0" y="1059.5" text-anchor="middle" font-size="13" fill="#3b2a1d">tableau partagé</text>
+<text x="139.0" y="1077.5" text-anchor="middle" font-size="13" fill="#3b2a1d">jetons par personne</text>
+<rect x="270" y="1042" width="222" height="44" rx="6" fill="#fbf6ec" stroke="#6f5a45" stroke-width="1.5"/>
+<text x="381.0" y="1059.5" text-anchor="middle" font-size="13" fill="#3b2a1d">réservations à bail</text>
+<text x="381.0" y="1077.5" text-anchor="middle" font-size="13" fill="#3b2a1d">(8 h par défaut)</text>
+<line x1="381.0" y1="1024" x2="381.0" y2="1042" stroke="#3b2a1d" stroke-width="2" marker-end="url(#ar)"/>
+<text x="260" y="1130" text-anchor="middle" font-size="13" fill="#6f5a45">Entre l'agent et le serveur : MCP sur HTTP(S)</text>
+</svg>

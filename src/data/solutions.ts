@@ -18,10 +18,11 @@ export const solutions: Solution[] = [
   },
   {
     name: "Relai",
-    description: "Passer le relais entre humains et agents IA sans perdre le contexte.",
+    description: "Reprendre un projet avec un agent IA sans tout relire : résumé de reprise, plusieurs dépôts, conventions partagées. Un binaire Go, git seulement.",
     links: [
       { label: "Site", href: "https://relai.gault-rudy.com" },
       { label: "GitHub", href: "https://github.com/ECG-Rudy-Glt/RELAI" },
+      { label: "Relai-Team", href: "https://github.com/ECG-Rudy-Glt/RELAI-TEAM" },
     ],
   },
   {

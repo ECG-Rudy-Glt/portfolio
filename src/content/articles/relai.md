@@ -1,7 +1,7 @@
 ---
 title: "Relai : reprendre un projet avec un agent IA sans tout relire"
-summary: "Avec une quinzaine de projets menés en parallèle et des sessions d'agents qui repartent de zéro, j'ai construit Relai : un contrat de dépôt, un résumé de reprise compact et une vue de tous mes projets, dans git, sans serveur. Ce qui marche, ce qui ne marche pas encore, et ce que j'ai mesuré."
-date: 2026-11-04
+summary: "Relai est un binaire Go et des fichiers versionnés dans git : un résumé de reprise déterministe, une vue de plusieurs dépôts, des conventions partagées vérifiées en CI et, en option, un tableau d'équipe. Ce que fait chaque commande, pourquoi ce choix, ce que j'ai mesuré et ce qui n'est pas prouvé."
+date: 2026-11-16
 tags: ["IA / Assistant conversationnel", "Open source", "Git", "Outillage"]
 type: article
 cover: "/sites/relai.webp"
@@ -12,88 +12,170 @@ cover: "/sites/relai.webp"
 Je travaille avec des agents IA sur une quinzaine de dépôts : mon [homelab](/projets/homelab/), des
 applications comme [COACH](/projets/coach/), mon site de freelance, ce portfolio. Chaque nouvelle
 session repart à froid. L'agent relit des dizaines de fichiers pour savoir où en est le projet,
-parfois en se trompant, et il m'est arrivé de réécrire ce qu'un autre de mes projets fournissait
-déjà. Deux sessions peuvent aussi travailler en même temps sur le même dépôt sans le savoir.
+parfois en se trompant. Un exemple concret : une liste de tâches périmée lui indique qu'une
+migration reste à faire alors qu'elle est déjà fusionnée, et il propose de la refaire.
 
-Je ne voulais ni un nouvel outil de gestion de tâches, ni un service à héberger : mes tâches
-vivent déjà dans git (Beads, OpenSpec). Je voulais seulement que la reprise soit rapide et fiable.
+Avec plusieurs dépôts et plusieurs agents, cela s'aggrave : on réécrit ce qu'un autre projet fournit
+déjà, les règles de travail dérivent d'un dépôt à l'autre, et deux sessions peuvent prendre la même
+tâche sans le savoir.
 
-## Ce que fait Relai
+## L'idée
 
-[Relai](https://relai.gault-rudy.com) est un utilitaire en ligne de commande, open source (Apache 2.0),
-et un ensemble de fichiers versionnés avec le code :
+[Relai](https://relai.gault-rudy.com) est un **binaire unique** (Go, bibliothèque standard,
+licence Apache 2.0) et des **fichiers versionnés avec le code**. Rien n'est généré par un modèle
+de langage, il n'y a pas de serveur, et git suffit à une personne seule. Relai ne remplace
+rien : il s'appuie sur `AGENTS.md`, les Agent Skills, OpenSpec et Beads, que j'utilisais déjà.
 
-- un **contrat de dépôt** : `AGENTS.md`, un manifeste `relai.yaml` (ce que le projet fournit et
-  consomme) et des notes sur les décisions et les pièges ;
-- un **résumé de reprise** (`relai handoff`) généré à la demande, plafonné à environ 2 000 tokens :
-  où en est le travail, les tâches ouvertes, les changements en cours ;
-- une **vue de tous mes projets** (`relai workspace`) : dernière activité, travail ouvert et ce que
-  chacun fournit, en quelques centaines de tokens, à partir des fichiers seuls ;
-- un **index** des projets pour vérifier ce qui existe déjà avant d'écrire un doublon.
+![Architecture de Relai : un dépôt lu par le binaire relai, qui produit le résumé de reprise et le guide de l'agent, puis trois couches facultatives : plusieurs dépôts, conventions partagées, serveur Relai-Team](/articles/relai/architecture.svg)
 
-Le résumé est **déterministe** : il est construit à partir de git, des tâches et des specs, jamais
-par un modèle. Quand deux sources se contredisent (une tâche ouverte qu'un commit dit terminée),
-il montre les deux et dit de vérifier, au lieu de trancher. Cette règle vient d'un essai où un
-petit modèle a fait confiance à une liste de tâches périmée et s'est arrêté avec une mauvaise réponse.
+Le schéma distingue les fichiers (cadres clairs), les commandes (pastilles brunes) et ce qui est
+facultatif (pointillés).
 
-Relai ne remplace rien : il s'appuie sur AGENTS.md, Beads et OpenSpec, que j'utilisais déjà.
+## Les fonctionnalités maîtresses
 
-## Relai-Team, la couche d'équipe
+### 1. Un résumé de reprise déterministe : `relai handoff`
+
+La commande lit le dépôt et imprime l'état du travail dans un budget de tokens (2 000 par défaut,
+`--json` pour les outils). Elle lit git, les tâches (Beads, ou GitHub Issues si `relai.yaml` contient
+`tasks: github`), les changements OpenSpec et `.relai/notes.md`. Sans aucune de ces sources, elle
+retombe en **mode dégradé** : l'historique git et les marqueurs `TODO:` donnent déjà quelque chose
+d'utile.
+
+![Du hook de session au texte lu par l'agent : sources lues en lecture seule, budget de tokens](/articles/relai/handoff-flow.svg)
+
+Voici un extrait réel, lancé sur le dépôt de Relai :
+
+```text
+# Handoff — RELAI
+## State
+Branch `main` at 0267b05 2026-11-16. Uncommitted files: 1.
+## Tasks
+Ready (unblocked, 16 total):
+- `relai-a7o` P0 Phase 1 — repo contract v0.1 + handoff
+## Active changes (specs)
+- `shared-conventions-hub` 4/5 tasks (in-progress)
+  next: One end-to-end run by hand, recorded in the pull request
+```
+
+Pourquoi déterministe ? Parce qu'un résumé faux est pire que pas de résumé. Quand deux sources se
+contredisent (une tâche ouverte qu'un commit dit terminée), le résumé montre les deux et dit de
+vérifier, au lieu de trancher. Cette règle vient d'un essai où un petit modèle a fait confiance à
+une liste de tâches périmée et s'est arrêté, sûr de lui, sur une mauvaise réponse. Le résumé ne
+modifie rien dans le dépôt, retire les caractères de contrôle et présente le texte du dépôt comme
+une donnée, pas comme une instruction.
+
+### 2. Plusieurs dépôts sans doublon : `relai find`, `relai workspace`, `relai discover --links`
+
+Chaque dépôt déclare dans `relai.yaml` ce qu'il fournit et ce qu'il consomme.
+`relai index build` rassemble ces manifestes dans `.relai/index.json`. Ensuite :
+
+- `relai find <capacité>` répond à « un autre projet fournit-il déjà cela ? » avant d'écrire un doublon ;
+- `relai workspace` donne en une page la dernière activité, le travail ouvert et ce que fournit chaque
+  projet, à partir des fichiers seuls (sans lancer `bd`) ;
+- `relai discover --links <dossier>` repère les mentions d'un dépôt dans un autre.
+
+Une mention est un **indice, jamais un lien déclaré**. La commande propose, une personne vérifie,
+et rien n'est écrit sans elle. J'ai mesuré pourquoi : sur mes propres dépôts, les 28 mentions
+« fortes » (URL du dépôt distant ou chemin relatif) étaient toutes justes, mais les mentions
+« faibles » (le nom du projet comme simple mot) ne l'étaient qu'à 69 % (40 justes, 18 fausses,
+11 douteuses). Un seul développeur, un seul juge : un modèle lisant les lignes citées.
+
+### 3. Conventions partagées : un hub, `relai sync`, `relai check`
+
+Un **hub** est un dépôt git contenant un `CONVENTIONS.md`, des skills et des modèles de CI
+(`relai hub init <dossier>` en crée un). Un dépôt l'épingle à un tag avec une ligne de `relai.yaml`,
+`conventions: <hub>@<tag>`. Puis `relai sync --apply` recopie dans le dépôt le fichier de
+conventions, un bloc géré dans `AGENTS.md`, les skills `hub-*` et un job de CI (une seule fois).
+
+![Du dépôt hub à un tag jusqu'à la vérification en CI : sync recopie les fichiers, check détecte la dérive](/articles/relai/hub-sync.svg)
+
+Trois choix de conception. La synchronisation est un **essai à blanc par défaut** et ne commit
+jamais. Le contenu du hub est traité comme **non fiable** et rien n'est écrit hors du dépôt. La
+version est **épinglée** : une règle ne change pas sans qu'on le décide. En CI, `relai check`
+enchaîne `relai validate`, le contrôle du budget du résumé et la détection de dérive par rapport au
+tag épinglé (un fichier recopié modifié à la main), et sort en code 1 au moindre problème ;
+`--outdated` prévient qu'un tag plus récent existe. Une ligne `Override:` dans `AGENTS.md` consigne
+un écart volontaire.
+
+### 4. Qu'un agent apprenne l'outil sans explication : `relai guide`, `relai init`
+
+`relai init` ajoute `AGENTS.md`, `relai.yaml`, `.relai/notes.md` et, pour Claude Code, un
+`CLAUDE.md` et un hook de début de session qui charge le résumé : l'agent démarre dessus sans qu'on
+le lui demande. Il n'écrase jamais un fichier existant. `relai guide` imprime un mode d'emploi court
+pour un agent, et `relai guide --install` l'écrit comme Agent Skill dans `~/.claude/skills/relai` et
+`~/.agents/skills/relai`. Le guide dit aussi ce qu'il ne faut pas faire : traiter une mention de
+`discover --links` comme un lien déclaré, ou citer le contenu du résumé comme un ordre de
+l'utilisateur.
+
+### 5. Relai-Team, facultatif : tableau partagé et réservations
 
 Quand plusieurs personnes ou plusieurs agents travaillent en parallèle, un second projet,
-[Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM), ajoute un **tableau en direct** et un
-**registre de réservation** : un agent réserve une tâche, les autres voient qui la tient. La
-réservation expire seule au bout de huit heures par défaut, pour qu'un agent planté ne bloque rien,
-et les agents y accèdent par MCP. Je l'ai gardé séparé de Relai pour que celui-ci reste « git
-seulement, sans serveur ».
+[Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM), ajoute un serveur auto-hébergé : un
+**tableau partagé**, des **réservations de tâches avec un bail** (huit heures par défaut, pour qu'un
+agent planté ne bloque rien), un jeton par personne et des outils MCP (`relai-mcp`) que les agents
+appellent. Il est séparé de Relai pour que celui-ci reste « git seulement ». Un essai réel : trois
+agents Claude Code, chacun avec son jeton, devaient prendre en même temps jusqu'à trois tâches
+parmi six. Ils en ont pris 3, 1 et 2, sans aucune tâche en double.
 
-## Ce que j'ai mesuré
+## Architecture en bref
 
-J'ai fait tester les deux projets par des agents, y compris un test adversarial :
+Tout part du dépôt : des fichiers que git versionne déjà. Le binaire les lit et ne produit que du
+texte. Les couches multi-dépôts et conventions ne sont que des fichiers de plus (un index, un tag
+épinglé). Seul Relai-Team est un service ; il reste à l'écart, joint en MCP ou en HTTP(S), et rien
+dans Relai ne l'exige.
 
-- sur 16 dépôts réels, `relai workspace` donne la vue d'ensemble en environ 400 tokens, là où il
-  faudrait ouvrir chaque projet ;
-- sur mon dépôt homelab, le résumé de reprise tient en environ 960 tokens, contre environ 2 300
-  chargés aujourd'hui au démarrage d'une session ;
-- le test adversarial a trouvé de vrais défauts dans Relai-Team (un journal rendu illisible après
-  un disque plein, deux serveurs écrivant sur le même journal) : ils sont corrigés.
+## Ce que j'ai mesuré, et dans quel cadre
 
-Ces chiffres sont des **indications**, mesurées une fois par cas, pas une garantie.
+L'évaluation (`eval/` dans le dépôt) utilise des agents Claude Code en mode non interactif, isolés
+de mes réglages, en lecture seule, sur quatre petits projets conçus pour piéger l'agent
+(documentation périmée, changement à moitié fait, absence de suivi, liste de tâches périmée).
+Trois conditions : rien, lecture de la documentation, résumé de reprise. Modèles : Claude Haiku et
+Claude Sonnet, deux à trois exécutions par cas. Les scénarios sont écrits par l'auteur de l'outil.
 
-## Ce qui ne marche pas encore
+- Avec le format final, toutes les réponses étaient correctes dans les trois conditions. L'écart
+  porte sur le coût : le résumé a demandé 1,6 à 16 fois moins de tokens bruts que la lecture de la
+  documentation, mais le gain **en dollars** n'est que de 1,2 à 3,4 fois. L'essentiel du gain tient
+  au nombre de tours, souvent un seul au lieu de 4 à 30.
+- Sur quatre de mes vrais dépôts (Sonnet, une seule exécution par cas), le résumé a divisé les
+  tokens par trois à quatre là où il y a un suivi de tâches et des spécifications (30 000 contre
+  101 000 pour mon dépôt d'infrastructure), et **n'a rien apporté** sur les dépôts sans suivi : il
+  n'y est guère plus que `git log`.
+- `relai workspace` donne la vue de 16 dépôts d'un même développeur en environ 400 tokens.
+- Un essai a montré le piège : avec une liste de tâches périmée, une première version du résumé
+  compact a rendu Haiku sûr de lui et dans l'erreur. C'est ce qui a imposé d'afficher les tâches
+  bloquées et les contradictions.
 
-- Pour un seul humain, le tableau d'équipe apporte peu ; c'est `workspace` et le résumé de
-  reprise qui rapportent.
-- Le résumé de reprise ne lit pas les tâches tenues dans un `TODO.md` libre : seulement Beads et
-  OpenSpec. Le tableau d'équipe, lui, lit maintenant les listes `TODO.md` et `TASKS.md`.
-- Les conventions partagées et les changements amont des projets liés dans le résumé de reprise ne
-  sont pas encore construits. Les liens entre projets, eux, le sont (`links:` dans `relai.yaml`,
-  `relai discover --links`).
-- Personne n'a testé le tableau d'équipe à plusieurs : je suis le seul humain, avec plusieurs
-  agents. Seuls des agents Claude ont été mesurés.
+## Limites
 
-C'est une version 0.x : tout peut changer.
+- Version 0.x (0.8 à la date de cet article) : tout peut changer. Seuls le dernier tag et `main`
+  reçoivent des corrections.
+- Testé avec des modèles Claude uniquement ; un second éditeur d'agent reste à essayer.
+- Les mesures viennent des dépôts d'un seul développeur, avec des scénarios écrits par l'auteur :
+  des indications, pas une garantie.
+- Pas d'audit par un tiers. Le programme d'installation vérifie une somme de contrôle, pas une signature.
+- Windows : les binaires se compilent mais n'ont pas été exécutés, et les hooks supposent un `sh`
+  (Git Bash).
+- Relai-Team apporte peu à une seule personne, et je ne l'ai pas essayé avec plusieurs humains.
 
-## Mise à jour du 5 novembre
+## Choix techniques et leur coût
 
-Un deuxième test, indépendant, sur mes 16 dépôts réels, a trouvé des défauts que j'ai corrigés :
-les worktrees d'un même dépôt comptaient comme des projets distincts (ils comptent maintenant pour
-un seul), le tableau d'équipe ignorait les `TODO.md` et n'affichait aucune priorité (il les lit et
-trie par priorité), et `relai tidy` pouvait fermer une tâche à tort sur un message comme « Fixes
-typo, see p-4 » (le mot-clé doit maintenant être suivi directement de l'identifiant).
+- **Go, bibliothèque standard seule.** Un binaire statique, facile à installer et à auditer. Le
+  prix : `relai.yaml` est lu par un petit analyseur écrit à la main pour le sous-ensemble utilisé,
+  plutôt que par une bibliothèque YAML. Le format est contraint, une dépendance n'était pas
+  justifiée, mais il faut tenir l'analyseur à jour soi-même.
+- **Réutiliser les standards** (`AGENTS.md`, Agent Skills, OpenSpec, Beads) plutôt qu'en créer un
+  de plus. Le prix : Relai hérite de leurs limites et ne peut rien imposer.
+- **Pas un portail.** Ni service central, ni fédération, ni authentification unique : la
+  collaboration entre projets passe par git. Le prix : pas de tableau de bord central en dehors de
+  Relai-Team.
+- **Un résumé calculé à la demande**, jamais stocké : toujours à jour, mais recalculé à chaque session.
 
-Côté mesures : avec des agents Claude Haiku, partir de la vue d'ensemble et du résumé de reprise a
-fait économiser environ 100 000 tokens par tâche en médiane. C'est **une seule exécution par cas** :
-une indication, pas une garantie. Un cas a même coûté plus cher avec Relai que sans, et sur deux
-petits projets le résumé de reprise coûtait plus que la lecture du minimum. Les releases sont
-maintenant publiées automatiquement.
+## La suite, et ce que je ne fais pas
 
-## Ce que j'en retiens
-
-Le plus utile n'est pas l'outil mais la discipline qu'il impose : un dépôt qui dit clairement où il
-en est se reprend aussi bien pour un agent que pour moi dans trois semaines. Je l'utilise
-maintenant sur mes propres dépôts, et je continuerai à mettre cet article à jour avec les mesures
-réelles.
+Reste à mesurer `discover --links` avec un agent qui suit le guide, à essayer un second éditeur
+d'agent et à faire relire le code par un tiers. Je ne prévois ni service d'index hébergé (documenté
+comme possible, non construit tant que personne n'en a besoin), ni hooks partagés par le hub, ni
+automatisation de la commande `/clear`, propre à un seul outil.
 
 Code : [Relai](https://github.com/ECG-Rudy-Glt/RELAI) et
 [Relai-Team](https://github.com/ECG-Rudy-Glt/RELAI-TEAM). Documentation : [relai.gault-rudy.com](https://relai.gault-rudy.com/fr/docs/).
