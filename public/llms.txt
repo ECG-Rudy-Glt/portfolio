@@ -1,0 +1,95 @@
+# Rudy Gault : portfolio
+
+> Portfolio de Rudy Gault, ingénieur DevOps / Platform Engineer : alternance chez Cloud Temple (infrastructure et automatisation) depuis 2024, 5e année à SUPINFO, homelab Proxmox géré en infrastructure as code, projets open source (COACH, Relai, Patrimoine) et projets d'école.
+
+Rudy Gault est basé à Tours. Il est en alternance chez Cloud Temple depuis 2024, en 5e et dernière année de master à SUPINFO, et recherche un CDI de Platform Engineer à partir de septembre 2027.
+
+Le site présente son parcours (alternances, école, initiatives personnelles), ses projets documentés (école, personnels et entreprise), ses compétences reliées aux projets qui les démontrent, et un blog d'articles techniques et de retours d'expérience. Plusieurs projets ont un site ou une démo en ligne, sans compte. Le détail du homelab (réseau, sécurité, infrastructure as code, pannes réelles) a ses propres pages.
+
+## Pages principales
+
+- [Accueil](https://portfolio.gault-rudy.com/): présentation, projets open source, sites et démos en ligne
+- [Parcours](https://portfolio.gault-rudy.com/parcours/): alternances, cursus SUPINFO, initiatives personnelles
+- [Projets](https://portfolio.gault-rudy.com/projets/): tous les projets, classés par pertinence
+- [Compétences](https://portfolio.gault-rudy.com/competences/): domaines techniques reliés aux projets qui les mettent en pratique
+- [Blog](https://portfolio.gault-rudy.com/blog/): articles et retours d'expérience
+
+## Projets personnels et open source
+
+- [Homelab](https://portfolio.gault-rudy.com/projets/homelab/): infrastructure personnelle de production en infrastructure as code
+- [COACH](https://portfolio.gault-rudy.com/projets/coach/): coach sportif auto-hébergé, open source, à moteur de règles déterministe
+- [Patrimoine](https://portfolio.gault-rudy.com/projets/patrimoine/): suivi de patrimoine auto-hébergé avec conseiller IA sourcé
+- [Relai](https://portfolio.gault-rudy.com/projets/relai/): passer le relais entre humains et agents IA
+- [rudy-ops.fr](https://portfolio.gault-rudy.com/projets/rudy-ops/): site vitrine de l'activité freelance DevOps / DevSecOps
+- [SUPFile](https://portfolio.gault-rudy.com/projets/supfile/): stockage cloud souverain (projet SUPINFO)
+- [Ops Delivery Suite](https://portfolio.gault-rudy.com/projets/ops-delivery-suite/): boîte à outils DevOps
+
+## Le homelab en détail
+
+- [Pourquoi ce projet](https://portfolio.gault-rudy.com/projets/homelab/pourquoi/)
+- [L'équipement](https://portfolio.gault-rudy.com/projets/homelab/materiel/): les choix et leurs raisons
+- [L'infrastructure réseau](https://portfolio.gault-rudy.com/projets/homelab/infrastructure/)
+- [Infrastructure as Code](https://portfolio.gault-rudy.com/projets/homelab/iac/): Terraform, Ansible, OpenBao et FluxCD
+- [Les services](https://portfolio.gault-rudy.com/projets/homelab/services/)
+- [La sécurité](https://portfolio.gault-rudy.com/projets/homelab/securite/)
+- [Les vraies pannes](https://portfolio.gault-rudy.com/projets/homelab/incidents/)
+- [Jellyfin](https://portfolio.gault-rudy.com/projets/homelab/jellyfin/): streaming familial
+- [Stockage](https://portfolio.gault-rudy.com/projets/homelab/stockage-hdd/)
+- [Domotique et réseau](https://portfolio.gault-rudy.com/projets/homelab/domotique-reseau/)
+- [Usage de Claude Code](https://portfolio.gault-rudy.com/projets/homelab/outillage-ia/)
+- [La suite](https://portfolio.gault-rudy.com/projets/homelab/perspectives/)
+- [Bibliographie](https://portfolio.gault-rudy.com/projets/homelab/bibliographie/)
+
+## COACH en détail
+
+- [Pourquoi ce projet](https://portfolio.gault-rudy.com/projets/coach/pourquoi/)
+- [Architecture](https://portfolio.gault-rudy.com/projets/coach/architecture/)
+- [Le moteur de règles](https://portfolio.gault-rudy.com/projets/coach/moteur-de-regles/)
+- [Le coach IA et ses garde-fous](https://portfolio.gault-rudy.com/projets/coach/coach-llm/)
+- [Données et intégrations](https://portfolio.gault-rudy.com/projets/coach/donnees-integrations/)
+- [Sécurité et données de santé](https://portfolio.gault-rudy.com/projets/coach/securite/)
+- [Déploiement et exposition](https://portfolio.gault-rudy.com/projets/coach/deploiement/)
+- [Publication open source](https://portfolio.gault-rudy.com/projets/coach/open-source/)
+- [Limites et perspectives](https://portfolio.gault-rudy.com/projets/coach/perspectives/)
+- [Bibliographie et technologies](https://portfolio.gault-rudy.com/projets/coach/bibliographie/)
+
+## Entreprise et école
+
+- [Alternance chez Cloud Temple](https://portfolio.gault-rudy.com/projets/cloud-temple/): infrastructure et automatisation
+- [Plateforme interne d'automatisation](https://portfolio.gault-rudy.com/projets/plateforme-automatisation/)
+- [Alternance chez Ethan Consulting](https://portfolio.gault-rudy.com/projets/ethan-consulting/)
+- [SUPINFO, tronc de formation 3e et 4e année](https://portfolio.gault-rudy.com/projets/supinfo-formation/)
+- [SUPINFO Lab](https://portfolio.gault-rudy.com/projets/supinfo-lab/)
+- [SUPCHAT](https://portfolio.gault-rudy.com/projets/supchat/)
+- [TicketApp](https://portfolio.gault-rudy.com/projets/4webd-ticket/)
+- [SchoolInc](https://portfolio.gault-rudy.com/projets/4agql-proj/)
+- [4ARCL](https://portfolio.gault-rudy.com/projets/4arcl/)
+- [4KUBE](https://portfolio.gault-rudy.com/projets/4kube/)
+- [3DOKR](https://portfolio.gault-rudy.com/projets/3dokr/)
+- [BTS SIO](https://portfolio.gault-rudy.com/projets/bts-sio/)
+
+## Articles
+
+- [Mon homelab : construire une infrastructure de production pour de vrai](https://portfolio.gault-rudy.com/blog/homelab/)
+- [Construire une PKI interne pour mon homelab](https://portfolio.gault-rudy.com/blog/homelab-pki-secrets/)
+- [Home Assistant dans mon homelab](https://portfolio.gault-rudy.com/blog/home-assistant/)
+- [Construire un Netflix familial self-hosted avec Jellyfin](https://portfolio.gault-rudy.com/blog/netflix-familial/)
+- [COACH : un coach sportif auto-hébergé](https://portfolio.gault-rudy.com/blog/coach/)
+- [Suivre son patrimoine en auto-hébergé](https://portfolio.gault-rudy.com/blog/patrimoine/)
+- [Relai : reprendre un projet avec un agent IA sans tout relire](https://portfolio.gault-rudy.com/blog/relai/)
+- [Réussir l'AZ-104](https://portfolio.gault-rudy.com/blog/az-104/)
+- [Des livres et les dernières sorties sur la liseuse](https://portfolio.gault-rudy.com/blog/shelfmark/)
+- [Transformer un iMac 27" de 2012 en écran externe](https://portfolio.gault-rudy.com/blog/imac-ecran/)
+
+## Sites et démos liés
+
+- [COACH](https://coach.gault-rudy.com/): site du projet open source (licence AGPL-3.0)
+- [Patrimoine](https://patrimoine-open.gault-rudy.com/): site du projet open source (licence Apache 2.0)
+- [SupFile](https://supfile.gault-rudy.com/): présentation du projet
+- [Visite du homelab](https://homelab.gault-rudy.com/): visite interactive anonymisée
+- [Relai](https://relai.gault-rudy.com/): site du projet
+- [rudy-ops.fr](https://rudy-ops.fr/): activité freelance
+
+## Optional
+
+- [English version](https://portfolio.gault-rudy.com/en/): accueil, [journey](https://portfolio.gault-rudy.com/en/parcours/), [projects](https://portfolio.gault-rudy.com/en/projets/), [skills](https://portfolio.gault-rudy.com/en/competences/). Les articles et les fiches projets détaillées sont en français.
