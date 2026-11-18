@@ -127,15 +127,16 @@ const tracks = [
         <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide" style={`color: ${track.color}`}>
           {track.title}
         </h2>
-        <ol class="space-y-10 border-l border-[var(--border)] pl-8">
-          {track.items.map((step) => (
-            <li class="relative">
-              <span class="absolute -left-[37px] top-1 h-3 w-3 rounded-full" style={`background-color: ${track.color}`}></span>
-              <p class="text-xs text-[var(--fg-muted)]">{step.period}</p>
-              <a href={step.href} hreflang="fr" class="mt-1 block text-lg font-medium text-[var(--fg)] hover:text-[var(--accent)]">
+        <ol class="pj-tl relative space-y-10 border-l border-[var(--border)] pl-8" style={`--tc: ${track.color}`}>
+          <span class="pj-fill" aria-hidden="true"></span>
+          {track.items.map((step, i) => (
+            <li class={`pj-item relative${/en cours|ongoing|2027/.test(step.period) ? " pj-now" : ""}`} style={`--i: ${i}`}>
+              <span class="pj-dot absolute -left-[37px] top-1 h-3 w-3 rounded-full" style={`background-color: ${track.color}`}></span>
+              <p class="pj-date text-xs text-[var(--fg-muted)]">{step.period}</p>
+              <a href={step.href} hreflang="fr" class="pj-t mt-1 block text-lg font-medium text-[var(--fg)] hover:text-[var(--accent)]">
                 {step.title}
               </a>
-              <p class="mt-1 text-sm text-[var(--fg-muted)]">{step.detail}</p>
+              <p class="pj-d mt-1 text-sm text-[var(--fg-muted)]">{step.detail}</p>
             </li>
           ))}
         </ol>
@@ -166,3 +167,60 @@ const tracks = [
     </p></>)}
   </section>
 </Layout>
+
+<style is:global>
+  /* Trait de progression : plein par défaut (sans JS), piloté au défilement avec JS. */
+  .pj-tl { --p: 1; }
+  .pj-fill { position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--tc); transform-origin: top; transform: scaleY(var(--p)); pointer-events: none; }
+  @keyframes pj-pulse { 0% { transform: scale(1); opacity: .45; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+  .pj-now .pj-dot::after { content: ""; position: absolute; inset: 0; border-radius: 9999px; background: var(--tc); }
+  @media (prefers-reduced-motion: no-preference) {
+    .pj-now .pj-dot::after { animation: pj-pulse 2.6s ease-out infinite; }
+    html.pj-on .pj-item { transition: opacity .7s cubic-bezier(.2,.7,.2,1) calc(var(--i) * 70ms), transform .7s cubic-bezier(.2,.7,.2,1) calc(var(--i) * 70ms), filter .7s ease calc(var(--i) * 70ms); }
+    html.pj-on .pj-item:not(.pj-in) { opacity: 0; transform: translate3d(0, 22px, 0); filter: blur(4px); }
+    html.pj-on .pj-dot { transition: transform .5s cubic-bezier(.3,1.6,.5,1) calc(var(--i) * 70ms + 150ms), box-shadow .6s ease calc(var(--i) * 70ms + 150ms); }
+    html.pj-on .pj-item:not(.pj-in) .pj-dot { transform: scale(0); }
+    html.pj-on .pj-item.pj-in .pj-dot { box-shadow: 0 0 0 5px color-mix(in srgb, var(--tc) 18%, transparent); }
+    html.pj-on .pj-date { transition: opacity .6s ease calc(var(--i) * 70ms + 200ms), transform .6s ease calc(var(--i) * 70ms + 200ms); }
+    html.pj-on .pj-item:not(.pj-in) .pj-date { opacity: 0; transform: translate3d(-10px, 0, 0); }
+    .pj-fill { will-change: transform; }
+  }
+</style>
+
+<script>
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const lists = Array.from(document.querySelectorAll<HTMLElement>(".pj-tl"));
+  const items = Array.from(document.querySelectorAll<HTMLElement>(".pj-item"));
+  if (!reduce && "IntersectionObserver" in window && items.length) {
+    const root = document.documentElement;
+    root.classList.add("pj-on");
+    const show = (el: Element) => el.classList.add("pj-in");
+    const io = new IntersectionObserver((es) => {
+      for (const e of es) if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.05 });
+    items.forEach((i) => io.observe(i));
+
+    // Progression du trait liée au défilement.
+    let raf = 0, touched = false;
+    const update = () => {
+      raf = 0;
+      const vh = innerHeight;
+      for (const ol of lists) {
+        const r = ol.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh * 0.75 - r.top) / Math.max(1, r.height)));
+        const prev = parseFloat(ol.dataset.p || "0");
+        if (p > prev) { ol.dataset.p = String(p); ol.style.setProperty("--p", p.toFixed(3)); }
+      }
+    };
+    const onScroll = () => { touched = true; if (!raf) raf = requestAnimationFrame(update); };
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll, { passive: true });
+    update();
+    // Sans interaction (aperçu, capture) : tout est montré au repos.
+    setTimeout(() => {
+      if (touched) return;
+      items.forEach(show);
+      lists.forEach((ol) => ol.style.setProperty("--p", "1"));
+    }, 2500);
+  }
+</script>
