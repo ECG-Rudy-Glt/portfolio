@@ -1,17 +1,15 @@
 ---
-// Applique avant le premier rendu le mode d'affichage mémorisé (clair, nuit, forêt, éco) ; sans choix, suit la préférence du système.
+// Applique avant le premier rendu le mode d'affichage mémorisé (clair, nuit, forêt) ; sans choix, suit la préférence du système.
 ---
 <script is:inline>
   try {
     var r = document.documentElement, ls = localStorage;
     var m = ls.getItem("affichage");
     if (!m) { // anciennes préférences
-      if (ls.getItem("theme") === "eco") m = "eco";
-      else if (ls.getItem("palette") === "foret") m = "foret";
+      if (ls.getItem("palette") === "foret") m = "foret";
     }
     if (!m && matchMedia("(prefers-color-scheme: light)").matches) m = "clair";
     if (m === "clair") r.classList.add("clair");
-    else if (m === "eco") r.classList.add("eco");
     else if (m === "foret") r.classList.add("pal-foret");
     ["mode", "theme", "palette", "anim"].forEach(function (k) { ls.removeItem(k); });
     var tc = document.querySelector('meta[name="theme-color"]');

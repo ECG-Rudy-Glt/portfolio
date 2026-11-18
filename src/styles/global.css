@@ -61,32 +61,6 @@
   color-scheme: light;
 }
 
-:root.eco {
-  --bg: #0c0c0c;
-  --bg-elevated: #161616;
-  --bg-deep: #1d1d1d;
-  --fg: #f2f2f2;
-  --fg-soft: #d0d0d0;
-  --fg-muted: #a0a0a0;
-  --border: #ffffff26;
-  --accent: #f2f2f2;
-  --accent-fg: #0c0c0c;
-  --accent-2: #e6e6e6;
-  --accent-2-fg: #0c0c0c;
-  --band: #161616;
-  --band-fg: #f2f2f2;
-  --band-muted: #bdbdbd;
-  --relevance-majeur: #f2f2f2;
-  --relevance-pertinent: #bdbdbd;
-  --relevance-secondaire: #777777;
-  --skill-0: #f2f2f2;
-  --skill-1: #d0d0d0;
-  --skill-2: #b0b0b0;
-  --skill-3: #909090;
-  --skill-4: #707070;
-  --skill-5: #505050;
-}
-
 html {
   background-color: var(--bg);
   color-scheme: dark;
@@ -232,7 +206,6 @@ main h1 { line-height: 1.05; }
 .font-mono, .eyebrow { font-family: var(--font-mono); }
 .eyebrow { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-muted); }
 em.accent, .accent-word { font-style: italic; color: var(--accent); }
-:root.eco main h1, :root.eco main h2 { font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
 ::selection { background: #3d5642; color: #f3f1ea; }
 .prose-content h2 { font-size: 1.75rem; font-weight: 400; margin-top: 2.5rem; }
 .prose-content h3 { font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
