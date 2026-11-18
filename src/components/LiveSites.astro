@@ -17,13 +17,15 @@ const items = (await getCollection("projects"))
     live: p.data.links.sandbox,
     host: new URL((p.data.links.sandbox ?? p.data.links.demo)!).hostname.replace(/^www\./, ""),
   }));
-const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sans compte" } = Astro.props;
+const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sans compte", eyebrow } = Astro.props;
+const label = title.replace(/<[^>]+>/g, "");
 ---
 
-<section class="live" aria-label={title}>
+<section class="live" aria-label={label}>
   <div class="live-head">
     <div>
-      <h2>{title}</h2>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 set:html={title} />
       <p>{note}</p>
     </div>
     <div class="live-nav">
@@ -31,7 +33,7 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
       <button type="button" class="live-btn" data-dir="1" aria-label="Suivant">→</button>
     </div>
   </div>
-  <div class="live-viewport" tabindex="0" role="group" aria-label={`${title} : faites défiler horizontalement`}>
+  <div class="live-viewport" tabindex="0" role="group" aria-label={`${label} : faites défiler horizontalement`}>
     <ul class="live-track">
       {[0, 1].map((copy) =>
         items.map((it) => (
@@ -55,34 +57,32 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
 </section>
 
 <style>
-  .live { margin: 0 0 3.5rem; }
-  .live-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.5rem 1rem; margin-bottom: 0.9rem; }
-  .live-nav { display: flex; gap: 0.4rem; flex: none; }
-  .live-btn { width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--fg); cursor: pointer; font-size: 1rem; }
-  .live-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .live-head h2 { font-size: 1.25rem; font-weight: 600; color: var(--fg); margin: 0; }
-  .live-head p { font-size: 0.875rem; color: var(--fg-muted); margin: 0; }
-  .live-viewport { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); }
+  .live { margin: 0; }
+  .live-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem 1.5rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+  .live-nav { display: flex; gap: 0.5rem; flex: none; }
+  .live-btn { width: 48px; height: 48px; border-radius: 999px; border: 1px solid var(--fg); background: transparent; color: var(--fg); cursor: pointer; font-size: 1.05rem; transition: background-color .16s ease, color .16s ease; }
+  .live-btn[data-dir="1"] { background: var(--fg); color: var(--bg); }
+  .live-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+  .live-head h2 { font-size: clamp(2.1rem, 4vw, 3rem); line-height: 1.1; color: var(--fg); margin: 0.4rem 0 0; }
+  .live-head p:not(.eyebrow) { font-size: 0.9rem; color: var(--fg-muted); margin: 0.5rem 0 0; }
+  .live-viewport { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
   .live-viewport::-webkit-scrollbar { display: none; }
-  .live-track { display: flex; gap: 1rem; width: max-content; margin: 0; padding: 0.25rem 0; list-style: none; }
-  .live-card { display: flex; flex-direction: column; gap: 0.35rem; width: 18.5rem; flex: none; padding: 1rem 1.1rem; border: 1px solid var(--border); border-radius: 0.9rem; background: var(--bg-elevated); }
-  .live-shot { display: block; margin: -1rem -1.1rem 0.4rem; border-radius: 0.9rem 0.9rem 0 0; overflow: hidden; border-bottom: 1px solid var(--border); aspect-ratio: 16 / 10; background: var(--bg); }
-  .live-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform 0.4s ease; }
-  .live-card:hover .live-shot img { transform: scale(1.04); }
-  .live-name { font-weight: 600; color: var(--fg); text-decoration: none; }
+  .live-track { display: flex; gap: 1.5rem; width: max-content; margin: 0; padding: 0.25rem 0; list-style: none; }
+  .live-card { display: flex; flex-direction: column; gap: 0.5rem; width: min(26rem, 80vw); flex: none; }
+  .live-shot { display: block; margin-bottom: 0.35rem; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16 / 10; background: var(--bg-deep); }
+  .live-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform 0.5s ease; }
+  .live-card:hover .live-shot img { transform: scale(1.03); }
+  .live-name { font-weight: 600; font-size: 1.05rem; color: var(--fg); text-decoration: none; }
   .live-name:hover { color: var(--accent); }
-  .live-text { font-size: 0.85rem; color: var(--fg-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.5em; }
-  .live-host { font-size: 0.75rem; color: var(--fg-muted); opacity: 0.85; }
-  .live-links { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
-  .live-links a { font-size: 0.8rem; padding: 0.4rem 0.7rem; min-height: 36px; display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid var(--border); color: var(--fg); text-decoration: none; }
-  .live-links a:first-child { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
-  .live-links a:hover { border-color: var(--accent); }
-  :global(:root.no-anim) .live-shot img { transition: none; }
+  .live-text { font-size: 0.9rem; color: var(--fg-soft); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
+  .live-host { font-family: var(--font-mono); font-size: 0.75rem; color: var(--fg-muted); }
+  .live-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin-top: 0.2rem; }
+  .live-links a { font-size: 0.85rem; min-height: 32px; display: inline-flex; align-items: center; color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .live-links a:first-child { border-bottom-color: var(--accent); color: var(--accent); }
+  .live-links a:hover { border-bottom-color: var(--fg); }
   @media (prefers-reduced-motion: reduce) {
-    .live-viewport { mask-image: none; -webkit-mask-image: none; }
     .live-card[aria-hidden="true"] { display: none; }
   }
-  :global(:root.no-anim) .live-viewport { mask-image: none; -webkit-mask-image: none; }
   :global(:root.no-anim) .live-card[aria-hidden="true"] { display: none; }
   :global(:root.no-anim) .live-shot img { transition: none; }
 </style>
@@ -93,7 +93,7 @@ const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sa
     const vp = root.querySelector<HTMLElement>(".live-viewport")!;
     const track = root.querySelector<HTMLElement>(".live-track")!;
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("no-anim");
-    const step = () => (track.firstElementChild as HTMLElement).offsetWidth + 16;
+    const step = () => (track.firstElementChild as HTMLElement).offsetWidth + 24;
     root.querySelectorAll<HTMLButtonElement>(".live-btn").forEach((b) =>
       b.addEventListener("click", () => { hold(); vp.scrollBy({ left: Number(b.dataset.dir) * step(), behavior: still ? "auto" : "smooth" }); }),
     );

@@ -1,45 +1,63 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Newsreader Variable", Georgia, serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
 }
 
+/* Identité « éditoriale » : ivoire, encre, vert forêt, touche de chartreuse. */
 :root {
-  --bg: #ece6d9;
-  --bg-elevated: #f3efe4;
-  --fg: #3b2a1d;
-  --fg-muted: #6f5a45;
-  --border: #d6c9b3;
-  --accent: #a8602f;
-  --accent-fg: #fbf6ec;
-  --relevance-majeur: #a8602f;
-  --relevance-pertinent: #c08a4e;
-  --relevance-secondaire: #9c8b76;
-  --skill-0: #a8602f;
-  --skill-1: #6b7d4f;
-  --skill-2: #c08a4e;
-  --skill-3: #8c4a3a;
-  --skill-4: #9c7a4a;
-  --skill-5: #5c4a3a;
+  --bg: #f3f1ea;
+  --bg-elevated: #fffef9;
+  --bg-deep: #e8e5db;
+  --fg: #121310;
+  --fg-soft: #3e4038;
+  --fg-muted: #64665c;
+  --border: #12131026;
+  --accent: #1f3d2b;
+  --accent-fg: #f3f1ea;
+  --accent-2: #c7f154;
+  --accent-2-fg: #121310;
+  --band: #1f3d2b;
+  --band-fg: #f3f1ea;
+  --band-muted: #d3d8c9;
+  --relevance-majeur: #1f3d2b;
+  --relevance-pertinent: #5b7a4e;
+  --relevance-secondaire: #8d8f83;
+  --skill-0: #1f3d2b;
+  --skill-1: #5b7a4e;
+  --skill-2: #8aa63a;
+  --skill-3: #3e4038;
+  --skill-4: #7d8a6a;
+  --skill-5: #a3a597;
 }
 
 :root.dark {
-  --bg: #14100c;
-  --bg-elevated: #1e1712;
-  --fg: #f0e6d8;
-  --fg-muted: #ad9a85;
-  --border: #2f261d;
-  --accent: #e0a868;
-  --accent-fg: #14100c;
-  --relevance-majeur: #e0a868;
-  --relevance-pertinent: #c9a76b;
-  --relevance-secondaire: #8a7864;
-  --skill-0: #e0a868;
-  --skill-1: #9bb37a;
-  --skill-2: #d9b378;
-  --skill-3: #c97a64;
-  --skill-4: #c9a76b;
-  --skill-5: #a78b6f;
+  --bg: #121310;
+  --bg-elevated: #1b1c18;
+  --bg-deep: #22241e;
+  --fg: #f3f1ea;
+  --fg-soft: #d4d3ca;
+  --fg-muted: #a3a597;
+  --border: #f3f1ea24;
+  --accent: #a9c29b;
+  --accent-fg: #121310;
+  --accent-2: #e9e5d8;
+  --accent-2-fg: #121310;
+  --band: #1c2b21;
+  --band-fg: #f3f1ea;
+  --band-muted: #c9cfbd;
+  --relevance-majeur: #a9c29b;
+  --relevance-pertinent: #9bb37a;
+  --relevance-secondaire: #8a8c80;
+  --skill-0: #a9c29b;
+  --skill-1: #8aa58a;
+  --skill-2: #d4d9c4;
+  --skill-3: #7d9a6a;
+  --skill-4: #b5b7a8;
+  --skill-5: #6f7166;
+  color-scheme: dark;
 }
 
 :root.eco {
@@ -227,8 +245,8 @@ html.js .oss-panel:not([data-open]) { display: none; }
 :root.hn h1 { font-size: 1.25rem !important; }
 
 /* Palettes supplémentaires du site classique (Forêt, Ardoise) et réglage des animations */
-:root.pal-foret { --bg:#e9eee4; --bg-elevated:#f3f6ef; --fg:#14200f; --fg-muted:#4c5c46; --border:#bccab3; --accent:#2d5a27; --accent-fg:#f3f6ef; }
-:root.pal-ardoise { --bg:#0f141a; --bg-elevated:#17202a; --fg:#e6edf3; --fg-muted:#9aa7b4; --border:#2c3a49; --accent:#d98a4e; --accent-fg:#0f141a; color-scheme: dark; }
+:root.pal-foret { --bg:#16261c; --bg-elevated:#1d3125; --bg-deep:#233a2c; --fg:#f3f1ea; --fg-soft:#d8dccf; --fg-muted:#a9b3a2; --border:#f3f1ea26; --accent:#b4cba6; --accent-fg:#16261c; --accent-2:#e9e5d8; --accent-2-fg:#16261c; --band:#0f1a13; color-scheme: dark; }
+:root.pal-ardoise { --bg:#eef0f2; --bg-elevated:#ffffff; --bg-deep:#e1e5e9; --fg:#1d2329; --fg-soft:#3a434c; --fg-muted:#5d6670; --border:#1d232926; --accent:#2f5d7c; --accent-fg:#ffffff; --band:#23282d; }
 :root.no-anim *, :root.no-anim *::before, :root.no-anim *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 
 /* Page /minimal/ : maquette « liste dense » validée (palettes via variables --page, --body…) */
@@ -264,3 +282,15 @@ html.js .oss-panel:not([data-open]) { display: none; }
   .hnp-bar nav a, .hnp .s a, .hnp-right a, .hnp-style summary { display: inline-block; padding: 6px 3px; }
   .hnp-sm { font-size: 12px; }
 }
+
+/* ---------- Typographie éditoriale ---------- */
+.font-display, main h1, main h2 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.015em; }
+main h1 { line-height: 1.05; }
+.font-mono, .eyebrow { font-family: var(--font-mono); }
+.eyebrow { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-muted); }
+em.accent, .accent-word { font-style: italic; color: var(--accent); }
+:root.hn main h1, :root.hn main h2, :root.eco main h1, :root.eco main h2 { font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
+::selection { background: var(--accent-2); color: var(--accent-2-fg); }
+.prose-content h2 { font-size: 1.75rem; font-weight: 400; margin-top: 2.5rem; }
+.prose-content h3 { font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+.prose-content code { font-family: var(--font-mono); font-size: 0.9em; }

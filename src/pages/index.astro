@@ -2,97 +2,263 @@
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import LiveSites from "../components/LiveSites.astro";
+import { solutions, solutionsLabel } from "../data/solutions";
 
 const projects = await getCollection("projects");
-const featured = projects.filter((p) => p.data.featured).sort((a, b) => a.data.order - b.data.order);
+const byId = new Map(projects.map((p) => [p.id, p]));
+
+// Projets mis en avant sur l'accueil, avec une capture en fond quand le projet en a une.
+const featured = [
+  { id: "homelab", img: "/projets/homelab/visite-3d-machine.webp" },
+  { id: "cloud-temple" },
+  { id: "plateforme-automatisation" },
+  { id: "coach", img: "/sites/coach.webp" },
+  { id: "supfile", img: "/projets/supfile/tableau-de-bord.webp" },
+  { id: "relai", img: "/projets/relai/fonctionnement.webp" },
+]
+  .filter((f) => byId.has(f.id))
+  .map((f, i) => {
+    const p = byId.get(f.id)!;
+    const [name, sub] = p.data.title.split(" - ");
+    return { ...f, n: String(i + 1).padStart(2, "0"), name, sub, summary: p.data.summary, category: p.data.category, stack: p.data.stack };
+  });
+
+const categoryLabel = { perso: "Perso", ecole: "École", entreprise: "Alternance" } as const;
 
 const stats = [
-  { value: "3 ans", label: "Alternance chez Cloud Temple", href: "/projets/cloud-temple/" },
-  { value: "13 outils", label: "Suite DevOps Ops Delivery Suite", href: "/projets/ops-delivery-suite/" },
-  { value: "Initiative", label: "Lab pédagogique SUPINFO créé de zéro", href: "/projets/supinfo-lab/" },
+  { v: "2024", l: "début de mon alternance chez Cloud Temple" },
+  { v: String(projects.length), l: "projets documentés, école, perso et entreprise" },
+  { v: "2", l: "nœuds Proxmox en production à la maison" },
+  { v: String(solutions.length), l: "solutions open source publiées" },
 ];
+
+const timeline = [
+  { when: "2022 - 2024", title: "BTS SIO SLAM · Ethan Consulting", text: "Développeur en alternance : web scraping, manipulation du DOM, modélisation MERISE. Diplômé avec 15,5/20." },
+  { when: "2024 - 2025", title: "SUPINFO 3e année · Cloud Temple", text: "Virtualisation VMware, Ansible, CI/CD GitLab, monitoring d'infrastructures critiques. SUPCHAT, 1er niveau campus." },
+  { when: "2025 - 2026", title: "SUPINFO 4e année · Cloud Temple", text: "Suivi de projets transverses, plateforme interne d'automatisation. SUPFile, 2e du campus de Tours. Montage d'un lab pédagogique." },
+  { when: "sept. 2027", title: "Fin de cursus", text: "Disponible en CDI DevOps / SRE." },
+];
+
+const skills = [
+  { name: "Virtualisation", tools: "Proxmox · VMware ESXi · govc", proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Infrastructure as Code", tools: "Terraform · Ansible", proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Conteneurs et orchestration", tools: "Docker · k3s · FluxCD · Kubernetes", proof: "4KUBE", href: "/projets/4kube/" },
+  { name: "Réseau et sécurité", tools: "OPNsense · VLAN · Suricata · CrowdSec", proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Secrets et identité", tools: "OpenBao · PKI · Authentik · Authelia", proof: "Article PKI", href: "/blog/homelab-pki-secrets/" },
+  { name: "Observabilité", tools: "Prometheus · Grafana · Loki · Nagios", proof: "Cloud Temple", href: "/projets/cloud-temple/" },
+  { name: "CI/CD et supply chain", tools: "Forgejo · GitLab CI · Trivy · SBOM", proof: "Plateforme interne", href: "/projets/plateforme-automatisation/" },
+  { name: "Développement", tools: "Python · Go · FastAPI · Bash", proof: "COACH", href: "/projets/coach/" },
+];
+
+const ossImages: Record<string, { img: string; id: string }> = {
+  COACH: { img: "/projets/coach/home-light.png", id: "coach" },
+  Relai: { img: "/projets/relai/fonctionnement.webp", id: "relai" },
+  Patrimoine: { img: "/projets/patrimoine/tableau-de-bord.webp", id: "patrimoine" },
+};
+const oss = solutions.map((s) => ({ ...s, ...ossImages[s.name] }));
+
+const posts = (await getCollection("articles"))
+  .filter((a) => a.data.type === "article")
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const dateFmt = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" });
 ---
 
 <Layout
-  title="Rudy Gault - Portfolio DevOps & infrastructure"
-  description="Portfolio de Rudy Gault, alternant infrastructure & DevOps chez Cloud Temple (SUPINFO) : homelab Proxmox/Terraform/Ansible, automatisation, CI/CD et projets école."
+  title="Rudy Gault - Ingénieur DevOps / Platform"
+  description="Rudy Gault, ingénieur DevOps / Platform en alternance chez Cloud Temple depuis 2024 (SUPINFO) : homelab Proxmox en IaC, automatisation, CI/CD, projets open source. CDI DevOps / SRE recherché pour septembre 2027."
+  image="/projets/homelab/visite-3d-cluster.webp"
 >
-  <section class="mb-16">
-    <img
-      src="/avatar.png"
-      alt="Rudy Gault"
-      class="mb-6 h-36 w-36 rounded-full object-cover ring-2 ring-[var(--border)]"
-    />
-    <h1 class="text-3xl font-bold tracking-tight text-[var(--fg)] sm:text-4xl">
-      Bienvenue sur mon portfolio
-    </h1>
-    <p class="mt-4 max-w-2xl text-[var(--fg-muted)]">
-      Je suis Rudy Gault, alternant en infrastructure &amp; développement, actuellement
-      en 4e année à SUPINFO (fin de cursus prévue en septembre 2027). Vous trouverez ici
-      mon parcours, mes compétences et les projets - école, personnels et en entreprise -
-      qui les illustrent.
-    </p>
-    <div class="mt-6 flex flex-wrap items-center gap-3">
-      <a
-        href="/parcours/"
-        class="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--accent-fg)] transition-opacity hover:opacity-90"
-      >
-        Découvrir mon parcours →
-      </a>
-      <a
-        href="/cv-rudy-gault.pdf?v=2"
-        download="CV-Rudy-Gault.pdf"
-        class="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-5 py-2.5 text-sm font-medium text-[var(--fg)] transition-colors hover:bg-[var(--bg-elevated)]"
-      >
-        Télécharger mon CV
-      </a>
-    </div>
-  </section>
+  <div class="flex flex-col gap-24 sm:gap-32">
+    <!-- Accroche -->
+    <section class="flex flex-wrap items-end gap-12 pt-4 sm:pt-10">
+      <div class="flex min-w-0 flex-[1_1_620px] flex-col gap-8">
+        <p class="eyebrow">Ingénieur DevOps / Platform · Tours</p>
+        <h1 class="text-[clamp(2.75rem,7vw,6rem)] text-[var(--fg)]">
+          J'automatise l'infrastructure qui <em class="accent">tient</em> en production.
+        </h1>
+        <p class="max-w-[56ch] text-lg text-[var(--fg-soft)]">
+          En alternance chez Cloud Temple depuis 2024, en 4e année à SUPINFO. Je cherche un CDI DevOps / SRE à partir de
+          septembre 2027.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="/projets/" class="inline-flex min-h-[48px] items-center rounded-full bg-[var(--fg)] px-6 text-[15px] text-[var(--bg)] transition-opacity hover:opacity-90">Voir les projets</a>
+          <a href="/parcours/" class="inline-flex min-h-[48px] items-center rounded-full border border-[var(--fg)] px-6 text-[15px] text-[var(--fg)] transition-colors hover:bg-[var(--bg-elevated)]">Mon parcours</a>
+        </div>
+      </div>
+      <p class="flex flex-[0_1_260px] flex-col border-l border-[var(--border)] pl-6 font-display text-3xl italic leading-tight text-[var(--fg-soft)]">
+        <span>Infrastructure.</span><span>Automatisation.</span><span class="text-[var(--accent)]">Open source.</span>
+      </p>
+    </section>
 
-  <section class="mb-16">
-    <div class="grid gap-4 sm:grid-cols-3">
-      {stats.map((stat) => (
-        <a
-          href={stat.href}
-          class="group flex flex-col gap-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-5 transition-transform hover:-translate-y-1 hover:shadow-lg"
-        >
-          <span class="text-2xl font-bold text-[var(--accent)]">{stat.value}</span>
-          <span class="text-sm text-[var(--fg-muted)] group-hover:text-[var(--fg)]">{stat.label}</span>
-        </a>
+    <!-- Chiffres -->
+    <section class="grid grid-cols-2 border-y border-[var(--border)] lg:grid-cols-4" aria-label="Quelques chiffres">
+      {stats.map((s) => (
+        <div class="flex flex-col gap-1.5 py-7 pr-6">
+          <span class="font-display text-5xl leading-none text-[var(--fg)]">{s.v}</span>
+          <span class="text-sm text-[var(--fg-muted)]">{s.l}</span>
+        </div>
       ))}
-    </div>
-  </section>
+    </section>
 
-  <LiveSites />
+    <!-- Sites en ligne (carrousel) -->
+    <LiveSites eyebrow="En ligne" title={'Des sites qui <em class="accent">tournent</em>, pas des maquettes'} note="Cliquez pour les essayer, sans compte." />
 
-  <section class="mb-16">
-    <a
-      href="https://homelab.gault-rudy.com/"
-      class="group flex flex-col gap-2 rounded-xl border border-[var(--accent)] bg-[var(--bg-elevated)] p-6 transition-transform hover:-translate-y-1 sm:flex-row sm:items-center sm:justify-between"
-    >
-      <span>
-        <span class="block text-lg font-semibold text-[var(--fg)]">Visiter mon homelab</span>
-        <span class="block text-sm text-[var(--fg-muted)]">Les machines, les services, le chemin des requêtes et les projets que j'héberge : une visite guidée en 3D, ou en liste sur mobile.</span>
-      </span>
-      <span class="text-sm font-medium text-[var(--accent)]">Lancer la visite →</span>
-    </a>
-  </section>
+    <!-- Projets à la une -->
+    <section id="projets" class="flex scroll-mt-24 flex-col gap-8">
+      <div class="flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <p class="eyebrow">02 · Projets à la une</p>
+          <h2 class="mt-2 text-4xl text-[var(--fg)] sm:text-5xl">Ce que j'ai construit, et ce que ça a <em class="accent">changé</em></h2>
+        </div>
+        <a href="/projets/" class="border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">Les {projects.length} projets</a>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2">
+        {featured.map((p) => (
+          <a href={`/projets/${p.id}/`} class="feat group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--band)] text-[#f3f1ea]">
+            {p.img ? (
+              <img src={p.img} alt="" width="960" height="600" loading="lazy" decoding="async" class="feat-img absolute inset-0 h-full w-full object-cover object-top" />
+            ) : (
+              <span aria-hidden="true" class="feat-stack absolute inset-0 overflow-hidden p-6 font-mono text-[13px] leading-7">{p.stack.join(" · ")} · {p.stack.join(" · ")} · {p.stack.join(" · ")}</span>
+            )}
+            <span class="absolute left-4 top-4 rounded-full bg-[#0e100dcc] px-3 py-1 font-mono text-xs">{p.n} · {categoryLabel[p.category]}</span>
+            <div class="feat-bar absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-6 py-4">
+              <div class="min-w-0">
+                <h3 class="font-display text-2xl leading-tight sm:text-[1.75rem]">{p.name}</h3>
+                {p.sub && <span class="block truncate text-sm text-[#e4e2d8]">{p.sub}</span>}
+              </div>
+              <span aria-hidden="true" class="shrink-0 text-xl transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <style>
+        .feat-bar { background: rgba(14, 16, 13, 0.82); transition: background-color 0.42s ease; }
+        .feat:hover .feat-bar { background: rgba(14, 16, 13, 0.92); }
+        .feat-img { transition: transform 0.65s cubic-bezier(.4, 0, .2, 1); }
+        .feat:hover .feat-img { transform: scale(1.03); }
+        .feat-stack { color: #f3f1ea; opacity: 0.22; word-spacing: 0.3em; }
+        :global(:root.no-anim) .feat-img, :global(:root.no-anim) .feat-bar { transition: none; }
+      </style>
+    </section>
 
-  <section>
-    <div class="mb-6 flex items-center justify-between">
-      <h2 class="text-xl font-semibold text-[var(--fg)]">Projets à la une</h2>
-      <a href="/projets/" class="text-sm text-[var(--accent)] hover:underline">Voir tous les projets →</a>
-    </div>
-    <div class="grid gap-6 sm:grid-cols-2">
-      {featured.map((project) => (
-        <a
-          href={`/projets/${project.id}/`}
-          class="group flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-transform hover:-translate-y-1 hover:shadow-lg"
-        >
-          <h3 class="font-semibold text-[var(--fg)] group-hover:text-[var(--accent)]">{project.data.title}</h3>
-          <p class="text-sm text-[var(--fg-muted)]">{project.data.summary}</p>
-        </a>
-      ))}
-    </div>
-  </section>
+    <!-- Visite du homelab -->
+    <section class="flex flex-wrap overflow-hidden rounded-[20px] bg-[var(--band)] text-[var(--band-fg)]">
+      <div class="flex min-w-0 flex-[1_1_420px] flex-col justify-center gap-5 p-8 sm:p-12">
+        <p class="font-mono text-xs uppercase tracking-[0.04em] text-[var(--accent-2)]">Visite guidée</p>
+        <h2 class="font-display text-4xl leading-tight text-[var(--band-fg)] sm:text-5xl">Entrez dans le <em>homelab</em></h2>
+        <p class="max-w-[46ch] text-[var(--band-muted)]">Les machines, les services, le chemin d'une requête jusqu'au conteneur et les projets que j'héberge. En 3D sur ordinateur, en liste sur mobile.</p>
+        <a href="https://homelab.gault-rudy.com/" class="inline-flex min-h-[48px] items-center self-start rounded-full bg-[var(--accent-2)] px-6 text-[15px] font-medium text-[var(--accent-2-fg)] transition-opacity hover:opacity-90">Lancer la visite</a>
+      </div>
+      <div class="min-h-[300px] min-w-0 flex-[1_1_520px]">
+        <img src="/projets/homelab/visite-3d-cluster.webp" alt="Vue 3D du cluster Proxmox du homelab" width="960" height="600" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+      </div>
+    </section>
+
+    <!-- Parcours -->
+    <section id="parcours" class="flex flex-wrap gap-12">
+      <div class="min-w-0 flex-[1_1_300px]">
+        <p class="eyebrow">01 · Parcours</p>
+        <h2 class="mb-4 mt-2 text-4xl text-[var(--fg)] sm:text-5xl">Du BTS à la <em class="accent">prod</em></h2>
+        <p class="text-[var(--fg-soft)]">Quatre ans d'alternance dans deux entreprises, et un homelab qui sert de terrain d'essai à tout le reste.</p>
+        <a href="/parcours/" class="mt-6 inline-block border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">Le parcours détaillé</a>
+      </div>
+      <ol class="m-0 flex min-w-0 flex-[2_1_560px] list-none flex-col p-0">
+        {timeline.map((t) => (
+          <li class="flex flex-wrap gap-x-8 gap-y-1 border-t border-[var(--border)] py-5">
+            <span class="flex-[0_0_120px] font-mono text-[13px] text-[var(--fg-muted)]">{t.when}</span>
+            <div class="min-w-0 flex-[1_1_320px]">
+              <div class="text-lg font-semibold text-[var(--fg)]">{t.title}</div>
+              <div class="text-[15px] text-[var(--fg-soft)]">{t.text}</div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Compétences -->
+    <section id="competences" class="flex flex-col gap-7">
+      <div class="flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <p class="eyebrow">03 · Compétences</p>
+          <h2 class="mt-2 text-4xl text-[var(--fg)] sm:text-5xl">Huit domaines, chacun avec sa <em class="accent">preuve</em></h2>
+        </div>
+        <a href="/competences/" class="border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">Toutes les compétences</a>
+      </div>
+      <div class="grid border-t border-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
+        {skills.map((k) => (
+          <div class="flex flex-col gap-1.5 border-b border-[var(--border)] py-5 pr-6">
+            <span class="font-semibold text-[var(--fg)]">{k.name}</span>
+            <span class="font-mono text-xs text-[var(--fg-soft)]">{k.tools}</span>
+            <span class="text-sm text-[var(--fg-muted)]">Preuve : <a href={k.href} class="border-b border-[var(--border)] text-[var(--fg)] hover:border-[var(--accent)]">{k.proof}</a></span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Façon de travailler (reprise de la page « Pourquoi ce projet » du homelab) -->
+    <section class="py-4 text-center">
+      <p class="mx-auto max-w-[24ch] font-display text-[clamp(2rem,4vw,3rem)] italic leading-tight text-[var(--fg)]">« Toute la chaîne, pas un maillon. »</p>
+      <p class="mx-auto mt-5 max-w-[58ch] text-[var(--fg-soft)]">Dans mon homelab, je suis seul responsable de toute la pile, du VLAN au certificat TLS en passant par le firewall inter-services. C'est ce qui construit une vision d'ensemble.</p>
+      <a href="/projets/homelab/pourquoi/" class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.04em] text-[var(--fg-muted)] hover:text-[var(--accent)]">Comment je travaille →</a>
+    </section>
+
+    <!-- Solutions open source -->
+    <section class="flex flex-col gap-7">
+      <div>
+        <p class="eyebrow">{solutionsLabel}</p>
+        <h2 class="mt-2 text-4xl text-[var(--fg)] sm:text-5xl">Publiées, documentées, <em class="accent">utilisables</em></h2>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        {oss.map((o) => (
+          <article class="flex flex-col gap-3">
+            <a href={`/projets/${o.id}/`} class="block aspect-[16/10] overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]" tabindex="-1" aria-hidden="true">
+              <img src={o.img} alt="" width="960" height="600" loading="lazy" decoding="async" class="h-full w-full object-cover object-top transition-transform duration-500 hover:scale-[1.03]" />
+            </a>
+            <h3 class="text-lg font-semibold text-[var(--fg)]"><a href={`/projets/${o.id}/`} class="hover:text-[var(--accent)]">{o.name}</a></h3>
+            <p class="text-[15px] text-[var(--fg-soft)]">{o.description}</p>
+            <p class="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+              {o.links.map((l) => (
+                <a href={l.href} target="_blank" rel="noopener noreferrer" class="border-b border-[var(--border)] text-[var(--fg)] hover:border-[var(--accent)]">{l.label}</a>
+              ))}
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog" class="flex flex-col gap-7">
+      <div class="flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <p class="eyebrow">04 · Notes de terrain</p>
+          <h2 class="mt-2 text-4xl text-[var(--fg)] sm:text-5xl">Ce que j'en ai <em class="accent">appris</em></h2>
+        </div>
+        <a href="/blog/" class="border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">Tous les articles</a>
+      </div>
+      <div class="grid gap-8 md:grid-cols-3">
+        {posts.map((a) => (
+          <a href={`/blog/${a.id}/`} class="group flex flex-col gap-2.5 border-t-2 border-[var(--fg)] pt-5">
+            <div class="flex justify-between font-mono text-xs text-[var(--fg-muted)]">
+              <span>{a.data.tags[0] ?? "Article"}</span><span>{dateFmt.format(a.data.date)}</span>
+            </div>
+            <span class="font-display text-[1.65rem] leading-tight text-[var(--fg)] group-hover:text-[var(--accent)]">{a.data.title}</span>
+            <span class="line-clamp-3 text-[15px] text-[var(--fg-soft)]">{a.data.summary}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="flex flex-col items-start gap-7 border-t border-[var(--border)] pt-20">
+      <h2 class="max-w-[16ch] text-[clamp(2.75rem,6vw,5rem)] leading-[1.05] text-[var(--fg)]">
+        Un poste DevOps / SRE en 2027 ? <em class="accent">Parlons-en.</em>
+      </h2>
+      <div class="flex flex-wrap gap-3">
+        <a href="mailto:contact@rudy-ops.fr" class="inline-flex min-h-[48px] items-center rounded-full bg-[var(--fg)] px-6 text-[15px] text-[var(--bg)] transition-opacity hover:opacity-90">contact@rudy-ops.fr</a>
+        <a href="/cv-rudy-gault.pdf?v=2" download="CV-Rudy-Gault.pdf" class="inline-flex min-h-[48px] items-center rounded-full border border-[var(--fg)] px-6 text-[15px] text-[var(--fg)] transition-colors hover:bg-[var(--bg-elevated)]">Télécharger le CV</a>
+        <a href="https://www.linkedin.com/in/rudy-gault/" target="_blank" rel="noreferrer" class="inline-flex min-h-[48px] items-center rounded-full border border-[var(--border)] px-6 text-[15px] text-[var(--fg)] transition-colors hover:border-[var(--fg)]">LinkedIn</a>
+      </div>
+    </section>
+  </div>
 </Layout>

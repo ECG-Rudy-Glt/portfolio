@@ -29,8 +29,7 @@ const relevanceLabel: Record<Props["relevance"], string> = {
 
 <a
   href={`/projets/${slug}/`}
-  class="group flex flex-col gap-3 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-transform hover:-translate-y-1 hover:shadow-lg"
-  style={`border-left: 3px solid var(--relevance-${relevance})`}
+  class="group flex flex-col gap-3 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-colors hover:border-[var(--accent)]"
   data-category={category}
   data-tags={tags.join(",")}
 >
@@ -40,10 +39,10 @@ const relevanceLabel: Record<Props["relevance"], string> = {
     </div>
   )}
   <div class="flex items-center justify-between text-xs text-[var(--fg-muted)]">
-    <span class="rounded-full border border-[var(--border)] px-2 py-0.5">{categoryLabel[category]}</span>
-    <span>{period}</span>
+    <span class="font-mono uppercase tracking-[0.04em]">{categoryLabel[category]}</span>
+    <span class="font-mono">{period}</span>
   </div>
-  <h3 class="text-lg font-semibold text-[var(--fg)] group-hover:text-[var(--accent)]">{title}</h3>
+  <h3 class="font-display text-2xl leading-tight text-[var(--fg)] group-hover:text-[var(--accent)]">{title}</h3>
   <p class="text-sm text-[var(--fg-muted)]">{summary}</p>
   <div class="flex items-center gap-1.5 text-xs" style={`color: var(--relevance-${relevance})`}>
     <span class="h-2 w-2 rounded-full" style={`background-color: var(--relevance-${relevance})`}></span>
