@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
-type Mode = "nuit" | "foret" | "eco";
+type Mode = "clair" | "nuit" | "foret" | "eco";
 
 const modes: { value: Mode; fr: string; en: string; icon: string }[] = [
+  { value: "clair", fr: "Clair (ivoire)", en: "Light (ivory)", icon: "☀" },
   { value: "nuit", fr: "Nuit (par défaut)", en: "Night (default)", icon: "☾" },
   { value: "foret", fr: "Forêt (vert sombre)", en: "Forest (dark green)", icon: "❦" },
   { value: "eco", fr: "Éco (noir et blanc)", en: "Eco (black and white)", icon: "◐" },
@@ -10,9 +11,12 @@ const modes: { value: Mode; fr: string; en: string; icon: string }[] = [
 
 function apply(mode: Mode) {
   const r = document.documentElement;
-  r.classList.remove("eco", "pal-foret");
+  r.classList.remove("clair", "eco", "pal-foret");
+  if (mode === "clair") r.classList.add("clair");
   if (mode === "eco") r.classList.add("eco");
   if (mode === "foret") r.classList.add("pal-foret");
+  const tc = document.querySelector('meta[name="theme-color"]');
+  if (tc) tc.setAttribute("content", mode === "clair" ? "#f3f1ea" : mode === "foret" ? "#16261c" : mode === "eco" ? "#0c0c0c" : "#121310");
   try { localStorage.setItem("affichage", mode); } catch (e) { /* stockage indisponible */ }
 }
 
@@ -21,7 +25,7 @@ export default function ModeSwitch({ lang = "fr" }: { lang?: "fr" | "en" }) {
 
   useEffect(() => {
     const c = document.documentElement.classList;
-    setMode(c.contains("eco") ? "eco" : c.contains("pal-foret") ? "foret" : "nuit");
+    setMode(c.contains("clair") ? "clair" : c.contains("eco") ? "eco" : c.contains("pal-foret") ? "foret" : "nuit");
   }, []);
 
   function select(next: Mode) {

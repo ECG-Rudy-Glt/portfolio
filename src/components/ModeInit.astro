@@ -1,5 +1,5 @@
 ---
-// Thème sombre unique ; applique avant le premier rendu le mode d'affichage mémorisé (nuit, forêt, éco).
+// Applique avant le premier rendu le mode d'affichage mémorisé (clair, nuit, forêt, éco) ; sans choix, suit la préférence du système.
 ---
 <script is:inline>
   try {
@@ -9,9 +9,13 @@
       if (ls.getItem("theme") === "eco") m = "eco";
       else if (ls.getItem("palette") === "foret") m = "foret";
     }
-    if (m === "eco") r.classList.add("eco");
+    if (!m && matchMedia("(prefers-color-scheme: light)").matches) m = "clair";
+    if (m === "clair") r.classList.add("clair");
+    else if (m === "eco") r.classList.add("eco");
     else if (m === "foret") r.classList.add("pal-foret");
     ["mode", "theme", "palette", "anim"].forEach(function (k) { ls.removeItem(k); });
+    var tc = document.querySelector('meta[name="theme-color"]');
+    if (tc && m === "clair") tc.setAttribute("content", "#f3f1ea");
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) r.classList.add("no-anim");
   } catch (e) {}
 </script>

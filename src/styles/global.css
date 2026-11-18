@@ -6,7 +6,7 @@
   --font-mono: "Geist Mono Variable", ui-monospace, monospace;
 }
 
-/* Identité « éditoriale » : encre, ivoire, vert forêt, touche de chartreuse. Thème sombre unique. */
+/* Identité « éditoriale » : encre, ivoire, vert forêt, touche de chartreuse. Sombre par défaut ; clair, forêt et éco au choix. */
 :root {
   --bg: #121310;
   --bg-elevated: #1b1c18;
@@ -32,6 +32,33 @@
   --skill-4: #b5b7a8;
   --skill-5: #6f7166;
   color-scheme: dark;
+}
+
+:root.clair {
+  --bg: #f3f1ea;
+  --bg-elevated: #fffef9;
+  --bg-deep: #e8e5db;
+  --fg: #121310;
+  --fg-soft: #3e4038;
+  --fg-muted: #64665c;
+  --border: #12131026;
+  --accent: #1f3d2b;
+  --accent-fg: #f3f1ea;
+  --accent-2: #cfe0c6;
+  --accent-2-fg: #121310;
+  --band: #1f3d2b;
+  --band-fg: #f3f1ea;
+  --band-muted: #d3d8c9;
+  --relevance-majeur: #1f3d2b;
+  --relevance-pertinent: #5b7a4e;
+  --relevance-secondaire: #8d8f83;
+  --skill-0: #1f3d2b;
+  --skill-1: #5b7a4e;
+  --skill-2: #8aa63a;
+  --skill-3: #3e4038;
+  --skill-4: #7d8a6a;
+  --skill-5: #a3a597;
+  color-scheme: light;
 }
 
 :root.eco {
