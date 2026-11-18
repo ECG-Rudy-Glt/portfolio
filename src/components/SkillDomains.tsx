@@ -10,6 +10,7 @@ export interface Domain {
   projects: Project[];
 }
 
+const CATS_EN: Record<string, string> = { entreprise: "Professional", perso: "Personal", ecole: "School" };
 const CATS = [
   { key: "entreprise", label: "Entreprise", color: "var(--skill-0)" },
   { key: "perso", label: "Perso", color: "var(--skill-1)" },
@@ -27,12 +28,12 @@ function Count({ to, run, reduced }: { to: number; run: boolean; reduced: boolea
   return <>{v}</>;
 }
 
-function Row({ d, total, index, open, onToggle }: { d: Domain; total: number; index: number; open: boolean; onToggle: () => void }) {
+function Row({ d, total, index, open, onToggle, en }: { d: Domain; total: number; index: number; open: boolean; onToggle: () => void; en: boolean }) {
   const ref = useRef<HTMLLIElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const reduced = !!useReducedMotion() || (typeof document !== "undefined" && document.documentElement.classList.contains("no-anim"));
   const n = d.projects.length;
-  const counts = CATS.map((c) => ({ ...c, n: d.projects.filter((p) => p.cat === c.key).length }));
+  const counts = CATS.map((c) => ({ ...c, label: en ? CATS_EN[c.key] : c.label, n: d.projects.filter((p) => p.cat === c.key).length }));
   return (
     <li ref={ref} className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)]">
       <button
@@ -44,7 +45,7 @@ function Row({ d, total, index, open, onToggle }: { d: Domain; total: number; in
         <div className="flex items-baseline justify-between gap-4">
           <span className="font-semibold text-[var(--fg)]">{d.name}</span>
           <span className="shrink-0 text-sm tabular-nums text-[var(--fg-muted)]">
-            <b className="text-lg text-[var(--accent)]"><Count to={n} run={inView} reduced={reduced} /></b> projet{n > 1 ? "s" : ""} sur {total}
+            <b className="text-lg text-[var(--accent)]"><Count to={n} run={inView} reduced={reduced} /></b> {en ? `project${n > 1 ? "s" : ""} out of ${total}` : `projet${n > 1 ? "s" : ""} sur ${total}`}
           </span>
         </div>
         <div className="flex h-3 w-full overflow-hidden rounded-full bg-[var(--bg)] ring-1 ring-[var(--border)]" role="img" aria-label={`${d.name} : ${counts.map((c) => `${c.n} ${c.label.toLowerCase()}`).join(", ")}`}>
@@ -62,7 +63,7 @@ function Row({ d, total, index, open, onToggle }: { d: Domain; total: number; in
           {counts.filter((c) => c.n > 0).map((c) => (
             <span key={c.key} className="flex items-center gap-1.5"><i className="inline-block h-2 w-2 rounded-full" style={{ background: c.color }} />{c.n} {c.label.toLowerCase()}</span>
           ))}
-          <span className="ml-auto">{open ? "Masquer" : "Voir le détail"} {open ? "−" : "+"}</span>
+          <span className="ml-auto">{en ? (open ? "Hide" : "Show details") : (open ? "Masquer" : "Voir le détail")} {open ? "−" : "+"}</span>
         </div>
       </button>
       <motion.div
@@ -74,11 +75,11 @@ function Row({ d, total, index, open, onToggle }: { d: Domain; total: number; in
       >
         <div className="border-t border-[var(--border)] p-4 sm:p-5">
           <p className="mb-3 text-sm text-[var(--fg-muted)]">{d.blurb}</p>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--fg-muted)]">Outils et notions</p>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--fg-muted)]">{en ? "Tools and concepts" : "Outils et notions"}</p>
           <div className="mb-4 flex flex-wrap gap-2">
             {d.tools.map((t) => <span key={t} className="rounded-full bg-[var(--bg)] px-2.5 py-1 text-xs text-[var(--fg)] ring-1 ring-[var(--border)]">{t}</span>)}
           </div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--fg-muted)]">Où c'est mis en pratique</p>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--fg-muted)]">{en ? "Where it is put into practice" : "Où c'est mis en pratique"}</p>
           <div className="flex flex-wrap gap-2">
             {d.projects.map((p) => (
               <a key={p.slug} href={`/projets/${p.slug}/`} tabIndex={open ? 0 : -1} className="rounded-full bg-[var(--bg)] px-3 py-1.5 text-sm text-[var(--fg)] ring-1 ring-[var(--border)] transition-colors hover:text-[var(--accent)]">{p.title}</a>
@@ -90,16 +91,17 @@ function Row({ d, total, index, open, onToggle }: { d: Domain; total: number; in
   );
 }
 
-export default function SkillDomains({ domains, total }: { domains: Domain[]; total: number }) {
+export default function SkillDomains({ domains, total, lang = "fr" }: { domains: Domain[]; total: number; lang?: "fr" | "en" }) {
+  const en = lang === "en";
   const [openId, setOpenId] = useState<string | null>(null);
   return (
     <div>
-      <ul className="mb-4 flex flex-wrap gap-x-5 gap-y-1 text-xs text-[var(--fg-muted)]" aria-label="Légende">
-        {CATS.map((c) => <li key={c.key} className="flex items-center gap-1.5"><i className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: c.color }} />{c.label}</li>)}
+      <ul className="mb-4 flex flex-wrap gap-x-5 gap-y-1 text-xs text-[var(--fg-muted)]" aria-label={en ? "Legend" : "Légende"}>
+        {CATS.map((c) => <li key={c.key} className="flex items-center gap-1.5"><i className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: c.color }} />{en ? CATS_EN[c.key] : c.label}</li>)}
       </ul>
       <ul className="grid gap-3">
         {domains.map((d, i) => (
-          <Row key={d.id} d={d} total={total} index={i} open={openId === d.id} onToggle={() => setOpenId(openId === d.id ? null : d.id)} />
+          <Row key={d.id} en={en} d={d} total={total} index={i} open={openId === d.id} onToggle={() => setOpenId(openId === d.id ? null : d.id)} />
         ))}
       </ul>
     </div>

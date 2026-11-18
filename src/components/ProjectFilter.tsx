@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const categories = [
+const categoriesEn = [
+  { value: "all", label: "All" },
+  { value: "perso", label: "Personal" },
+  { value: "ecole", label: "School" },
+  { value: "entreprise", label: "Professional" },
+] as const;
+const categoriesFr = [
   { value: "all", label: "Tous" },
   { value: "perso", label: "Projets perso" },
   { value: "ecole", label: "Projets école" },
   { value: "entreprise", label: "Entreprise" },
 ] as const;
 
-export default function ProjectFilter() {
+export default function ProjectFilter({ lang = "fr" }: { lang?: "fr" | "en" }) {
+  const categories = lang === "en" ? categoriesEn : categoriesFr;
   const [active, setActive] = useState<string>("all");
 
   useEffect(() => {

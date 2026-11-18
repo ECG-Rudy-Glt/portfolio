@@ -4,7 +4,7 @@ summary: "Patrimoine est une application open source qui agrège les comptes d'u
 date: 2026-11-06
 tags: ["IA / Assistant conversationnel", "Open source", "Self-hosting", "Finance personnelle"]
 type: article
-cover: "/sites/patrimoine.webp"
+cover: "/sites/patrimoine.webp?v=3"
 ---
 
 ## Le problème

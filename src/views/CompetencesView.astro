@@ -1,0 +1,170 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { enProject } from "../i18n/projects-en";
+import type { Lang } from "../i18n/ui";
+const { lang = "fr" } = Astro.props as { lang?: Lang };
+const en = lang === "en";
+import SkillDomains from "../components/SkillDomains";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+
+// Domaines de compétence : chaque domaine regroupe des étiquettes et des outils ; il est « démontré » par les projets qui en mobilisent au moins un.
+const DOMAINS = [
+  { id: "virt", name: "Virtualisation & systèmes", blurb: "Hyperviseurs, machines virtuelles et conteneurs système, du poste de travail à la production : Proxmox au homelab, ESXi chez Cloud Temple.", keys: ["Proxmox", "VMware ESXi", "Vagrant", "Linux", "govc", "Virtualisation", "Haute disponibilité"] },
+  { id: "iac", name: "Infrastructure as Code & automatisation", blurb: "Décrire l'infrastructure en code et l'automatiser : Terraform, Ansible, scripts. Rien ne se fait à la main, tout est rejouable.", keys: ["Terraform", "Ansible", "Infra as Code", "Automatisation", "Bash", "Scripting", "YAML", "DevOps"] },
+  { id: "cicd", name: "CI/CD & livraison continue", blurb: "Pipelines de test, de construction et de déploiement, avec analyse de sécurité des images.", keys: ["CI/CD", "GitHub Actions", "GitLab CI", "Forgejo Actions", "Woodpecker CI", "Azure DevOps", "Git", "Gitea", "Forgejo", "Trivy"] },
+  { id: "k8s", name: "Conteneurs & Kubernetes", blurb: "Docker au quotidien, orchestration avec Swarm et Kubernetes, déploiement en GitOps avec Flux.", keys: ["Docker", "Docker Compose", "K3s", "Kubernetes", "FluxCD", "Orchestration"] },
+  { id: "sec", name: "Réseau & sécurité", blurb: "Segmentation par VLAN, pare-feu, détection d'intrusion, authentification unique, gestion de secrets et durcissement.", keys: ["Réseau", "Sécurité", "OPNsense", "CrowdSec", "Suricata", "Wazuh", "Tailscale", "SSO", "Authentik", "OpenBao", "Vaultwarden", "CCNA", "Traefik", "Caddy", "Nginx", "Sécurité applicative", "Conformité (RGPD/PCI-DSS)", "JWT"] },
+  { id: "obs", name: "Supervision & observabilité", blurb: "Métriques, journaux et alertes pour savoir qu'une panne arrive avant les utilisateurs.", keys: ["Monitoring", "Observabilité", "Prometheus", "Grafana", "Loki", "Alertmanager", "Nagios", "SNMP", "ELK", "Grafana Alloy"] },
+  { id: "cloud", name: "Cloud", blurb: "Services managés Azure et Google Cloud, stockage objet, accès publics sans port ouvert.", keys: ["Azure", "GCP", "Google Cloud Platform", "Cloudflare Tunnel", "S3"] },
+  { id: "dev", name: "Développement & données", blurb: "Applications complètes : API, interfaces web et mobiles, bases relationnelles et documentaires.", keys: ["Full-stack", "Python", "Node.js", "React", "React Native", "FastAPI", "Flask", "PostgreSQL", "MySQL", "MongoDB", "GraphQL", "Mobile", "Bases de données", "NoSQL", "Go", "JavaScript", "Développement", "Next.js", "Astro", "Microservices", "Architecture"] },
+  { id: "ia", name: "IA appliquée", blurb: "Assistants et agents encadrés : outils validés côté serveur, sources citées, usage maîtrisé des modèles.", keys: ["IA", "IA / Assistant conversationnel", "IA / AIOps", "IA / RAG", "LLM / tool-calling", "Ollama", "Mistral AI", "Gemini API", "MCP"] },
+];
+
+const DOMAINS_EN: Record<string, { name: string; blurb: string }> = {
+  virt: { name: "Virtualisation & systems", blurb: "Hypervisors, virtual machines and system containers, from the workstation to production: Proxmox at the homelab, ESXi at Cloud Temple." },
+  iac: { name: "Infrastructure as Code & automation", blurb: "Describing infrastructure as code and automating it: Terraform, Ansible, scripts. Nothing is done by hand, everything can be replayed." },
+  cicd: { name: "CI/CD & continuous delivery", blurb: "Test, build and deployment pipelines, with security scanning of images." },
+  k8s: { name: "Containers & Kubernetes", blurb: "Docker every day, orchestration with Swarm and Kubernetes, GitOps deployment with Flux." },
+  sec: { name: "Networking & security", blurb: "VLAN segmentation, firewalls, intrusion detection, single sign-on, secrets management and hardening." },
+  obs: { name: "Monitoring & observability", blurb: "Metrics, logs and alerts so that a failure is known before users notice it." },
+  cloud: { name: "Cloud", blurb: "Managed Azure and Google Cloud services, object storage, public access without an open port." },
+  dev: { name: "Development & data", blurb: "Complete applications: APIs, web and mobile interfaces, relational and document databases." },
+  ia: { name: "Applied AI", blurb: "Supervised assistants and agents: server-validated tools, cited sources, controlled use of models." },
+};
+const norm = (x: string) => x.toLowerCase();
+const total = projects.length;
+const domains = DOMAINS.map((d) => {
+  const keys = new Set(d.keys.map(norm));
+  const hits = projects
+    .map((p) => ({ p, matched: [...p.data.tags, ...p.data.stack].filter((t) => keys.has(norm(t))) }))
+    .filter((x) => x.matched.length > 0);
+  const toolCount = new Map<string, number>();
+  hits.forEach((h) => new Set(h.matched).forEach((t) => toolCount.set(t, (toolCount.get(t) ?? 0) + 1)));
+  return {
+    id: d.id,
+    name: en ? DOMAINS_EN[d.id].name : d.name,
+    blurb: en ? DOMAINS_EN[d.id].blurb : d.blurb,
+    tools: [...toolCount.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([t]) => t),
+    projects: hits
+      .sort((a, b) => b.matched.length - a.matched.length)
+      .map((h) => ({ slug: h.p.id, title: (en ? enProject(h.p.id, h.p.data).title : h.p.data.title).split(" - ")[0], cat: h.p.data.category })),
+  };
+})
+  .filter((d) => d.projects.length > 0)
+  .sort((a, b) => b.projects.length - a.projects.length);
+
+const softSkillsEn = [
+  { title: "Project management & coordination", detail: "Cross-team project tracking at Cloud Temple (planning, coordination between teams) and writing the requirements and managing the budget for the SUPINFO lab.", projects: [{ slug: "cloud-temple", title: "Cloud Temple work-study" }, { slug: "supinfo-lab", title: "SUPINFO Lab" }] },
+  { title: "Initiative & autonomy", detail: "The SUPINFO lab started as a personal initiative, carried end to end without anyone asking. The homelab is designed and run solo.", projects: [{ slug: "supinfo-lab", title: "SUPINFO Lab" }, { slug: "homelab", title: "Homelab" }] },
+  { title: "Teamwork", detail: "Contributing to group projects with a clear split of roles: SUPCHAT and SUPFile with a full team, 4ARCL in a pair on architecture design.", projects: [{ slug: "supchat", title: "SUPCHAT" }, { slug: "supfile", title: "SUPFile" }, { slug: "4arcl", title: "4ARCL" }] },
+  { title: "Rigour & consistent results", detail: "BTS SIO passed with 15.5/20, then the end-of-year projects at SUPINFO: SUPCHAT in the 3rd year and SUPFile in the 4th year.", projects: [{ slug: "bts-sio", title: "BTS SIO" }] },
+  { title: "Teaching & knowledge sharing", detail: "The SUPINFO lab was designed from the start so that other students can practise infrastructure, not just for my own use.", projects: [{ slug: "supinfo-lab", title: "SUPINFO Lab" }] },
+  { title: "Synthesis & architectural thinking", detail: "Quickly grasping what is at stake in a subject rather than rushing into execution: put into practice on 4ARCL (design before code) and on the automation of audits at Cloud Temple.", projects: [{ slug: "4arcl", title: "4ARCL" }, { slug: "cloud-temple", title: "Cloud Temple work-study" }] },
+];
+const softSkillsFr = [
+  {
+    title: "Gestion de projet & pilotage",
+    detail:
+      "Suivi de projets transverses chez Cloud Temple (planification, coordination entre équipes) et rédaction du cahier des charges / gestion du budget pour le lab SUPINFO.",
+    projects: [
+      { slug: "cloud-temple", title: "Alternance Cloud Temple" },
+      { slug: "supinfo-lab", title: "SUPINFO Lab" },
+    ],
+  },
+  {
+    title: "Initiative & autonomie",
+    detail:
+      "Le lab SUPINFO est né d'une initiative personnelle, portée de bout en bout sans qu'on me le demande. Le homelab est conçu et exploité en solo.",
+    projects: [
+      { slug: "supinfo-lab", title: "SUPINFO Lab" },
+      { slug: "homelab", title: "Homelab" },
+    ],
+  },
+  {
+    title: "Travail en équipe",
+    detail:
+      "Contribution à des projets de groupe avec répartition des rôles : SUPCHAT et SUPFile en équipe complète, 4ARCL en binôme sur la conception d'architecture.",
+    projects: [
+      { slug: "supchat", title: "SUPCHAT" },
+      { slug: "supfile", title: "SUPFile" },
+      { slug: "4arcl", title: "4ARCL" },
+    ],
+  },
+  {
+    title: "Rigueur & constance des résultats",
+    detail:
+      "BTS SIO validé avec 15,5/20, puis les projets de fin d'année à SUPINFO : SUPCHAT en 3e année et SUPFile en 4e année.",
+    projects: [{ slug: "bts-sio", title: "BTS SIO" }],
+  },
+  {
+    title: "Pédagogie & transmission",
+    detail:
+      "Le lab SUPINFO a été pensé dès le départ pour permettre à d'autres étudiants de pratiquer l'infrastructure, pas seulement pour mon usage personnel.",
+    projects: [{ slug: "supinfo-lab", title: "SUPINFO Lab" }],
+  },
+  {
+    title: "Synthèse & vision architecturale",
+    detail:
+      "Comprendre vite les enjeux et les tenants et aboutissants d'un sujet, plutôt que de foncer dans l'exécution - une approche mise en pratique sur 4ARCL (conception avant code) et sur l'automatisation des audits chez Cloud Temple.",
+    projects: [
+      { slug: "4arcl", title: "4ARCL" },
+      { slug: "cloud-temple", title: "Alternance Cloud Temple" },
+    ],
+  },
+];
+const softSkills = en ? softSkillsEn : softSkillsFr;
+---
+
+<Layout
+  lang={lang}
+  alt={en ? "/competences/" : "/en/competences/"}
+  title={en ? "Skills - Rudy Gault" : "Compétences - Rudy Gault"}
+  description={en ? "Rudy Gault's technical skills (infrastructure, DevOps, IaC, security, development) linked to the projects that demonstrate them, and soft skills illustrated with concrete situations." : "Compétences techniques de Rudy Gault (infrastructure, DevOps, IaC, sécurité, développement) reliées aux projets qui les démontrent, et compétences humaines illustrées."}
+>
+  <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">{en ? "Skills" : "Compétences"}</h1>
+  <p class="mb-10 max-w-2xl text-[var(--fg-muted)]">
+    {en ? "For each technical area: how many projects put it into practice and in what setting (professional, personal, school). Click an area to see the tools and projects. Soft skills are illustrated further down with concrete situations." : "Pour chaque domaine technique : dans combien de projets il est mis en pratique et dans quel cadre (entreprise, projets personnels, école). Cliquez un domaine pour voir les outils et les projets. Les compétences humaines sont illustrées plus bas par des situations concrètes."}
+  </p>
+
+  <details class="group" open>
+    <summary class="mb-4 flex cursor-pointer list-none items-center gap-2 text-sm font-semibold uppercase tracking-wide text-[var(--accent)]">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        class="shrink-0 transition-transform group-open:rotate-90"
+      >
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+      {en ? "Technical" : "Techniques"}
+    </summary>
+    <SkillDomains client:visible domains={domains} total={total} lang={lang} />
+  </details>
+
+  <h2 class="mb-4 mt-16 text-sm font-semibold uppercase tracking-wide text-[var(--relevance-pertinent)]">
+    {en ? "Soft skills" : "Savoir-être"}
+  </h2>
+  <div class="grid gap-4 sm:grid-cols-2">
+    {softSkills.map((skill) => (
+      <div class="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
+        <h3 class="mb-2 font-medium text-[var(--fg)]">{skill.title}</h3>
+        <p class="mb-3 text-sm text-[var(--fg-muted)]">{skill.detail}</p>
+        <div class="flex flex-wrap gap-2">
+          {skill.projects.map((p) => (
+            <a
+              href={`/projets/${p.slug}/`}
+              class="rounded-full bg-[var(--bg)] px-3 py-1 text-xs text-[var(--fg-muted)] ring-1 ring-[var(--border)] transition-colors hover:text-[var(--accent)]"
+            >
+              {p.title}
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</Layout>

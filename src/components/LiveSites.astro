@@ -1,6 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import { existsSync } from "node:fs";
+import { enProject } from "../i18n/projects-en";
+import type { Lang } from "../i18n/ui";
+
+const { title: titleProp, note: noteProp, eyebrow, lang = "fr" } = Astro.props as { title?: string; note?: string; eyebrow?: string; lang?: Lang };
+const en = lang === "en";
 
 // supchat.fr n'existe plus (NXDOMAIN) : pas de carte vers un site mort.
 const EXCLUDE = new Set(["supchat"]);
@@ -10,14 +15,15 @@ const items = (await getCollection("projects"))
   .sort((a, b) => weight[a.data.relevance] - weight[b.data.relevance] || a.data.order - b.data.order)
   .map((p) => ({
     id: p.id,
-    name: p.data.title.split(" - ")[0],
-    img: existsSync(`./public/sites/${p.id}.webp`) ? `/sites/${p.id}.webp?v=2` : undefined,
-    text: (p.data.title.split(" - ")[1] ?? p.data.summary).replace(/^./, (c) => c.toUpperCase()),
+    name: (en ? enProject(p.id, p.data).title : p.data.title).split(" - ")[0],
+    img: existsSync(`./public/sites/${p.id}.webp`) ? `/sites/${p.id}.webp?v=3` : undefined,
+    text: ((en ? enProject(p.id, p.data).title : p.data.title).split(" - ")[1] ?? (en ? enProject(p.id, p.data).summary : p.data.summary)).replace(/^./, (c) => c.toUpperCase()),
     site: p.data.links.demo,
     live: p.data.links.sandbox,
     host: new URL((p.data.links.sandbox ?? p.data.links.demo)!).hostname.replace(/^www\./, ""),
   }));
-const { title = "Sites et démos en ligne", note = "Cliquez pour les essayer, sans compte", eyebrow } = Astro.props;
+const title = titleProp ?? (en ? "Live sites and demos" : "Sites et démos en ligne");
+const note = noteProp ?? (en ? "Click to try them, no account needed" : "Cliquez pour les essayer, sans compte");
 const label = title.replace(/<[^>]+>/g, "");
 ---
 
@@ -29,11 +35,11 @@ const label = title.replace(/<[^>]+>/g, "");
       <p>{note}</p>
     </div>
     <div class="live-nav">
-      <button type="button" class="live-btn" data-dir="-1" aria-label="Précédent">←</button>
-      <button type="button" class="live-btn" data-dir="1" aria-label="Suivant">→</button>
+      <button type="button" class="live-btn" data-dir="-1" aria-label={en ? "Previous" : "Précédent"}>←</button>
+      <button type="button" class="live-btn" data-dir="1" aria-label={en ? "Next" : "Suivant"}>→</button>
     </div>
   </div>
-  <div class="live-viewport" tabindex="0" role="group" aria-label={`${label} : faites défiler horizontalement`}>
+  <div class="live-viewport" tabindex="0" role="group" aria-label={en ? `${label}: scroll horizontally` : `${label} : faites défiler horizontalement`}>
     <ul class="live-track">
       {[0, 1].map((copy) =>
         items.map((it) => (
@@ -45,9 +51,9 @@ const label = title.replace(/<[^>]+>/g, "");
             <span class="live-text">{it.text}</span>
             <span class="live-host">{it.host}</span>
             <span class="live-links">
-              {it.live && <a href={it.live} rel="noreferrer" tabindex={copy === 1 ? -1 : undefined}>Démo en ligne</a>}
-              {it.site && <a href={it.site} rel="noreferrer" tabindex={copy === 1 ? -1 : undefined}>{it.live ? "Présentation" : "Site"}</a>}
-              <a href={`/projets/${it.id}/`} tabindex={copy === 1 ? -1 : undefined}>Fiche</a>
+              {it.live && <a href={it.live} rel="noreferrer" tabindex={copy === 1 ? -1 : undefined}>{en ? "Live demo" : "Démo en ligne"}</a>}
+              {it.site && <a href={it.site} rel="noreferrer" tabindex={copy === 1 ? -1 : undefined}>{it.live ? (en ? "Overview" : "Présentation") : (en ? "Website" : "Site")}</a>}
+              <a href={`/projets/${it.id}/`} tabindex={copy === 1 ? -1 : undefined}>{en ? "Case study (FR)" : "Fiche"}</a>
             </span>
           </li>
         ))

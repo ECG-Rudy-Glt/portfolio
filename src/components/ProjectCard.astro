@@ -8,27 +8,26 @@ interface Props {
   tags: string[];
   category: "perso" | "ecole" | "entreprise";
   relevance: "majeur" | "pertinent" | "secondaire";
+  lang?: "fr" | "en";
 }
 
-const { slug, title, summary, period, tags, category, relevance } = Astro.props;
+const { slug, title, summary, period, tags, category, relevance, lang = "fr" } = Astro.props;
+const en = lang === "en";
 
-const thumb = existsSync(`./public/sites/${slug}.webp`) ? `/sites/${slug}.webp?v=2` : undefined;
+const thumb = existsSync(`./public/sites/${slug}.webp`) ? `/sites/${slug}.webp?v=3` : undefined;
 
-const categoryLabel: Record<Props["category"], string> = {
-  perso: "Projet perso",
-  ecole: "Projet école",
-  entreprise: "Entreprise",
-};
+const categoryLabel: Record<Props["category"], string> = en
+  ? { perso: "Personal project", ecole: "School project", entreprise: "Professional" }
+  : { perso: "Projet perso", ecole: "Projet école", entreprise: "Entreprise" };
 
-const relevanceLabel: Record<Props["relevance"], string> = {
-  majeur: "Projet majeur",
-  pertinent: "Pertinent",
-  secondaire: "Secondaire",
-};
+const relevanceLabel: Record<Props["relevance"], string> = en
+  ? { majeur: "Major project", pertinent: "Relevant", secondaire: "Minor" }
+  : { majeur: "Projet majeur", pertinent: "Pertinent", secondaire: "Secondaire" };
 ---
 
 <a
   href={`/projets/${slug}/`}
+  hreflang="fr"
   class="group flex flex-col gap-3 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-colors hover:border-[var(--accent)]"
   data-category={category}
   data-tags={tags.join(",")}

@@ -1,0 +1,302 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { lp, swapPath, ui, type Lang } from "../i18n/ui";
+import { enProject } from "../i18n/projects-en";
+import { getCollection } from "astro:content";
+import LiveSites from "../components/LiveSites.astro";
+import { solutions, solutionsLabel, solutionsLabelEn } from "../data/solutions";
+
+const { lang = "fr" } = Astro.props as { lang?: Lang };
+const en = lang === "en";
+const T = (fr: string, e: string) => (en ? e : fr);
+const base = en ? "/en" : "";
+
+const projects = await getCollection("projects");
+const byId = new Map(projects.map((p) => [p.id, p]));
+
+// Projets mis en avant sur l'accueil, avec une capture en fond quand le projet en a une.
+const featured = [
+  { id: "homelab", img: "/projets/homelab/visite-3d-machine.webp" },
+  { id: "cloud-temple" },
+  { id: "plateforme-automatisation" },
+  { id: "coach", img: "/sites/coach.webp" },
+  { id: "supfile", img: "/projets/supfile/tableau-de-bord.webp" },
+  { id: "relai", img: "/projets/relai/fonctionnement.webp" },
+]
+  .filter((f) => byId.has(f.id))
+  .map((f, i) => {
+    const p = byId.get(f.id)!;
+    const [name, sub] = (en ? enProject(p.id, p.data).title : p.data.title).split(" - ");
+    return { ...f, n: String(i + 1).padStart(2, "0"), name, sub, summary: p.data.summary, category: p.data.category, stack: p.data.stack };
+  });
+
+const categoryLabel = en ? ({ perso: "Personal", ecole: "School", entreprise: "Work-study" } as const) : ({ perso: "Perso", ecole: "École", entreprise: "Alternance" } as const);
+
+const stats = [
+  { v: "2024", l: T("début de mon alternance chez Cloud Temple", "start of my work-study at Cloud Temple") },
+  { v: String(projects.length), l: T("projets documentés, école, perso et entreprise", "documented projects: school, personal and professional") },
+  { v: "2", l: T("nœuds Proxmox en production à la maison", "Proxmox nodes running in production at home") },
+  { v: String(solutions.length), l: T("solutions open source publiées", "open source solutions published") },
+];
+
+const timelineFr = [
+  { when: "2022 - 2024", title: "BTS SIO SLAM · Ethan Consulting", text: "Développeur en alternance : web scraping, manipulation du DOM, modélisation MERISE. Diplômé avec 15,5/20." },
+  { when: "2024 - 2025", title: "SUPINFO 3e année · Cloud Temple", text: "Virtualisation VMware, Ansible, CI/CD GitLab, monitoring d'infrastructures critiques. SUPCHAT, 1er niveau campus." },
+  { when: "2025 - 2026", title: "SUPINFO 4e année · Cloud Temple", text: "Suivi de projets transverses, plateforme interne d'automatisation. SUPFile, 2e du campus de Tours. Montage d'un lab pédagogique." },
+  { when: "2026 - 2027", title: "SUPINFO 5e année · Cloud Temple", text: "Dernière année de master, toujours en alternance. Homelab en IaC, solutions open source publiées (COACH, Relai, Patrimoine)." },
+  { when: "sept. 2027", title: "Fin de cursus", text: "Disponible en CDI DevOps / SRE." },
+];
+const timelineEn = [
+  { when: "2022 - 2024", title: "BTS SIO SLAM · Ethan Consulting", text: "Work-study developer: web scraping, DOM manipulation, MERISE data modelling. Graduated with 15.5/20." },
+  { when: "2024 - 2025", title: "SUPINFO 3rd year · Cloud Temple", text: "VMware virtualisation, Ansible, GitLab CI/CD, monitoring of critical infrastructure. SUPCHAT, 1st at campus level." },
+  { when: "2025 - 2026", title: "SUPINFO 4th year · Cloud Temple", text: "Cross-team project tracking, internal automation platform. SUPFile, 2nd at the Tours campus. Set up a teaching lab." },
+  { when: "2026 - 2027", title: "SUPINFO 5th year · Cloud Temple", text: "Final year of the master's programme, still work-study. Homelab as code, open source solutions published (COACH, Relai, Patrimoine)." },
+  { when: "Sept. 2027", title: "End of studies", text: "Available for a permanent DevOps / SRE role." },
+];
+const timeline = en ? timelineEn : timelineFr;
+
+const skillsFr = [
+  { name: "Virtualisation", tools: "Proxmox · VMware ESXi · govc", proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Infrastructure as Code", tools: "Terraform · Ansible", proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Conteneurs et orchestration", tools: "Docker · k3s · FluxCD · Kubernetes", proof: "4KUBE", href: "/projets/4kube/" },
+  { name: "Réseau et sécurité", tools: "OPNsense · VLAN · Suricata · CrowdSec", proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Secrets et identité", tools: "OpenBao · PKI · Authentik · Authelia", proof: "Article PKI", href: "/blog/homelab-pki-secrets/" },
+  { name: "Observabilité", tools: "Prometheus · Grafana · Loki · Nagios", proof: "Cloud Temple", href: "/projets/cloud-temple/" },
+  { name: "CI/CD et supply chain", tools: "Forgejo · GitLab CI · Trivy · SBOM", proof: "Plateforme interne", href: "/projets/plateforme-automatisation/" },
+  { name: "Développement", tools: "Python · Go · FastAPI · Bash", proof: "COACH", href: "/projets/coach/" },
+];
+const skillsEn = [
+  { name: "Virtualisation", tools: skillsFr[0].tools, proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Infrastructure as Code", tools: skillsFr[1].tools, proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Containers and orchestration", tools: skillsFr[2].tools, proof: "4KUBE", href: "/projets/4kube/" },
+  { name: "Networking and security", tools: skillsFr[3].tools, proof: "Homelab", href: "/projets/homelab/" },
+  { name: "Secrets and identity", tools: skillsFr[4].tools, proof: "PKI article (FR)", href: "/blog/homelab-pki-secrets/" },
+  { name: "Observability", tools: skillsFr[5].tools, proof: "Cloud Temple", href: "/projets/cloud-temple/" },
+  { name: "CI/CD and supply chain", tools: skillsFr[6].tools, proof: "Internal platform", href: "/projets/plateforme-automatisation/" },
+  { name: "Development", tools: skillsFr[7].tools, proof: "COACH", href: "/projets/coach/" },
+];
+const skills = en ? skillsEn : skillsFr;
+
+// Logos des solutions (Relai n'a pas de logo : vignette typographique)
+const ossImages: Record<string, { logo?: string; tint: string; id: string }> = {
+  COACH: { logo: "/logos/oss/coach.svg?v=2", tint: "#1fb58a", id: "coach" },
+  Relai: { logo: "/logos/oss/relai.svg?v=2", tint: "#18b394", id: "relai" },
+  Patrimoine: { logo: "/logos/oss/patrimoine.svg?v=2", tint: "#2a78d6", id: "patrimoine" },
+};
+const oss = solutions.map((s) => ({ ...s, ...ossImages[s.name] }));
+
+const posts = (await getCollection("articles"))
+  .filter((a) => a.data.type === "article")
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const dateFmt = new Intl.DateTimeFormat(ui[lang].dateLocale, { day: "2-digit", month: "2-digit", year: "numeric" });
+---
+
+<Layout
+  lang={lang}
+  alt={en ? "/" : "/en/"}
+  title={T("Rudy Gault - Ingénieur DevOps / Platform", "Rudy Gault - DevOps / Platform Engineer")}
+  description={T("Rudy Gault, ingénieur DevOps / Platform en alternance chez Cloud Temple depuis 2024 (SUPINFO) : homelab Proxmox en IaC, automatisation, CI/CD, projets open source. CDI DevOps / SRE recherché pour septembre 2027.", "Rudy Gault, DevOps / Platform engineer on a work-study contract at Cloud Temple since 2024 (SUPINFO): Proxmox homelab as code, automation, CI/CD, open source projects. Looking for a permanent DevOps / SRE role from September 2027.")}
+>
+  <div class="flex flex-col gap-24 sm:gap-32">
+    <!-- Accroche -->
+    <section class="flex flex-wrap items-end gap-12 pt-4 sm:pt-10">
+      <div class="flex min-w-0 flex-[1_1_620px] flex-col gap-8">
+        <p class="eyebrow">{T("Ingénieur DevOps / Platform · Tours", "DevOps / Platform engineer · Tours, France")}</p>
+        <h1 class="text-[clamp(2.75rem,7vw,6rem)] text-[var(--fg)]">
+          {en ? <>I automate the infrastructure that <em class="accent">holds</em> in production.</> : <>J'automatise l'infrastructure qui <em class="accent">tient</em> en production.</>}
+        </h1>
+        <p class="max-w-[56ch] text-lg text-[var(--fg-soft)]">
+          {T("En alternance chez Cloud Temple depuis 2024, en 5e et dernière année de master à SUPINFO. Je cherche un CDI DevOps / SRE à partir de septembre 2027.", "On a work-study contract at Cloud Temple since 2024, in my 5th and final year of a master's degree at SUPINFO. I am looking for a permanent DevOps / SRE role from September 2027.")}
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href={`${base}/projets/`} class="inline-flex min-h-[48px] items-center rounded-full bg-[var(--fg)] px-6 text-[15px] text-[var(--bg)] transition-opacity hover:opacity-90">{T("Voir les projets", "See the projects")}</a>
+          <a href={`${base}/parcours/`} class="inline-flex min-h-[48px] items-center rounded-full border border-[var(--fg)] px-6 text-[15px] text-[var(--fg)] transition-colors hover:bg-[var(--bg-elevated)]">{T("Mon parcours", "My journey")}</a>
+        </div>
+      </div>
+      <p class="flex flex-[0_1_260px] flex-col border-l border-[var(--border)] pl-6 font-display text-3xl italic leading-tight text-[var(--fg-soft)]">
+        <span>Infrastructure.</span><span>{T("Automatisation.", "Automation.")}</span><span class="text-[var(--accent)]">Open source.</span>
+      </p>
+    </section>
+
+    <!-- Chiffres -->
+    <section class="grid grid-cols-2 border-y border-[var(--border)] lg:grid-cols-4" aria-label={T("Quelques chiffres", "Key figures")}>
+      {stats.map((s) => (
+        <div class="flex flex-col gap-1.5 py-7 pr-6">
+          <span class="font-display text-5xl leading-none text-[var(--fg)]">{s.v}</span>
+          <span class="text-sm text-[var(--fg-muted)]">{s.l}</span>
+        </div>
+      ))}
+    </section>
+
+    <!-- Sites en ligne (carrousel) -->
+    <LiveSites lang={lang} eyebrow={T("En ligne", "Live")} title={en ? 'Sites that <em class="accent">run</em>, not mock-ups' : 'Des sites qui <em class="accent">tournent</em>, pas des maquettes'} note={T("Cliquez pour les essayer, sans compte.", "Click to try them, no account needed.")} />
+
+    <!-- Projets à la une -->
+    <section id="projets" class="flex scroll-mt-24 flex-col gap-8">
+      <div class="flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <p class="eyebrow">{T("02 · Projets à la une", "02 · Featured projects")}</p>
+          <h2 class="mt-2 text-4xl text-[var(--fg)] sm:text-5xl">{en ? <>What I built, and what it <em class="accent">changed</em></> : <>Ce que j'ai construit, et ce que ça a <em class="accent">changé</em></>}</h2>
+        </div>
+        <a href={`${base}/projets/`} class="border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">{T(`Les ${projects.length} projets`, `All ${projects.length} projects`)}</a>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2">
+        {featured.map((p) => (
+          <a href={`/projets/${p.id}/`} hreflang="fr" class="feat group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--band)] text-[#f3f1ea]">
+            {p.img ? (
+              <img src={p.img} alt="" width="960" height="600" loading="lazy" decoding="async" class="feat-img absolute inset-0 h-full w-full object-cover object-top" />
+            ) : (
+              <span class="feat-logo absolute inset-0 flex items-center justify-center bg-[#fbfaf7] pb-16"><img src="/logos/cloud-temple.png" alt="Cloud Temple" width="1100" height="963" loading="lazy" decoding="async" class="h-[78%] w-auto max-w-[80%] object-contain" /></span>
+            )}
+            <span class="absolute left-4 top-4 rounded-full bg-[#0e100dcc] px-3 py-1 font-mono text-xs">{p.n} · {categoryLabel[p.category]}</span>
+            <div class="feat-bar absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-6 py-4">
+              <div class="min-w-0">
+                <h3 class="font-display text-2xl leading-tight sm:text-[1.75rem]">{p.name}</h3>
+                {p.sub && <span class="block truncate text-sm text-[#e4e2d8]">{p.sub}</span>}
+              </div>
+              <span aria-hidden="true" class="shrink-0 text-xl transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <style>
+        .feat-bar { background: rgba(14, 16, 13, 0.82); transition: background-color 0.42s ease; }
+        .feat:hover .feat-bar { background: rgba(14, 16, 13, 0.92); }
+        .feat-img { transition: transform 0.65s cubic-bezier(.4, 0, .2, 1); }
+        .feat:hover .feat-img { transform: scale(1.03); }
+        :global(:root.no-anim) .feat-img, :global(:root.no-anim) .feat-bar { transition: none; }
+      </style>
+    </section>
+
+    <!-- Visite du homelab -->
+    <section class="flex flex-wrap overflow-hidden rounded-[20px] bg-[var(--band)] text-[var(--band-fg)]">
+      <div class="flex min-w-0 flex-[1_1_420px] flex-col justify-center gap-5 p-8 sm:p-12">
+        <p class="font-mono text-xs uppercase tracking-[0.04em] text-[var(--accent-2)]">{T("Visite guidée", "Guided tour")}</p>
+        <h2 class="font-display text-4xl leading-tight text-[var(--band-fg)] sm:text-5xl">{en ? <>Step into the <em>homelab</em></> : <>Entrez dans le <em>homelab</em></>}</h2>
+        <p class="max-w-[46ch] text-[var(--band-muted)]">{T("Les machines, les services, le chemin d'une requête jusqu'au conteneur et les projets que j'héberge. En 3D sur ordinateur, en liste sur mobile.", "The machines, the services, the path of a request down to the container, and the projects I host. In 3D on desktop, as a list on mobile.")}</p>
+        <a href="https://homelab.gault-rudy.com/" class="inline-flex min-h-[48px] items-center self-start rounded-full bg-[var(--accent-2)] px-6 text-[15px] font-medium text-[var(--accent-2-fg)] transition-opacity hover:opacity-90">{T("Lancer la visite", "Start the tour")}</a>
+      </div>
+      <div class="min-h-[300px] min-w-0 flex-[1_1_520px]">
+        <img src="/projets/homelab/visite-3d-cluster.webp" alt={T("Vue 3D du cluster Proxmox du homelab", "3D view of the homelab Proxmox cluster")} width="960" height="600" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+      </div>
+    </section>
+
+    <!-- Parcours -->
+    <section id="parcours" class="flex flex-wrap gap-12">
+      <div class="min-w-0 flex-[1_1_300px]">
+        <p class="eyebrow">{T("01 · Parcours", "01 · Journey")}</p>
+        <h2 class="mb-4 mt-2 text-4xl text-[var(--fg)] sm:text-5xl">{en ? <>From BTS to <em class="accent">prod</em></> : <>Du BTS à la <em class="accent">prod</em></>}</h2>
+        <p class="text-[var(--fg-soft)]">{T("Quatre ans d'alternance dans deux entreprises, et un homelab qui sert de terrain d'essai à tout le reste.", "Four years of work-study across two companies, and a homelab that serves as a testing ground for everything else.")}</p>
+        <a href={`${base}/parcours/`} class="mt-6 inline-block border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">{T("Le parcours détaillé", "The full journey")}</a>
+      </div>
+      <ol class="m-0 flex min-w-0 flex-[2_1_560px] list-none flex-col p-0">
+        {timeline.map((t) => (
+          <li class="flex flex-wrap gap-x-8 gap-y-1 border-t border-[var(--border)] py-5">
+            <span class="flex-[0_0_120px] font-mono text-[13px] text-[var(--fg-muted)]">{t.when}</span>
+            <div class="min-w-0 flex-[1_1_320px]">
+              <div class="text-lg font-semibold text-[var(--fg)]">{t.title}</div>
+              <div class="text-[15px] text-[var(--fg-soft)]">{t.text}</div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Compétences -->
+    <section id="competences" class="flex flex-col gap-7">
+      <div class="flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <p class="eyebrow">{T("03 · Compétences", "03 · Skills")}</p>
+          <h2 class="mt-2 text-4xl text-[var(--fg)] sm:text-5xl">{en ? <>Eight areas, each with its <em class="accent">proof</em></> : <>Huit domaines, chacun avec sa <em class="accent">preuve</em></>}</h2>
+        </div>
+        <a href={`${base}/competences/`} class="border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">{T("Toutes les compétences", "All skills")}</a>
+      </div>
+      <div class="grid border-t border-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
+        {skills.map((k) => (
+          <div class="flex flex-col gap-1.5 border-b border-[var(--border)] py-5 pr-6">
+            <span class="font-semibold text-[var(--fg)]">{k.name}</span>
+            <span class="font-mono text-xs text-[var(--fg-soft)]">{k.tools}</span>
+            <span class="text-sm text-[var(--fg-muted)]">{en ? "Proof:" : "Preuve :"} <a href={k.href} class="border-b border-[var(--border)] text-[var(--fg)] hover:border-[var(--accent)]">{k.proof}</a></span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Façon de travailler (reprise de la page « Pourquoi ce projet » du homelab) -->
+    <section class="py-4 text-center">
+      <p class="mx-auto max-w-[24ch] font-display text-[clamp(2rem,4vw,3rem)] italic leading-tight text-[var(--fg)]">{T("« Toute la chaîne, pas un maillon. »", "“The whole chain, not a single link.”")}</p>
+      <p class="mx-auto mt-5 max-w-[58ch] text-[var(--fg-soft)]">{T("Dans mon homelab, je suis seul responsable de toute la pile, du VLAN au certificat TLS en passant par le firewall inter-services. C'est ce qui construit une vision d'ensemble.", "In my homelab I am solely responsible for the whole stack, from the VLAN to the TLS certificate and the inter-service firewall. That is what builds a big-picture view.")}</p>
+      <a href="/projets/homelab/pourquoi/" class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.04em] text-[var(--fg-muted)] hover:text-[var(--accent)]">{T("Comment je travaille", "How I work")} →</a>
+    </section>
+
+    <!-- Solutions open source -->
+    <style>
+      .oss-tile { background: color-mix(in oklab, var(--tint) 12%, var(--bg-elevated)); }
+      .oss-logo { transition: transform .6s cubic-bezier(.16, 1, .3, 1); }
+      .oss-tile:hover .oss-logo { transform: scale(1.06) rotate(-2deg); }
+      .oss-mark { background: #121310; color: #f3f1ea; }
+      :root.dark .oss-mark { background: #f3f1ea; color: #121310; }
+    </style>
+    <section class="flex flex-col gap-7">
+      <div>
+        <p class="eyebrow">{en ? solutionsLabelEn : solutionsLabel}</p>
+        <h2 class="mt-2 text-4xl text-[var(--fg)] sm:text-5xl">{en ? <>Published, documented, <em class="accent">usable</em></> : <>Publiées, documentées, <em class="accent">utilisables</em></>}</h2>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        {oss.map((o) => (
+          <article class="flex flex-col gap-3">
+            <a href={en ? o.links[0].href : `/projets/${o.id}/`} class="oss-tile group relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-xl border border-[var(--border)]" style={`--tint:${o.tint}`} tabindex="-1" aria-hidden="true">
+              {o.logo ? (
+                <img src={o.logo} alt="" width="112" height="112" loading="lazy" decoding="async" class="oss-logo h-28 w-28 rounded-[26%] shadow-lg" />
+              ) : (
+                <span class="oss-logo oss-mark flex h-28 w-28 flex-col items-center justify-center gap-1 rounded-[26%] shadow-lg"><span class="font-mono text-2xl tracking-tight">relai</span><span class="font-mono text-sm opacity-70">⇄ git</span></span>
+              )}
+            </a>
+            <h3 class="text-lg font-semibold text-[var(--fg)]"><a href={en ? o.links[0].href : `/projets/${o.id}/`} class="hover:text-[var(--accent)]">{o.name}</a></h3>
+            <p class="text-[15px] text-[var(--fg-soft)]">{en ? o.descriptionEn : o.description}</p>
+            <p class="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+              {o.links.map((l) => (
+                <a href={l.href} target="_blank" rel="noopener noreferrer" class="border-b border-[var(--border)] text-[var(--fg)] hover:border-[var(--accent)]">{en ? l.labelEn : l.label}</a>
+              ))}
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog" class="flex flex-col gap-7">
+      <div class="flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <p class="eyebrow">{T("04 · Notes de terrain", "04 · Field notes (in French)")}</p>
+          <h2 class="mt-2 text-4xl text-[var(--fg)] sm:text-5xl">{en ? <>What I <em class="accent">learned</em></> : <>Ce que j'en ai <em class="accent">appris</em></>}</h2>
+        </div>
+        <a href="/blog/" class="border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">{T("Tous les articles", "All articles")}</a>
+      </div>
+      <div class="grid gap-8 md:grid-cols-3">
+        {posts.map((a) => (
+          <a href={`/blog/${a.id}/`} hreflang="fr" class="group flex flex-col gap-2.5 border-t-2 border-[var(--fg)] pt-5">
+            <div class="flex justify-between font-mono text-xs text-[var(--fg-muted)]">
+              <span>{a.data.tags[0] ?? "Article"}</span><span>{dateFmt.format(a.data.date)}</span>
+            </div>
+            <span class="font-display text-[1.65rem] leading-tight text-[var(--fg)] group-hover:text-[var(--accent)]">{a.data.title}</span>
+            <span class="line-clamp-3 text-[15px] text-[var(--fg-soft)]">{a.data.summary}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="flex flex-col items-start gap-7 border-t border-[var(--border)] pt-20">
+      <h2 class="max-w-[16ch] text-[clamp(2.75rem,6vw,5rem)] leading-[1.05] text-[var(--fg)]">
+        {en ? <>A DevOps / SRE role in 2027? <em class="accent">Let's talk.</em></> : <>Un poste DevOps / SRE en 2027 ? <em class="accent">Parlons-en.</em></>}
+      </h2>
+      <div class="flex flex-wrap gap-3">
+        <a href="mailto:contact@rudy-ops.fr" class="inline-flex min-h-[48px] items-center rounded-full bg-[var(--fg)] px-6 text-[15px] text-[var(--bg)] transition-opacity hover:opacity-90">contact@rudy-ops.fr</a>
+        <a href="/cv-rudy-gault.pdf?v=2" download="CV-Rudy-Gault.pdf" class="inline-flex min-h-[48px] items-center rounded-full border border-[var(--fg)] px-6 text-[15px] text-[var(--fg)] transition-colors hover:bg-[var(--bg-elevated)]">{T("Télécharger le CV", "Download my CV (French)")}</a>
+        <a href="https://www.linkedin.com/in/rudy-gault/" target="_blank" rel="noreferrer" class="inline-flex min-h-[48px] items-center rounded-full border border-[var(--border)] px-6 text-[15px] text-[var(--fg)] transition-colors hover:border-[var(--fg)]">LinkedIn</a>
+      </div>
+    </section>
+  </div>
+</Layout>
