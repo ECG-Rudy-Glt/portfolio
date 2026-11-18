@@ -12,7 +12,7 @@ interface Props {
 
 const { slug, title, summary, period, tags, category, relevance } = Astro.props;
 
-const thumb = existsSync(`./public/sites/${slug}.webp`) ? `/sites/${slug}.webp` : undefined;
+const thumb = existsSync(`./public/sites/${slug}.webp`) ? `/sites/${slug}.webp?v=2` : undefined;
 
 const categoryLabel: Record<Props["category"], string> = {
   perso: "Projet perso",

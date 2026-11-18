@@ -11,6 +11,7 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
   article?: { datePublished: Date; keywords?: string[] };
   bare?: boolean;
 }
@@ -18,13 +19,19 @@ interface Props {
 const {
   title = "Rudy Gault - Portfolio",
   description = "Alternant infrastructure & développement - projets école, projets personnels et alternance.",
-  image = "/avatar.png",
+  image = "/og-accueil.png?v=1",
+  imageAlt,
   article,
   bare = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const absoluteImage = new URL(image, Astro.site ?? Astro.url.origin).toString();
+// Image de partage par défaut : capture 1200×630 de la page d'accueil.
+const isDefaultImage = image === "/og-accueil.png?v=1";
+const ogImageAlt = imageAlt ?? (isDefaultImage
+  ? "Capture de la page d'accueil du portfolio de Rudy Gault, ingénieur DevOps / Platform"
+  : title);
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -68,13 +75,18 @@ const articleSchema = article
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="icon" type="image/png" href="/avatar.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1" />
     <title>{title}</title>
 
     <meta property="og:type" content={article ? "article" : "website"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={absoluteImage} />
+    {isDefaultImage && <meta property="og:image:type" content="image/png" />}
+    {isDefaultImage && <meta property="og:image:width" content="1200" />}
+    {isDefaultImage && <meta property="og:image:height" content="630" />}
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:locale" content="fr_FR" />
 
@@ -82,6 +94,7 @@ const articleSchema = article
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
     {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}

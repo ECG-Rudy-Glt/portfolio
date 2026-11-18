@@ -11,7 +11,7 @@ const items = (await getCollection("projects"))
   .map((p) => ({
     id: p.id,
     name: p.data.title.split(" - ")[0],
-    img: existsSync(`./public/sites/${p.id}.webp`) ? `/sites/${p.id}.webp` : undefined,
+    img: existsSync(`./public/sites/${p.id}.webp`) ? `/sites/${p.id}.webp?v=2` : undefined,
     text: (p.data.title.split(" - ")[1] ?? p.data.summary).replace(/^./, (c) => c.toUpperCase()),
     site: p.data.links.demo,
     live: p.data.links.sandbox,
