@@ -127,12 +127,6 @@ Une infrastructure sérieuse se juge aussi à ce qu'on sait d'elle. Ce qui n'est
 | Descellement manuel du coffre à secrets | Services dépendants bloqués après un redémarrage | Ordre de démarrage déjà posé, auto-unseal à étudier |
 | Alertes par e-mail uniquement | Aucune alerte si c'est le réseau qui tombe | Canal hors bande |
 
-## Cartographie du dépôt
-
-Le dépôt Git de ce lab (Terraform, Ansible, manifestes Kubernetes, documentation) a été passé dans [graphify](https://github.com/safishamsi/graphify) pour en extraire un graphe de connaissances : 701 nœuds, 1204 relations, 64 communautés détectées automatiquement - de quoi visualiser d'un coup d'œil les dépendances entre rôles Ansible, la chaîne Terraform → Ansible → K3s, et des liens moins évidents entre code et documentation (ex. le contournement d'un bug `community.hashi_vault` répété dans plusieurs playbooks).
-
-<iframe src="/graph/homelab-graph.html" title="Graphe de connaissances du homelab" loading="lazy" style="width:100%;height:80vh;border:1px solid var(--border);border-radius:0.75rem;"></iframe>
-
 ## Ce qui reste à faire
 
 Un NAS définitif pour remplacer le disque de récupération actuel, un streaming musique lossless auto-hébergé pour remplacer Spotify, une exploration d'automatisation pilotée par un LLM local (n8n + Ollama), et une extension réseau WiFi + caméra de vidéosurveillance 100% locale (conception bouclée, matériel à commander — détail dans [domotique, réseau et vidéosurveillance](/projets/homelab/domotique-reseau/)). Réseau, sécurité (PKI, SSO, IDS), observabilité, CI/CD, Kubernetes, sauvegardes et streaming vidéo sont déjà opérationnels au quotidien ; le cloud personnel (Nextcloud, Immich) est provisionné mais pas encore ouvert. Détail complet en [la suite](/projets/homelab/perspectives/).

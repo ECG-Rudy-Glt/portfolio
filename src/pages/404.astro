@@ -1,0 +1,16 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Page introuvable" description="Cette page n'existe pas ou a été déplacée.">
+  <section class="mx-auto flex min-h-[60vh] max-w-3xl flex-col justify-center gap-6 px-4 py-24 sm:px-6">
+    <p class="font-mono text-sm text-[var(--fg-muted)]">404</p>
+    <h1 class="font-display text-4xl font-medium sm:text-5xl">Cette page n'existe pas <em class="accent">ou plus.</em></h1>
+    <p class="max-w-xl text-[var(--fg-muted)]">Le lien est peut-être ancien ou mal recopié. Voici où continuer.</p>
+    <p class="flex flex-wrap gap-3">
+      <a href="/" class="inline-flex min-h-[44px] items-center rounded-full bg-[var(--accent)] px-5 text-[var(--accent-fg)]">Accueil</a>
+      <a href="/projets/" class="inline-flex min-h-[44px] items-center rounded-full border border-[var(--border)] px-5">Projets</a>
+      <a href="/parcours/" class="inline-flex min-h-[44px] items-center rounded-full border border-[var(--border)] px-5">Parcours</a>
+    </p>
+  </section>
+</Layout>

@@ -7,6 +7,7 @@ RUN npm run build
 
 FROM nginx:1.27-alpine AS runtime
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY security-headers.conf /etc/nginx/security-headers.conf
 COPY 40-counter.sh /docker-entrypoint.d/40-counter.sh
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
