@@ -44,14 +44,14 @@ const timelineFr = [
   { when: "2024 - 2025", title: "SUPINFO 3e année · Cloud Temple", text: "Virtualisation VMware, Ansible, CI/CD GitLab, monitoring d'infrastructures critiques. SUPCHAT, 1er niveau campus." },
   { when: "2025 - 2026", title: "SUPINFO 4e année · Cloud Temple", text: "Suivi de projets transverses, plateforme interne d'automatisation. SUPFile, 2e du campus de Tours. Montage d'un lab pédagogique." },
   { when: "2026 - 2027", title: "SUPINFO 5e année · Cloud Temple", text: "Dernière année de master, toujours en alternance. Homelab en IaC, solutions open source publiées (COACH, Relai, Patrimoine)." },
-  { when: "sept. 2027", title: "Fin de cursus", text: "Disponible en CDI DevOps / SRE." },
+  { when: "sept. 2027", title: "Fin de cursus", text: "Disponible en CDI Platform Engineer." },
 ];
 const timelineEn = [
   { when: "2022 - 2024", title: "BTS SIO SLAM · Ethan Consulting", text: "Work-study developer: web scraping, DOM manipulation, MERISE data modelling. Graduated with 15.5/20." },
   { when: "2024 - 2025", title: "SUPINFO 3rd year · Cloud Temple", text: "VMware virtualisation, Ansible, GitLab CI/CD, monitoring of critical infrastructure. SUPCHAT, 1st at campus level." },
   { when: "2025 - 2026", title: "SUPINFO 4th year · Cloud Temple", text: "Cross-team project tracking, internal automation platform. SUPFile, 2nd at the Tours campus. Set up a teaching lab." },
   { when: "2026 - 2027", title: "SUPINFO 5th year · Cloud Temple", text: "Final year of the master's programme, still work-study. Homelab as code, open source solutions published (COACH, Relai, Patrimoine)." },
-  { when: "Sept. 2027", title: "End of studies", text: "Available for a permanent DevOps / SRE role." },
+  { when: "Sept. 2027", title: "End of studies", text: "Available for a permanent Platform Engineer role." },
 ];
 const timeline = en ? timelineEn : timelineFr;
 
@@ -96,7 +96,7 @@ const dateFmt = new Intl.DateTimeFormat(ui[lang].dateLocale, { day: "2-digit", m
   lang={lang}
   alt={en ? "/" : "/en/"}
   title={T("Rudy Gault - Ingénieur DevOps / Platform", "Rudy Gault - DevOps / Platform Engineer")}
-  description={T("Rudy Gault, ingénieur DevOps / Platform en alternance chez Cloud Temple depuis 2024 (SUPINFO) : homelab Proxmox en IaC, automatisation, CI/CD, projets open source. CDI DevOps / SRE recherché pour septembre 2027.", "Rudy Gault, DevOps / Platform engineer on a work-study contract at Cloud Temple since 2024 (SUPINFO): Proxmox homelab as code, automation, CI/CD, open source projects. Looking for a permanent DevOps / SRE role from September 2027.")}
+  description={T("Rudy Gault, ingénieur DevOps / Platform en alternance chez Cloud Temple depuis 2024 (SUPINFO) : homelab Proxmox en IaC, automatisation, CI/CD, projets open source. CDI Platform Engineer recherché pour septembre 2027.", "Rudy Gault, DevOps / Platform engineer on a work-study contract at Cloud Temple since 2024 (SUPINFO): Proxmox homelab as code, automation, CI/CD, open source projects. Looking for a permanent Platform Engineer role from September 2027.")}
 >
   <div class="flex flex-col gap-24 sm:gap-32">
     <!-- Accroche -->
@@ -107,7 +107,7 @@ const dateFmt = new Intl.DateTimeFormat(ui[lang].dateLocale, { day: "2-digit", m
           {en ? <>I automate the infrastructure that <em class="accent">holds</em> in production.</> : <>J'automatise l'infrastructure qui <em class="accent">tient</em> en production.</>}
         </h1>
         <p class="max-w-[56ch] text-lg text-[var(--fg-soft)]">
-          {T("En alternance chez Cloud Temple depuis 2024, en 5e et dernière année de master à SUPINFO. Je cherche un CDI DevOps / SRE à partir de septembre 2027.", "On a work-study contract at Cloud Temple since 2024, in my 5th and final year of a master's degree at SUPINFO. I am looking for a permanent DevOps / SRE role from September 2027.")}
+          {T("En alternance chez Cloud Temple depuis 2024, en 5e et dernière année de master à SUPINFO. Je cherche un CDI Platform Engineer à partir de septembre 2027.", "On a work-study contract at Cloud Temple since 2024, in my 5th and final year of a master's degree at SUPINFO. I am looking for a permanent Platform Engineer role from September 2027.")}
         </p>
         <div class="flex flex-wrap gap-3">
           <a href={`${base}/projets/`} class="inline-flex min-h-[48px] items-center rounded-full bg-[var(--fg)] px-6 text-[15px] text-[var(--bg)] transition-opacity hover:opacity-90">{T("Voir les projets", "See the projects")}</a>
@@ -290,7 +290,7 @@ const dateFmt = new Intl.DateTimeFormat(ui[lang].dateLocale, { day: "2-digit", m
     <!-- Contact -->
     <section id="contact" class="flex flex-col items-start gap-7 border-t border-[var(--border)] pt-20">
       <h2 class="max-w-[16ch] text-[clamp(2.75rem,6vw,5rem)] leading-[1.05] text-[var(--fg)]">
-        {en ? <>A DevOps / SRE role in 2027? <em class="accent">Let's talk.</em></> : <>Un poste DevOps / SRE en 2027 ? <em class="accent">Parlons-en.</em></>}
+        {en ? <>A Platform Engineer role in 2027? <em class="accent">Let's talk.</em></> : <>Un poste de Platform Engineer en 2027 ? <em class="accent">Parlons-en.</em></>}
       </h2>
       <div class="flex flex-wrap gap-3">
         <a href="mailto:contact@rudy-ops.fr" class="inline-flex min-h-[48px] items-center rounded-full bg-[var(--fg)] px-6 text-[15px] text-[var(--bg)] transition-opacity hover:opacity-90">contact@rudy-ops.fr</a>
