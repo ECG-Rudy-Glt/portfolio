@@ -6,34 +6,8 @@
   --font-mono: "Geist Mono Variable", ui-monospace, monospace;
 }
 
-/* Identité « éditoriale » : ivoire, encre, vert forêt, touche de chartreuse. */
+/* Identité « éditoriale » : encre, ivoire, vert forêt, touche de chartreuse. Thème sombre unique. */
 :root {
-  --bg: #f3f1ea;
-  --bg-elevated: #fffef9;
-  --bg-deep: #e8e5db;
-  --fg: #121310;
-  --fg-soft: #3e4038;
-  --fg-muted: #64665c;
-  --border: #12131026;
-  --accent: #1f3d2b;
-  --accent-fg: #f3f1ea;
-  --accent-2: #cfe0c6;
-  --accent-2-fg: #121310;
-  --band: #1f3d2b;
-  --band-fg: #f3f1ea;
-  --band-muted: #d3d8c9;
-  --relevance-majeur: #1f3d2b;
-  --relevance-pertinent: #5b7a4e;
-  --relevance-secondaire: #8d8f83;
-  --skill-0: #1f3d2b;
-  --skill-1: #5b7a4e;
-  --skill-2: #8aa63a;
-  --skill-3: #3e4038;
-  --skill-4: #7d8a6a;
-  --skill-5: #a3a597;
-}
-
-:root.dark {
   --bg: #121310;
   --bg-elevated: #1b1c18;
   --bg-deep: #22241e;
@@ -61,27 +35,34 @@
 }
 
 :root.eco {
-  --bg: #f7f5f1;
-  --bg-elevated: #fbfaf8;
-  --fg: #111111;
-  --fg-muted: #4d4d4d;
-  --border: #d4d1cb;
-  --accent: #111111;
-  --accent-fg: #ffffff;
-  --relevance-majeur: #111111;
-  --relevance-pertinent: #555555;
-  --relevance-secondaire: #999999;
-  --skill-0: #111111;
-  --skill-1: #333333;
-  --skill-2: #555555;
-  --skill-3: #777777;
-  --skill-4: #999999;
-  --skill-5: #bbbbbb;
+  --bg: #0c0c0c;
+  --bg-elevated: #161616;
+  --bg-deep: #1d1d1d;
+  --fg: #f2f2f2;
+  --fg-soft: #d0d0d0;
+  --fg-muted: #a0a0a0;
+  --border: #ffffff26;
+  --accent: #f2f2f2;
+  --accent-fg: #0c0c0c;
+  --accent-2: #e6e6e6;
+  --accent-2-fg: #0c0c0c;
+  --band: #161616;
+  --band-fg: #f2f2f2;
+  --band-muted: #bdbdbd;
+  --relevance-majeur: #f2f2f2;
+  --relevance-pertinent: #bdbdbd;
+  --relevance-secondaire: #777777;
+  --skill-0: #f2f2f2;
+  --skill-1: #d0d0d0;
+  --skill-2: #b0b0b0;
+  --skill-3: #909090;
+  --skill-4: #707070;
+  --skill-5: #505050;
 }
 
 html {
   background-color: var(--bg);
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 body {
@@ -213,75 +194,10 @@ html.js .oss-panel:not([data-open]) { display: none; }
   .oss-chevron, .oss-btn { transition: none; }
 }
 
-/* ---------- Mode « Minimal » (style liste dense, façon Hacker News) ---------- */
-:root.hn {
-  --bg: #f6f6ef;
-  --bg-elevated: #ffffff;
-  --fg: #111111;
-  --fg-muted: #5c5c55;
-  --border: #d9d9cf;
-  --accent: #d2500a;
-  --accent-fg: #ffffff;
-  --font-sans: Verdana, Geneva, "DejaVu Sans", sans-serif;
-}
-:root.hn.dark {
-  --bg: #1b1b18;
-  --bg-elevated: #242420;
-  --fg: #e8e8e0;
-  --fg-muted: #a5a59a;
-  --border: #3a3a33;
-  --accent: #ff8a3d;
-  --accent-fg: #1b1b18;
-}
-:root.hn body { font-size: 14px; line-height: 1.45; }
-:root.hn *, :root.hn *::before, :root.hn *::after {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-:root.hn header { background: #ff6600 !important; border-color: #ff6600 !important; backdrop-filter: none; }
-:root.hn header a, :root.hn header summary, :root.hn header button { color: #111 !important; }
-:root.hn header span.absolute { display: none; }
-:root.hn a.group:hover { transform: none !important; }
-:root.hn h1 { font-size: 1.25rem !important; }
-
-/* Palettes supplémentaires du site classique (Forêt, Ardoise) et réglage des animations */
+/* Palettes supplémentaires du site classique (Forêt) */
 :root.pal-foret { --bg:#16261c; --bg-elevated:#1d3125; --bg-deep:#233a2c; --fg:#f3f1ea; --fg-soft:#d8dccf; --fg-muted:#a9b3a2; --border:#f3f1ea26; --accent:#b4cba6; --accent-fg:#16261c; --accent-2:#e9e5d8; --accent-2-fg:#16261c; --band:#0f1a13; color-scheme: dark; }
-:root.pal-ardoise { --bg:#eef0f2; --bg-elevated:#ffffff; --bg-deep:#e1e5e9; --fg:#1d2329; --fg-soft:#3a434c; --fg-muted:#5d6670; --border:#1d232926; --accent:#2f5d7c; --accent-fg:#ffffff; --band:#23282d; }
 :root.no-anim *, :root.no-anim *::before, :root.no-anim *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 
-/* Page /minimal/ : maquette « liste dense » validée (palettes via variables --page, --body…) */
-.hnp { --page:#e3dcc9; --body:#ece6d9; --fg:#2a1d13; --mu:#6f5a45; --ink:#8a4a1f; --bar:#a8602f; --onbar:#fbf6ec; --rule:#cdbfa6;
-  min-height: 100vh; padding: 8px 0 40px; background: var(--page); color: var(--fg);
-  font: 13.3px/1.35 Verdana, Geneva, "DejaVu Sans", sans-serif; }
-.hnp a { color: inherit; text-decoration: none; }
-.hnp a:hover { text-decoration: underline; }
-.hnp a:focus-visible, .hnp button:focus-visible, .hnp summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
-.hnp-body { max-width: 1040px; margin: 0 auto; background: var(--body); }
-.hnp-bar { background: var(--bar); color: var(--onbar); padding: 3px 8px; display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: center; position: relative; }
-.hnp-bar nav { display: flex; flex-wrap: wrap; gap: 2px 6px; }
-.hnp-logo { display: inline-grid; place-items: center; width: 18px; height: 18px; border: 1px solid var(--onbar); font-weight: 700; font-size: 11px; }
-.hnp-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
-.hnp-style summary { cursor: pointer; list-style: none; }
-.hnp-style summary::-webkit-details-marker { display: none; }
-.hnp-style > div { position: absolute; right: 8px; top: 100%; z-index: 5; background: var(--body); color: var(--fg); border: 1px solid var(--rule); padding: 4px; display: flex; flex-direction: column; min-width: 150px; }
-.hnp-style button { background: none; border: 0; color: inherit; font: inherit; text-align: left; padding: 6px 8px; cursor: pointer; }
-.hnp-style button:hover, .hnp-style a:hover { background: var(--rule); text-decoration: none; }
-.hnp-style a { padding: 6px 8px; }
-.hnp-sec { padding: 18px 8px 0; }
-.hnp-sec h1 { margin: 0 0 4px; font-size: 15px; font-weight: 700; }
-.hnp-h { padding: 2px 4px; font-weight: 700; border-bottom: 1px solid var(--rule); margin-bottom: 4px; }
-.hnp-row { display: flex; gap: 6px; padding: 3px 4px; }
-.hnp-n { flex: 0 0 26px; text-align: right; color: var(--mu); }
-.hnp-w { flex: 0 0 70px; text-align: right; padding-top: 1px; }
-.hnp-mu { color: var(--mu); }
-.hnp-sm { font-size: 11px; }
-.hnp #hnp-filters a.on { color: var(--ink); font-weight: 700; }
-.hnp-foot { margin: 26px 8px 0; border-top: 2px solid var(--bar); padding: 10px 4px 0; text-align: center; }
-@media (max-width: 640px) {
-  .hnp { font-size: 14px; }
-  .hnp-bar nav a, .hnp .s a, .hnp-right a, .hnp-style summary { display: inline-block; padding: 6px 3px; }
-  .hnp-sm { font-size: 12px; }
-}
 
 /* ---------- Typographie éditoriale ---------- */
 .font-display, main h1, main h2 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.015em; }
@@ -289,9 +205,8 @@ main h1 { line-height: 1.05; }
 .font-mono, .eyebrow { font-family: var(--font-mono); }
 .eyebrow { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-muted); }
 em.accent, .accent-word { font-style: italic; color: var(--accent); }
-:root.hn main h1, :root.hn main h2, :root.eco main h1, :root.eco main h2 { font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
-::selection { background: #cfe0c6; color: #121310; }
-:root.dark ::selection, :root.pal-foret ::selection { background: #3d5642; color: #f3f1ea; }
+:root.eco main h1, :root.eco main h2 { font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
+::selection { background: #3d5642; color: #f3f1ea; }
 .prose-content h2 { font-size: 1.75rem; font-weight: 400; margin-top: 2.5rem; }
 .prose-content h3 { font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
 .prose-content code { font-family: var(--font-mono); font-size: 0.9em; }

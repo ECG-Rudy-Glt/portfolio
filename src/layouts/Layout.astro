@@ -80,6 +80,8 @@ const articleSchema = article
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#121310" />
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalURL} />
@@ -113,12 +115,6 @@ const articleSchema = article
     <slot name="head" />
     <ModeInit />
     <script is:inline src="/oss-flag.js?v=1"></script>
-    <script is:inline>
-      const stored = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const theme = stored || (prefersDark ? "dark" : "light");
-      if (theme !== "light") document.documentElement.classList.add(theme);
-    </script>
   </head>
   <body class="min-h-screen bg-[var(--bg)] text-[var(--fg)]">
     {!bare && <Nav lang={lang} alt={alt} />}
@@ -156,7 +152,6 @@ const articleSchema = article
           <a href={lang === "en" ? "/en/projets/" : "/projets/"} class="hover:text-[var(--accent)]">{t.nav.projects}</a>
           <a href={lang === "en" ? "/en/competences/" : "/competences/"} class="hover:text-[var(--accent)]">{t.nav.skills}</a>
           <a href="/blog/" class="hover:text-[var(--accent)]">{t.nav.blog}</a>
-          {lang === "fr" && <a href="/modes/" class="hover:text-[var(--accent)]">{t.nav.modes}</a>}
         </div>
         <div class="flex flex-col gap-2">
           <span class="eyebrow">{t.footer.elsewhere}</span>

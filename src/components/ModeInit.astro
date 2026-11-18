@@ -1,17 +1,17 @@
 ---
-// Applique le mode, la palette et le réglage d'animation mémorisés avant le premier rendu.
+// Thème sombre unique ; applique avant le premier rendu le mode d'affichage mémorisé (nuit, forêt, éco).
 ---
 <script is:inline>
   try {
     var r = document.documentElement, ls = localStorage;
-    if (/[?&]mode=classique/.test(location.search)) ls.setItem("mode", "classique");
-    var m = ls.getItem("mode");
-    if (m === "minimal") r.classList.add("hn");
-    var home = { minimal: "/minimal/" };
-    if (location.pathname === "/" && home[m]) location.replace(home[m]);
-    var p = ls.getItem("palette");
-    if (p === "foret" || p === "ardoise") r.classList.add("pal-" + p);
-    var a = ls.getItem("anim");
-    if (a === "off" || (a !== "on" && matchMedia("(prefers-reduced-motion: reduce)").matches)) r.classList.add("no-anim");
+    var m = ls.getItem("affichage");
+    if (!m) { // anciennes préférences
+      if (ls.getItem("theme") === "eco") m = "eco";
+      else if (ls.getItem("palette") === "foret") m = "foret";
+    }
+    if (m === "eco") r.classList.add("eco");
+    else if (m === "foret") r.classList.add("pal-foret");
+    ["mode", "theme", "palette", "anim"].forEach(function (k) { ls.removeItem(k); });
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) r.classList.add("no-anim");
   } catch (e) {}
 </script>
