@@ -119,7 +119,7 @@ const dateFmt = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "2-dig
             {p.img ? (
               <img src={p.img} alt="" width="960" height="600" loading="lazy" decoding="async" class="feat-img absolute inset-0 h-full w-full object-cover object-top" />
             ) : (
-              <span aria-hidden="true" class="feat-stack absolute inset-0 overflow-hidden p-6 font-mono text-[13px] leading-7">{p.stack.join(" · ")} · {p.stack.join(" · ")} · {p.stack.join(" · ")}</span>
+              <span class="feat-logo absolute inset-0 flex items-center justify-center bg-[#fbfaf7] pb-16"><img src="/logos/cloud-temple.png" alt="Logo Cloud Temple" width="1100" height="963" loading="lazy" decoding="async" class="h-[78%] w-auto max-w-[80%] object-contain" /></span>
             )}
             <span class="absolute left-4 top-4 rounded-full bg-[#0e100dcc] px-3 py-1 font-mono text-xs">{p.n} · {categoryLabel[p.category]}</span>
             <div class="feat-bar absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-6 py-4">
@@ -137,7 +137,6 @@ const dateFmt = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "2-dig
         .feat:hover .feat-bar { background: rgba(14, 16, 13, 0.92); }
         .feat-img { transition: transform 0.65s cubic-bezier(.4, 0, .2, 1); }
         .feat:hover .feat-img { transform: scale(1.03); }
-        .feat-stack { color: #f3f1ea; opacity: 0.22; word-spacing: 0.3em; }
         :global(:root.no-anim) .feat-img, :global(:root.no-anim) .feat-bar { transition: none; }
       </style>
     </section>

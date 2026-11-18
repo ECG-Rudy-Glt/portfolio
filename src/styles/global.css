@@ -17,7 +17,7 @@
   --border: #12131026;
   --accent: #1f3d2b;
   --accent-fg: #f3f1ea;
-  --accent-2: #c7f154;
+  --accent-2: #cfe0c6;
   --accent-2-fg: #121310;
   --band: #1f3d2b;
   --band-fg: #f3f1ea;
@@ -290,7 +290,8 @@ main h1 { line-height: 1.05; }
 .eyebrow { font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-muted); }
 em.accent, .accent-word { font-style: italic; color: var(--accent); }
 :root.hn main h1, :root.hn main h2, :root.eco main h1, :root.eco main h2 { font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
-::selection { background: var(--accent-2); color: var(--accent-2-fg); }
+::selection { background: #cfe0c6; color: #121310; }
+:root.dark ::selection, :root.pal-foret ::selection { background: #3d5642; color: #f3f1ea; }
 .prose-content h2 { font-size: 1.75rem; font-weight: 400; margin-top: 2.5rem; }
 .prose-content h3 { font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
 .prose-content code { font-family: var(--font-mono); font-size: 0.9em; }
