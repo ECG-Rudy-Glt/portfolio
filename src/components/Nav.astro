@@ -46,7 +46,7 @@ const other = lang === "en" ? "fr" : "en";
     </div>
 
     <div class="hidden items-center gap-2 lg:flex">
-      <a href="/cv-rudy-gault.pdf?v=2" download="CV-Rudy-Gault.pdf" class="inline-flex min-h-[40px] items-center rounded-full border border-[var(--border)] px-4 text-sm text-[var(--fg)] transition-colors hover:border-[var(--fg)]">{t.cv}</a>
+      <a href="/cv-rudy-gault.pdf?v=3" download="CV-Rudy-Gault.pdf" class="inline-flex min-h-[40px] items-center rounded-full border border-[var(--border)] px-4 text-sm text-[var(--fg)] transition-colors hover:border-[var(--fg)]">{t.cv}</a>
       <a href={switchHref} hreflang={other} lang={other} title={t.switchTitle} class="inline-flex min-h-[40px] items-center rounded-full border border-[var(--border)] px-3 font-mono text-xs text-[var(--fg-muted)] transition-colors hover:border-[var(--fg)] hover:text-[var(--fg)]">{t.switchLabel}</a>
       <a href="mailto:contact@rudy-ops.fr" class="inline-flex min-h-[40px] items-center rounded-full bg-[var(--accent)] px-4 text-sm text-[var(--accent-fg)] transition-opacity hover:opacity-90">{t.contact}</a>
       <ThemeToggle client:load />
@@ -70,7 +70,7 @@ const other = lang === "en" ? "fr" : "en";
         ))}
         <SolutionsMenu id="oss-m" variant="mobile" lang={lang} />
         <a href="mailto:contact@rudy-ops.fr" class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--accent)]">{t.contact}</a>
-        <a href="/cv-rudy-gault.pdf?v=2" download="CV-Rudy-Gault.pdf" class="rounded-lg px-3 py-2 text-sm text-[var(--fg-soft)]">{t.cvFull}</a>
+        <a href="/cv-rudy-gault.pdf?v=3" download="CV-Rudy-Gault.pdf" class="rounded-lg px-3 py-2 text-sm text-[var(--fg-soft)]">{t.cvFull}</a>
         <a href={switchHref} hreflang={other} lang={other} class="rounded-lg px-3 py-2 text-sm text-[var(--fg-soft)]">{lang === "en" ? "Français" : "English"}</a>
         <div class="mt-1 border-t border-[var(--border)] px-3 pt-3">
           <ThemeToggle client:load />
