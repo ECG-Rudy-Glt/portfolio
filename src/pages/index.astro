@@ -50,10 +50,11 @@ const skills = [
   { name: "Développement", tools: "Python · Go · FastAPI · Bash", proof: "COACH", href: "/projets/coach/" },
 ];
 
-const ossImages: Record<string, { img: string; id: string }> = {
-  COACH: { img: "/projets/coach/home-light.png", id: "coach" },
-  Relai: { img: "/projets/relai/fonctionnement.webp", id: "relai" },
-  Patrimoine: { img: "/projets/patrimoine/tableau-de-bord.webp", id: "patrimoine" },
+// Logos des solutions (Relai n'a pas de logo : vignette typographique)
+const ossImages: Record<string, { logo?: string; tint: string; id: string }> = {
+  COACH: { logo: "/logos/oss/coach.svg", tint: "#1fb58a", id: "coach" },
+  Relai: { tint: "#121310", id: "relai" },
+  Patrimoine: { logo: "/logos/oss/patrimoine.svg", tint: "#2a78d6", id: "patrimoine" },
 };
 const oss = solutions.map((s) => ({ ...s, ...ossImages[s.name] }));
 
@@ -203,6 +204,13 @@ const dateFmt = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "2-dig
     </section>
 
     <!-- Solutions open source -->
+    <style>
+      .oss-tile { background: color-mix(in oklab, var(--tint) 12%, var(--bg-elevated)); }
+      .oss-logo { transition: transform .6s cubic-bezier(.16, 1, .3, 1); }
+      .oss-tile:hover .oss-logo { transform: scale(1.06) rotate(-2deg); }
+      .oss-mark { background: #121310; color: #f3f1ea; }
+      :root.dark .oss-mark { background: #f3f1ea; color: #121310; }
+    </style>
     <section class="flex flex-col gap-7">
       <div>
         <p class="eyebrow">{solutionsLabel}</p>
@@ -211,8 +219,12 @@ const dateFmt = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "2-dig
       <div class="grid gap-6 md:grid-cols-3">
         {oss.map((o) => (
           <article class="flex flex-col gap-3">
-            <a href={`/projets/${o.id}/`} class="block aspect-[16/10] overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-deep)]" tabindex="-1" aria-hidden="true">
-              <img src={o.img} alt="" width="960" height="600" loading="lazy" decoding="async" class="h-full w-full object-cover object-top transition-transform duration-500 hover:scale-[1.03]" />
+            <a href={`/projets/${o.id}/`} class="oss-tile group relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-xl border border-[var(--border)]" style={`--tint:${o.tint}`} tabindex="-1" aria-hidden="true">
+              {o.logo ? (
+                <img src={o.logo} alt="" width="112" height="112" loading="lazy" decoding="async" class="oss-logo h-28 w-28 rounded-[26%] shadow-lg" />
+              ) : (
+                <span class="oss-logo oss-mark flex h-28 w-28 flex-col items-center justify-center gap-1 rounded-[26%] shadow-lg"><span class="font-mono text-2xl tracking-tight">relai</span><span class="font-mono text-sm opacity-70">⇄ git</span></span>
+              )}
             </a>
             <h3 class="text-lg font-semibold text-[var(--fg)]"><a href={`/projets/${o.id}/`} class="hover:text-[var(--accent)]">{o.name}</a></h3>
             <p class="text-[15px] text-[var(--fg-soft)]">{o.description}</p>
