@@ -53,7 +53,7 @@ const label = title.replace(/<[^>]+>/g, "");
             <span class="live-links">
               {it.live && <a href={it.live} rel="noreferrer" tabindex={copy === 1 ? -1 : undefined}>{en ? "Live demo" : "Démo en ligne"}</a>}
               {it.site && <a href={it.site} rel="noreferrer" tabindex={copy === 1 ? -1 : undefined}>{it.live ? (en ? "Overview" : "Présentation") : (en ? "Website" : "Site")}</a>}
-              <a href={`/projets/${it.id}/`} tabindex={copy === 1 ? -1 : undefined}>{en ? "Case study (FR)" : "Fiche"}</a>
+              <a href={en ? `/en/projets/${it.id}/` : `/projets/${it.id}/`} tabindex={copy === 1 ? -1 : undefined}>{en ? "Case study" : "Fiche"}</a>
             </span>
           </li>
         ))

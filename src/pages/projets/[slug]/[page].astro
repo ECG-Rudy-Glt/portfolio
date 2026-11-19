@@ -26,7 +26,7 @@ const prev = currentIndex > 0 ? siblings[currentIndex - 1] : null;
 const next = currentIndex < siblings.length - 1 ? siblings[currentIndex + 1] : null;
 ---
 
-<Layout title={`${entry.data.title} - Rudy Gault`} description={entry.data.summary}>
+<Layout alt={`/en/projets/${entry.data.project}/${entry.id.split("/")[1]}/`} title={`${entry.data.title} - Rudy Gault`} description={entry.data.summary}>
   <a href={`/projets/${entry.data.project}/`} class="mb-8 inline-block text-sm text-[var(--accent)] hover:underline">
     ← {project?.data.title ?? "Retour au projet"}
   </a>

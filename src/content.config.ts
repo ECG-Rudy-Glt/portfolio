@@ -27,6 +27,11 @@ const projects = defineCollection({
   }),
 });
 
+const projectsEn = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/projects-en" }),
+  schema: projects.schema,
+});
+
 const projectPages = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/project-pages" }),
   schema: z.object({
@@ -35,6 +40,11 @@ const projectPages = defineCollection({
     summary: z.string(),
     order: z.number().default(0),
   }),
+});
+
+const projectPagesEn = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/project-pages-en" }),
+  schema: projectPages.schema,
 });
 
 const articles = defineCollection({
@@ -53,4 +63,4 @@ const articles = defineCollection({
   }),
 });
 
-export const collections = { projects, projectPages, articles };
+export const collections = { projects, projectsEn, projectPages, projectPagesEn, articles };

@@ -24,7 +24,7 @@ const categoryLabel = {
 } as const;
 ---
 
-<Layout title={`${project.data.title} - Rudy Gault`} description={project.data.summary}>
+<Layout alt={`/en/projets/${project.id}/`} title={`${project.data.title} - Rudy Gault`} description={project.data.summary}>
   <a href="/projets/" class="mb-8 inline-block text-sm text-[var(--accent)] hover:underline">← Tous les projets</a>
 
   <div class="mb-6 flex items-center gap-3 text-xs text-[var(--fg-muted)]">

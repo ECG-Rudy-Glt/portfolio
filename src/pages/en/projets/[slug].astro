@@ -1,0 +1,105 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+import { ui } from "../../../i18n/ui";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projectsEn");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+const subPages = (await getCollection("projectPagesEn"))
+  .filter((p) => p.data.project === project.id)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const t = ui.en.project;
+const categoryLabel = t.categories;
+---
+
+<Layout lang="en" alt={`/projets/${project.id}/`} title={`${project.data.title} - Rudy Gault`} description={project.data.summary}>
+  <a href="/en/projets/" class="mb-8 inline-block text-sm text-[var(--accent)] hover:underline">{t.back}</a>
+
+  <div class="mb-6 flex items-center gap-3 text-xs text-[var(--fg-muted)]">
+    <span class="rounded-full border border-[var(--border)] px-2 py-0.5">
+      {categoryLabel[project.data.category]}
+    </span>
+    <span>{project.data.period}</span>
+    <span>·</span>
+    <span>{project.data.role}</span>
+  </div>
+
+  <h1 class="mb-4 text-3xl font-bold text-[var(--fg)]">{project.data.title}</h1>
+  <p class="mb-8 text-lg text-[var(--fg-muted)]">{project.data.summary}</p>
+
+  {project.data.images.length > 0 && (
+    <div class="mb-8 grid gap-4 sm:grid-cols-2">
+      {project.data.images.map((src) => (
+        <a href={src} target="_blank" rel="noreferrer" class="block">
+          <img
+            src={src}
+            alt={project.data.title}
+            class="rounded-xl border border-[var(--border)] transition-opacity hover:opacity-80"
+          />
+        </a>
+      ))}
+    </div>
+  )}
+
+  <div class="mb-8 flex flex-wrap gap-2">
+    {project.data.stack.map((tech) => (
+      <span class="rounded-full bg-[var(--bg-elevated)] px-3 py-1 text-xs text-[var(--fg-muted)] ring-1 ring-[var(--border)]">
+        {tech}
+      </span>
+    ))}
+  </div>
+
+  <article class="prose-content">
+    <Content />
+  </article>
+
+  {subPages.length > 0 && (
+    <div class="mt-10 border-t border-[var(--border)] pt-8">
+      <h2 class="mb-4 text-lg font-semibold text-[var(--fg)]">{t.further}</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        {subPages.map((p) => {
+          const pageSlug = p.id.split("/")[1];
+          return (
+            <a
+              href={`/en/projets/${project.id}/${pageSlug}/`}
+              class="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-4 transition-colors hover:border-[var(--accent)]"
+            >
+              <span class="block text-sm font-medium text-[var(--fg)]">{p.data.title}</span>
+              <span class="mt-1 block text-xs text-[var(--fg-muted)]">{p.data.summary}</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )}
+
+  {(project.data.links.repo || project.data.links.demo || project.data.links.sandbox) && (
+    <div class="mt-8 flex flex-wrap gap-4 border-t border-[var(--border)] pt-6">
+      {project.data.links.sandbox && (
+        <a href={project.data.links.sandbox} target="_blank" rel="noreferrer" class="text-sm font-medium text-[var(--accent)] hover:underline">
+          {t.tryOnline}
+        </a>
+      )}
+      {project.data.links.demo && (
+        <a href={project.data.links.demo} target="_blank" rel="noreferrer" class="text-sm text-[var(--accent)] hover:underline">
+          {t.demo}
+        </a>
+      )}
+      {project.data.links.repo && (
+        <a href={project.data.links.repo} target="_blank" rel="noreferrer" class="text-sm text-[var(--accent)] hover:underline">
+          {t.source}
+        </a>
+      )}
+    </div>
+  )}
+</Layout>

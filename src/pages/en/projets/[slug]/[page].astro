@@ -1,0 +1,83 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import { getCollection, getEntry, render } from "astro:content";
+import { ui } from "../../../../i18n/ui";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("projectPagesEn");
+  return pages.map((entry) => {
+    const [project, page] = entry.id.split("/");
+    return {
+      params: { slug: project, page },
+      props: { entry },
+    };
+  });
+}
+
+const t = ui.en.project;
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const project = await getEntry("projectsEn", entry.data.project);
+
+const siblings = (await getCollection("projectPagesEn"))
+  .filter((p) => p.data.project === entry.data.project)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const currentIndex = siblings.findIndex((s) => s.id === entry.id);
+const prev = currentIndex > 0 ? siblings[currentIndex - 1] : null;
+const next = currentIndex < siblings.length - 1 ? siblings[currentIndex + 1] : null;
+---
+
+<Layout lang="en" alt={`/projets/${entry.data.project}/${entry.id.split("/")[1]}/`} title={`${entry.data.title} - Rudy Gault`} description={entry.data.summary}>
+  <a href={`/en/projets/${entry.data.project}/`} class="mb-8 inline-block text-sm text-[var(--accent)] hover:underline">
+    ← {project?.data.title ?? t.backToProject}
+  </a>
+
+  <h1 class="mb-4 text-3xl font-bold text-[var(--fg)]">{entry.data.title}</h1>
+  <p class="mb-8 text-lg text-[var(--fg-muted)]">{entry.data.summary}</p>
+
+  <nav class="mb-10 flex flex-wrap gap-2 border-b border-[var(--border)] pb-8">
+    {siblings.map((s) => {
+      const pageSlug = s.id.split("/")[1];
+      const isCurrent = s.id === entry.id;
+      return (
+        <a
+          href={`/en/projets/${entry.data.project}/${pageSlug}/`}
+          class:list={[
+            "rounded-full px-3 py-1 text-xs ring-1 ring-[var(--border)] transition-colors",
+            isCurrent
+              ? "bg-[var(--accent)] text-white"
+              : "bg-[var(--bg-elevated)] text-[var(--fg-muted)] hover:text-[var(--fg)]",
+          ]}
+        >
+          {s.data.title}
+        </a>
+      );
+    })}
+  </nav>
+
+  <article class="prose-content">
+    <Content />
+  </article>
+
+  <div class="mt-10 flex items-center justify-between gap-4 border-t border-[var(--border)] pt-8">
+    {prev ? (
+      <a
+        href={`/en/projets/${entry.data.project}/${prev.id.split("/")[1]}/`}
+        class="flex-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-4 text-left transition-colors hover:border-[var(--accent)]"
+      >
+        <span class="block text-xs text-[var(--fg-muted)]">{t.previous}</span>
+        <span class="mt-1 block text-sm font-medium text-[var(--fg)]">{prev.data.title}</span>
+      </a>
+    ) : <div class="flex-1" />}
+    {next ? (
+      <a
+        href={`/en/projets/${entry.data.project}/${next.id.split("/")[1]}/`}
+        class="flex-1 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-4 text-right transition-colors hover:border-[var(--accent)]"
+      >
+        <span class="block text-xs text-[var(--fg-muted)]">{t.next}</span>
+        <span class="mt-1 block text-sm font-medium text-[var(--fg)]">{next.data.title}</span>
+      </a>
+    ) : <div class="flex-1" />}
+  </div>
+</Layout>

@@ -26,8 +26,8 @@ const relevanceLabel: Record<Props["relevance"], string> = en
 ---
 
 <a
-  href={`/projets/${slug}/`}
-  hreflang="fr"
+  href={en ? `/en/projets/${slug}/` : `/projets/${slug}/`}
+  hreflang={en ? "en" : "fr"}
   class="group flex flex-col gap-3 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 transition-colors hover:border-[var(--accent)]"
   data-category={category}
   data-tags={tags.join(",")}
