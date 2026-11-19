@@ -34,10 +34,11 @@ Power consumption. The 7U rack could have housed real 1U servers, but their idle
 that does not justify this power around the clock. The mini-PCs (EliteDesk, N150) run at
 6-25 W each - the compromise chosen between real computing capacity and frugality.
 
-## Powerline rather than WiFi for the living-room TV
+## A Cudy router instead of powerline for the living-room TV
 
 A telling detail of the project's main constraint: never degrade the use of the rest
 of the household, notably my partner's remote work (see [why this project](/en/projets/homelab/pourquoi/)).
-The WiFi shared with the rest of the house may suffice for streaming, but a dedicated wired
-powerline avoids any contention with household traffic - reliability takes priority over price (~€35
-per adapter).
+A powerline (CPL) attempt was abandoned: its reliability depends on the apartment's electrical wiring.
+A Cudy WR3000E router, set up as a dedicated WiFi access point, took over: it avoids any contention
+with household traffic at a reasonable cost (details in
+[home automation and network](/en/projets/homelab/domotique-reseau/)).

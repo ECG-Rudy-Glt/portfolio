@@ -34,10 +34,11 @@ Consommation. Le rack 7U aurait pu accueillir de vrais serveurs 1U, mais leur co
 qui ne justifie pas cette puissance en continu. Les mini-PC (EliteDesk, N150) tournent à
 6-25W chacun - le compromis retenu entre capacité de calcul réelle et sobriété.
 
-## Le CPL plutôt que le WiFi pour la TV du salon
+## Un routeur Cudy plutôt que le CPL pour la TV du salon
 
 Un détail révélateur de la contrainte principale du projet : ne jamais dégrader l'usage du reste
 du foyer, notamment le télétravail de ma conjointe (voir [pourquoi ce projet](/projets/homelab/pourquoi/)).
-Le WiFi partagé avec le reste de la maison peut suffire pour du streaming, mais un CPL filaire
-dédié évite toute contention avec le trafic domestique - la fiabilité prime sur le prix (~35€
-l'adaptateur).
+Un essai en courant porteur (CPL) a été abandonné : sa fiabilité dépend de l'installation électrique
+de l'appartement. Un routeur Cudy WR3000E, configuré en point d'accès WiFi dédié, a pris le relais :
+il évite toute contention avec le trafic domestique, pour un budget raisonnable (détails dans
+[domotique et réseau](/projets/homelab/domotique-reseau/)).
