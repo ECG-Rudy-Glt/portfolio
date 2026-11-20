@@ -1,7 +1,7 @@
 ---
 title: "Construire une PKI interne pour mon homelab"
 summary: "Comment mon homelab émet et renouvelle automatiquement ses certificats TLS avec OpenBao et Vault Agent : architecture à deux CA, pourquoi ACME natif a échoué, et les vrais bugs rencontrés en le faisant marcher."
-date: 2025-09-12
+date: 2026-09-12
 tags: ["Homelab", "Sécurité", "PKI", "OpenBao", "TLS"]
 type: article
 ---

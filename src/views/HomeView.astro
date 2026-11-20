@@ -3,8 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { lp, swapPath, ui, type Lang } from "../i18n/ui";
 import { enProject } from "../i18n/projects-en";
 import { getCollection } from "astro:content";
-import SkillDomains from "../components/SkillDomains";
-import { buildDomains } from "../data/domains";
+import SkillTimeline from "../components/SkillTimeline.astro";
 import LiveSites from "../components/LiveSites.astro";
 import { solutions, solutionsLabel, solutionsLabelEn } from "../data/solutions";
 
@@ -14,7 +13,6 @@ const T = (fr: string, e: string) => (en ? e : fr);
 const base = en ? "/en" : "";
 
 const projects = await getCollection("projects");
-const domains = buildDomains(projects, en).slice(0, 8);
 const byId = new Map(projects.map((p) => [p.id, p]));
 
 // Projets mis en avant sur l'accueil, avec une capture en fond quand le projet en a une.
@@ -215,7 +213,7 @@ const dateFmt = new Intl.DateTimeFormat(ui[lang].dateLocale, { day: "2-digit", m
         </div>
         <a href={`${base}/competences/`} class="border-b border-[var(--fg)] text-[15px] text-[var(--fg)]">{T("Toutes les compétences", "All skills")}</a>
       </div>
-      <SkillDomains client:visible domains={domains} total={projects.length} lang={lang} />
+      <SkillTimeline projects={projects} lang={lang} limit={8} />
     </section>
 
     <!-- Façon de travailler (reprise de la page « Pourquoi ce projet » du homelab) -->

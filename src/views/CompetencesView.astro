@@ -1,18 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { enProject } from "../i18n/projects-en";
-import { buildDomains } from "../data/domains";
 import type { Lang } from "../i18n/ui";
 const { lang = "fr" } = Astro.props as { lang?: Lang };
 const en = lang === "en";
-import SkillDomains from "../components/SkillDomains";
+import SkillTimeline from "../components/SkillTimeline.astro";
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
 
 // Domaines de compétence : chaque domaine regroupe des étiquettes et des outils ; il est « démontré » par les projets qui en mobilisent au moins un.
-const total = projects.length;
-const domains = buildDomains(projects, en);
 
 const softSkillsEn = [
   { title: "Project management & coordination", detail: "Cross-team project tracking at Cloud Temple (planning, coordination between teams) and writing the requirements and managing the budget for the SUPINFO lab.", projects: [{ slug: "cloud-temple", title: "Cloud Temple work-study" }, { slug: "supinfo-lab", title: "SUPINFO Lab" }] },
@@ -84,7 +81,7 @@ const softSkills = en ? softSkillsEn : softSkillsFr;
 >
   <h1 class="mb-2 text-3xl font-bold text-[var(--fg)]">{en ? "Skills" : "Compétences"}</h1>
   <p class="mb-10 max-w-2xl text-[var(--fg-muted)]">
-    {en ? "For each technical area: how many projects put it into practice and in what setting (professional, personal, school). Click an area to see the tools and projects. Soft skills are illustrated further down with concrete situations." : "Pour chaque domaine technique : dans combien de projets il est mis en pratique et dans quel cadre (entreprise, projets personnels, école). Cliquez un domaine pour voir les outils et les projets. Les compétences humaines sont illustrées plus bas par des situations concrètes."}
+    {en ? "For each tool: since when I have used it and in what setting (professional, personal, school). Soft skills are illustrated further down with concrete situations." : "Pour chaque outil : depuis quand je l'utilise et dans quel cadre (entreprise, projets personnels, école). Les compétences humaines sont illustrées plus bas par des situations concrètes."}
   </p>
 
   <details class="group" open>
@@ -102,7 +99,7 @@ const softSkills = en ? softSkillsEn : softSkillsFr;
       </svg>
       {en ? "Technical" : "Techniques"}
     </summary>
-    <SkillDomains client:visible domains={domains} total={total} lang={lang} />
+    <SkillTimeline projects={projects} lang={lang} />
   </details>
 
   <h2 class="mb-4 mt-16 text-sm font-semibold uppercase tracking-wide text-[var(--relevance-pertinent)]">

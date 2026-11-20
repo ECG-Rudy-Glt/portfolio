@@ -1,0 +1,77 @@
+---
+import { PERIODS, TOOLS, NOW } from "../data/skillTimeline";
+interface Props { projects: { id: string; data: { category: "perso" | "ecole" | "entreprise"; tags: string[]; stack: string[] } }[]; lang?: "fr" | "en"; limit?: number }
+const { projects, lang = "fr", limit } = Astro.props;
+const en = lang === "en";
+const START = 2022.5, END = 2027.5, SPAN = END - START;
+const pct = (x: number) => ((x - START) / SPAN) * 100;
+const CATS = [
+  { key: "entreprise", label: en ? "Professional" : "Entreprise", v: "--skill-0" },
+  { key: "perso", label: en ? "Personal" : "Perso", v: "--skill-1" },
+  { key: "ecole", label: en ? "School" : "École", v: "--skill-3" },
+] as const;
+
+const merge = (iv: [number, number][]) => {
+  const s = [...iv].sort((a, b) => a[0] - b[0]); const out: [number, number][] = [];
+  for (const i of s) { const l = out[out.length - 1]; if (l && i[0] <= l[1]) l[1] = Math.max(l[1], i[1]); else out.push([i[0], i[1]]); }
+  return out;
+};
+const rows = (limit ? TOOLS.slice(0, limit) : TOOLS).map((t) => {
+  const keys = new Set(t.keys.map((k) => k.toLowerCase()));
+  const hits = projects.filter((p) => PERIODS[p.id] && [...p.data.stack, ...p.data.tags].some((x) => keys.has(x.toLowerCase())));
+  const lanes = CATS.map((c) => ({ ...c, bars: merge(hits.filter((p) => p.data.category === c.key).map((p) => [...PERIODS[p.id]] as [number, number])), n: hits.filter((p) => p.data.category === c.key).length }));
+  const since = Math.min(...hits.map((p) => PERIODS[p.id][0]));
+  return { name: t.name, lanes, since, n: hits.length, names: hits.map((p) => p.id) };
+}).filter((r) => r.n > 0).sort((a, b) => a.since - b.since);
+const years = [2023, 2024, 2025, 2026, 2027];
+const since = (y: number) => `${en ? "since" : "depuis"} ${Math.floor(y)}`;
+---
+<div class="stl">
+  <ul class="stl-leg" aria-label={en ? "Legend" : "Légende"}>
+    {CATS.map((c) => <li><i style={`background: var(${c.v})`}></i>{c.label}</li>)}
+  </ul>
+  <div class="stl-scroll">
+    <div class="stl-grid">
+      <div class="stl-axis">
+        {years.map((y) => <span style={`left:${pct(y)}%`}>{y}</span>)}
+      </div>
+      {rows.map((r) => (
+        <>
+          <div class="stl-name"><span>{r.name}</span><small>{since(r.since)} · {r.n} {en ? (r.n > 1 ? "projects" : "project") : (r.n > 1 ? "projets" : "projet")}</small></div>
+          <div class="stl-track" role="img" aria-label={`${r.name} ${since(r.since)}`}>
+            {years.map((y) => <i class="stl-grid-line" style={`left:${pct(y)}%`}></i>)}
+            <i class="stl-now" style={`left:${pct(NOW)}%`}></i>
+            {r.lanes.map((l, li) => l.bars.map((b) => (
+              <b class="stl-bar" style={`left:${pct(b[0])}%;width:${pct(b[1]) - pct(b[0])}%;top:${6 + li * 8}px;background:var(${l.v})`}></b>
+            )))}
+          </div>
+        </>
+      ))}
+    </div>
+  </div>
+  <div class="stl-now-learning">
+    <span class="stl-nl-title">{en ? "In progress" : "En cours d'apprentissage"}</span>
+    {(en ? ["Platform engineering", "Harness engineering"] : ["Platform engineering", "Harness engineering"]).map((x) => <span class="stl-chip">{x}</span>)}
+  </div>
+  <p class="stl-note">{en ? "Dates are approximate (school year and work-study periods, homelab from its first log entry). A bar is drawn wherever a project uses the tool." : "Dates à l'année ou au semestre près (années scolaires, alternance, homelab depuis son premier journal). Une barre est tracée partout où un projet utilise l'outil."}</p>
+</div>
+<style>
+  .stl-leg { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 14px; padding: 0; list-style: none; font-size: 12px; color: var(--fg-muted); }
+  .stl-leg li { display: flex; align-items: center; gap: 6px; }
+  .stl-leg i { display: inline-block; width: 18px; height: 6px; border-radius: 3px; }
+  .stl-scroll { overflow-x: auto; }
+  .stl-grid { display: grid; grid-template-columns: 170px minmax(440px, 1fr); min-width: 640px; }
+  .stl-axis { grid-column: 2; position: relative; height: 22px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); }
+  .stl-axis span { position: absolute; transform: translateX(-50%); }
+  .stl-name { display: flex; flex-direction: column; justify-content: center; padding: 6px 12px 6px 0; border-top: 1px solid var(--border); }
+  .stl-name span { font-weight: 600; color: var(--fg); font-size: 15px; }
+  .stl-name small { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); }
+  .stl-track { position: relative; height: 46px; border-top: 1px solid var(--border); }
+  .stl-grid-line { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); opacity: .6; }
+  .stl-now { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--accent); }
+  .stl-bar { position: absolute; height: 6px; border-radius: 3px; }
+  .stl-note { margin-top: 14px; font-size: 12px; color: var(--fg-muted); max-width: 70ch; }
+  .stl-now-learning { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .stl-nl-title { font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--fg-muted); margin-right: 6px; }
+  .stl-chip { padding: 4px 12px; border-radius: 999px; border: 1px dashed var(--accent); color: var(--fg); font-size: 13px; }
+</style>
