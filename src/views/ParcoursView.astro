@@ -127,7 +127,7 @@ const tracks = [
         <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide" style={`color: ${track.color}`}>
           {track.title}
         </h2>
-        <ol class="pj-tl relative space-y-10 border-l border-[var(--border)] pl-8" style={`--tc: ${track.color}`}>
+        <ol class="pj-tl relative space-y-10 pl-8" style={`--tc: ${track.color}`}>
           <span class="pj-fill" aria-hidden="true"></span>
           {track.items.map((step, i) => (
             <li class={`pj-item relative${/en cours|ongoing|2027/.test(step.period) ? " pj-now" : ""}`} style={`--i: ${i}`}>
@@ -171,7 +171,8 @@ const tracks = [
 <style is:global>
   /* Trait de progression : plein par défaut (sans JS), piloté au défilement avec JS. */
   .pj-tl { --p: 1; }
-  .pj-fill { position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--tc); transform-origin: top; transform: scaleY(var(--p)); pointer-events: none; }
+  .pj-tl::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 0; width: 1px; background: var(--border); }
+  .pj-fill { position: absolute; left: -0.5px; top: 10px; bottom: 0; width: 2px; background: var(--tc); transform-origin: top; transform: scaleY(var(--p)); pointer-events: none; }
   @keyframes pj-pulse { 0% { transform: scale(1); opacity: .45; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
   .pj-now .pj-dot::after { content: ""; position: absolute; inset: 0; border-radius: 9999px; background: var(--tc); }
   @media (prefers-reduced-motion: no-preference) {

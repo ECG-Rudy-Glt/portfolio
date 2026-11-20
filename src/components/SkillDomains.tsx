@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-import { animate, motion, useInView, useReducedMotion } from "framer-motion";
 
 interface Project { slug: string; title: string; cat: "entreprise" | "perso" | "ecole" }
 export interface Domain {
@@ -17,93 +15,50 @@ const CATS = [
   { key: "ecole", label: "École", color: "var(--skill-3)" },
 ] as const;
 
-function Count({ to, run, reduced }: { to: number; run: boolean; reduced: boolean }) {
-  const [v, setV] = useState(reduced ? to : 0);
-  useEffect(() => {
-    if (!run) return;
-    if (reduced) { setV(to); return; }
-    const c = animate(0, to, { duration: 0.9, ease: "easeOut", onUpdate: (x) => setV(Math.round(x)) });
-    return () => c.stop();
-  }, [run, to, reduced]);
-  return <>{v}</>;
-}
-
-function Row({ d, total, index, open, onToggle, en }: { d: Domain; total: number; index: number; open: boolean; onToggle: () => void; en: boolean }) {
-  const ref = useRef<HTMLLIElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
-  const reduced = !!useReducedMotion() || (typeof document !== "undefined" && document.documentElement.classList.contains("no-anim"));
-  const n = d.projects.length;
-  const counts = CATS.map((c) => ({ ...c, label: en ? CATS_EN[c.key] : c.label, n: d.projects.filter((p) => p.cat === c.key).length }));
-  return (
-    <li ref={ref} className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)]">
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={open}
-        className="flex w-full flex-col gap-3 p-4 text-left sm:p-5"
-      >
-        <div className="flex items-baseline justify-between gap-4">
-          <span className="font-semibold text-[var(--fg)]">{d.name}</span>
-          <span className="shrink-0 text-sm tabular-nums text-[var(--fg-muted)]">
-            <b className="text-lg text-[var(--accent)]"><Count to={n} run={inView} reduced={reduced} /></b> {en ? `project${n > 1 ? "s" : ""} out of ${total}` : `projet${n > 1 ? "s" : ""} sur ${total}`}
-          </span>
-        </div>
-        <div className="flex h-3 w-full overflow-hidden rounded-full bg-[var(--bg)] ring-1 ring-[var(--border)]" role="img" aria-label={`${d.name} : ${counts.map((c) => `${c.n} ${c.label.toLowerCase()}`).join(", ")}`}>
-          {counts.filter((c) => c.n > 0).map((c, i) => (
-            <motion.div
-              key={c.key}
-              initial={{ width: reduced ? `${(c.n / total) * 100}%` : 0 }}
-              animate={{ width: inView || reduced ? `${(c.n / total) * 100}%` : 0 }}
-              transition={{ duration: 0.8, delay: reduced ? 0 : index * 0.06 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              style={{ background: c.color }}
-            />
-          ))}
-        </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[var(--fg-muted)]">
-          {counts.filter((c) => c.n > 0).map((c) => (
-            <span key={c.key} className="flex items-center gap-1.5"><i className="inline-block h-2 w-2 rounded-full" style={{ background: c.color }} />{c.n} {c.label.toLowerCase()}</span>
-          ))}
-          <span className="ml-auto">{en ? (open ? "Hide" : "Show details") : (open ? "Masquer" : "Voir le détail")} {open ? "−" : "+"}</span>
-        </div>
-      </button>
-      <motion.div
-        initial={false}
-        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-        transition={{ duration: reduced ? 0 : 0.25 }}
-        className="overflow-hidden"
-        aria-hidden={!open}
-      >
-        <div className="border-t border-[var(--border)] p-4 sm:p-5">
-          <p className="mb-3 text-sm text-[var(--fg-muted)]">{d.blurb}</p>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--fg-muted)]">{en ? "Tools and concepts" : "Outils et notions"}</p>
-          <div className="mb-4 flex flex-wrap gap-2">
-            {d.tools.map((t) => <span key={t} className="rounded-full bg-[var(--bg)] px-2.5 py-1 text-xs text-[var(--fg)] ring-1 ring-[var(--border)]">{t}</span>)}
-          </div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--fg-muted)]">{en ? "Where it is put into practice" : "Où c'est mis en pratique"}</p>
-          <div className="flex flex-wrap gap-2">
-            {d.projects.map((p) => (
-              <a key={p.slug} href={`/projets/${p.slug}/`} tabIndex={open ? 0 : -1} className="rounded-full bg-[var(--bg)] px-3 py-1.5 text-sm text-[var(--fg)] ring-1 ring-[var(--border)] transition-colors hover:text-[var(--accent)]">{p.title}</a>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-    </li>
-  );
-}
-
 export default function SkillDomains({ domains, total, lang = "fr" }: { domains: Domain[]; total: number; lang?: "fr" | "en" }) {
   const en = lang === "en";
-  const [openId, setOpenId] = useState<string | null>(null);
+  const base = en ? "/en" : "";
   return (
     <div>
-      <ul className="mb-4 flex flex-wrap gap-x-5 gap-y-1 text-xs text-[var(--fg-muted)]" aria-label={en ? "Legend" : "Légende"}>
-        {CATS.map((c) => <li key={c.key} className="flex items-center gap-1.5"><i className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: c.color }} />{en ? CATS_EN[c.key] : c.label}</li>)}
-      </ul>
-      <ul className="grid gap-3">
-        {domains.map((d, i) => (
-          <Row key={d.id} en={en} d={d} total={total} index={i} open={openId === d.id} onToggle={() => setOpenId(openId === d.id ? null : d.id)} />
-        ))}
-      </ul>
+      <p className="mb-4 max-w-2xl text-xs text-[var(--fg-muted)]">
+        {en ? `A filled dot means the area is put into practice in that setting; the number is how many of the ${total} projects do it.` : `Un point plein : le domaine est mis en pratique dans ce cadre ; le chiffre indique dans combien des ${total} projets.`}
+      </p>
+      <div className="overflow-x-auto">
+        <div className="min-w-[640px]">
+          <div className="grid grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,0.7fr))_minmax(0,1.4fr)] items-center gap-x-3 pb-2 font-mono text-[11px] uppercase tracking-[0.04em] text-[var(--fg-muted)]">
+            <span>{en ? "Area" : "Domaine"}</span>
+            {CATS.map((c) => <span key={c.key} className="text-center">{en ? CATS_EN[c.key] : c.label}</span>)}
+            <span>{en ? "Proof" : "Preuve"}</span>
+          </div>
+          <ul>
+            {domains.map((d) => (
+              <li key={d.id} className="grid grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,0.7fr))_minmax(0,1.4fr)] items-center gap-x-3 border-t border-[var(--border)] py-4">
+                <div className="min-w-0 pr-2">
+                  <p className="font-semibold text-[var(--fg)]">{d.name}</p>
+                  <p className="mt-0.5 truncate font-mono text-xs text-[var(--fg-muted)]" title={d.tools.join(" · ")}>{d.tools.slice(0, 4).join(" · ")}</p>
+                </div>
+                {CATS.map((c) => {
+                  const n = d.projects.filter((p) => p.cat === c.key).length;
+                  return (
+                    <span key={c.key} className="flex justify-center">
+                      {n > 0 ? (
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold tabular-nums text-[var(--accent-fg)]" style={{ background: c.color }} aria-label={`${n} ${en ? "projects" : "projets"}`}>{n}</span>
+                      ) : (
+                        <span className="h-7 w-7 rounded-full border border-dashed border-[var(--border)]" aria-label={en ? "none" : "aucun"} />
+                      )}
+                    </span>
+                  );
+                })}
+                <div className="flex min-w-0 flex-col gap-0.5 text-sm">
+                  {d.projects.slice(0, 2).map((p) => (
+                    <a key={p.slug} href={`${base}/projets/${p.slug}/`} className="truncate border-b border-transparent text-[var(--fg)] hover:text-[var(--accent)]">{p.title}</a>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
