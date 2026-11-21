@@ -23,7 +23,8 @@ export const PERIODS: Record<string, readonly [number, number]> = {
   "rudy-ops": [2026.0, NOW],
   "supinfo-lab": [2026.0, NOW],
 };
-export interface Tool { name: string; keys: string[]; group: string; home?: boolean }
+// since : début d'un usage continu (trait fin jusqu'à aujourd'hui), quand l'outil sert hors des projets listés.
+export interface Tool { name: string; keys: string[]; group: string; home?: boolean; since?: number }
 export const GROUPS: Record<string, { fr: string; en: string }> = {
   infra: { fr: "Infrastructure & automatisation", en: "Infrastructure & automation" },
   secu: { fr: "Réseau & sécurité", en: "Networking & security" },
@@ -46,7 +47,7 @@ export const TOOLS: Tool[] = [
   { group: "infra", name: "Infrastructure as Code", keys: ["Infra as Code"] },
   { group: "infra", name: "Cloud (Azure, GCP, S3)", keys: ["Azure", "GCP", "Google Cloud Platform", "S3"] },
   { group: "infra", name: "Self-hosting & domotique", keys: ["Self-hosting", "Home Assistant", "Jellyfin", "ntfy"] },
-  { group: "infra", name: "Git", keys: ["Git", "Forgejo", "Gitea"] },
+  { group: "infra", name: "Git", keys: ["Git", "Forgejo", "Gitea"], since: 2023.67 }, // depuis la 2e année de BTS
   // Réseau & sécurité
   { group: "secu", name: "OPNsense & réseau", keys: ["OPNsense", "Réseau", "CCNA", "Tailscale"], home: true },
   { group: "secu", name: "Sécurité", keys: ["Grype", "Syft (SBOM)", "Checkov", "gitleaks", "Sécurité", "Sécurité applicative", "Suricata", "CrowdSec", "Wazuh", "Trivy", "Conformité (RGPD/PCI-DSS)"] },
@@ -60,11 +61,8 @@ export const TOOLS: Tool[] = [
   { group: "dev", name: "JavaScript & TypeScript", keys: ["Scraping", "JavaScript", "TypeScript", "HTML/CSS/JS"] },
   { group: "dev", name: "React", keys: ["React", "React Native", "Next.js", "Ionic / React"] },
   { group: "dev", name: "API & GraphQL", keys: ["Enable Banking (DSP2)", "SendGrid", "GraphQL", "GraphQL Mesh", "Vikunja API", "Gemini API"] },
-  { group: "dev", name: "Full-stack", keys: ["Full-stack", "Développement"] },
   { group: "dev", name: "Sites web & intégration", keys: ["Sites web", "Websites", "Astro", "TailwindCSS", "SEO", "HTML/CSS/JS"] },
   { group: "dev", name: "Tests automatisés (pytest, Playwright, Go)", keys: ["Tests automatisés", "Automated testing", "pytest", "Playwright"] },
-  { group: "dev", name: "Temps réel (Socket.IO)", keys: ["Socket.IO", "Temps réel"] },
-  { group: "dev", name: "C# / ASP.NET", keys: ["C# / ASP.NET"] },
   { group: "dev", name: "Go", keys: ["Go"] },
   { group: "dev", name: "Mobile & desktop", keys: ["Mobile", "Android", "Electron", "Desktop", "PWA"] },
   // Données
