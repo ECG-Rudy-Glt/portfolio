@@ -70,7 +70,12 @@ export const TOOLS: Tool[] = [
   { group: "data", name: "Modélisation de données (MCD, schémas, migrations)", keys: ["Modélisation de données", "Data modelling"] },
   { group: "data", name: "MySQL & NoSQL", keys: ["Bases de données", "Big Data", "MySQL", "MongoDB", "NoSQL", "Redis"] },
   // IA
-  { group: "ia", name: "IA & LLM", keys: ["ChromaDB", "IA", "IA / Assistant conversationnel", "IA / AIOps", "IA / RAG", "LLM / tool-calling", "LLM / Claude (Anthropic)", "Mistral AI", "Gemini API", "Ollama", "MCP"], home: true },
+  { group: "ia", name: "LLM & assistants (tool-calling, citations vérifiées)", keys: ["IA", "IA / Assistant conversationnel", "AI / Conversational assistant", "LLM / tool-calling", "LLM / Claude (Anthropic)", "Mistral AI", "Gemini API"], home: true },
+  { group: "ia", name: "RAG simple (ChromaDB)", keys: ["IA / RAG", "AI / RAG", "ChromaDB"] },
+  { group: "ia", name: "LLM locaux (Ollama)", keys: ["Ollama"] },
+  { group: "ia", name: "Agents & multi-agents (MCP)", keys: ["Agents IA", "AI agents", "Multi-agents", "Multi-agent", "MCP"] },
+  { group: "ia", name: "Claude Code (développement agentique)", keys: ["Claude Code"] },
+  { group: "ia", name: "AIOps", keys: ["IA / AIOps", "AI / AIOps"] },
   // Architecture
   { group: "archi", name: "Microservices", keys: ["Microservices", "Event Bus", "RabbitMQ", "ActiveMQ"] },
   { group: "archi", name: "Architecture & conception", keys: ["Excalidraw", "Architecture", "Architecture cloud", "Conception", "Haute disponibilité"], home: true },

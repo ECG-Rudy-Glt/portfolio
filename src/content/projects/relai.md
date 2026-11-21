@@ -5,7 +5,7 @@ summary: "Binaire Go et fichiers versionnés dans git pour travailler avec des a
 period: "2026 - en cours"
 role: "Conception, développement, tests avec de vrais agents et publication open source en solo"
 stack: ["Go", "Git", "MCP", "Docker", "OpenSpec", "Beads", "GitHub Actions"]
-tags: ["IA / Assistant conversationnel", "CI/CD", "Docker", "Git", "Sites web", "Tests automatisés"]
+tags: ["IA / Assistant conversationnel", "CI/CD", "Docker", "Git", "Sites web", "Tests automatisés", "Multi-agents", "Agents IA", "Claude Code"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/RELAI"
   demo: "https://relai.gault-rudy.com"

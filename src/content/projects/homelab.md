@@ -5,7 +5,7 @@ summary: "Infrastructure personnelle de production : 2 nœuds Proxmox + firewall
 period: "2026 - en cours"
 role: "Conception, achat du matériel, déploiement et exploitation en solo"
 stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Alertmanager", "Forgejo", "Suricata", "CrowdSec", "Jellyfin", "Home Assistant", "K3s", "FluxCD", "Proxmox Backup Server"]
-tags: ["Infra as Code", "Réseau", "Sécurité", "Observabilité", "CI/CD", "Self-hosting"]
+tags: ["Infra as Code", "Réseau", "Sécurité", "Observabilité", "CI/CD", "Self-hosting", "Claude Code"]
 links:
   demo: "https://homelab.gault-rudy.com/"
   repo: "https://github.com/ECG-Rudy-Glt/HOMELAB"

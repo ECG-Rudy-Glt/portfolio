@@ -5,7 +5,7 @@ summary: "A personal production infrastructure: 2 Proxmox nodes and an OPNsense 
 period: "2026 - ongoing"
 role: "Design, hardware purchase, deployment and operation, solo"
 stack: ["Proxmox", "OPNsense", "Terraform", "Ansible", "Tailscale", "OpenBao", "Authentik", "Vaultwarden", "Traefik", "Prometheus", "Grafana", "Loki", "Grafana Alloy", "Alertmanager", "Forgejo", "Suricata", "CrowdSec", "Jellyfin", "Home Assistant", "K3s", "FluxCD", "Proxmox Backup Server"]
-tags: ["Infrastructure as Code", "Networking", "Security", "Observability", "CI/CD", "Self-hosting"]
+tags: ["Infrastructure as Code", "Networking", "Security", "Observability", "CI/CD", "Self-hosting", "Claude Code"]
 links:
   demo: "https://homelab.gault-rudy.com/"
   repo: "https://github.com/ECG-Rudy-Glt/HOMELAB"

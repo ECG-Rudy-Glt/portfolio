@@ -5,7 +5,7 @@ summary: "Unification d'une vingtaine d'outils d'automatisation isolés (audit, 
 period: "2025 - 2026 (en cours)"
 role: "Conception et développement en solo, dans le cadre de mon alternance"
 stack: ["Caddy", "Authelia (SSO/OIDC)", "React", "FastAPI", "Docker", "PostgreSQL", "GitLab CI", "gitleaks", "Grype", "Checkov", "Syft (SBOM)", "Python", "LLM / tool-calling"]
-tags: ["Architecture", "Microservices", "Sécurité", "SSO", "CI/CD", "DevOps", "IA / AIOps"]
+tags: ["Architecture", "Microservices", "Sécurité", "SSO", "CI/CD", "DevOps", "IA / AIOps", "Agents IA"]
 featured: true
 relevance: "majeur"
 order: 5
