@@ -5,7 +5,7 @@ summary: "A Go binary and git-versioned files to work with AI agents without rer
 period: "2026 - ongoing"
 role: "Design, development, testing with real agents and open source release, solo"
 stack: ["Go", "Git", "MCP", "Docker", "OpenSpec", "Beads", "GitHub Actions"]
-tags: ["AI / Conversational assistant", "CI/CD", "Docker", "Git"]
+tags: ["AI / Conversational assistant", "CI/CD", "Docker", "Git", "Websites", "Automated testing"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/RELAI"
   demo: "https://relai.gault-rudy.com"

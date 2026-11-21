@@ -5,7 +5,7 @@ summary: "Site vitrine et prise de contact pour mon activité freelance (DevOps,
 period: "2026 - en cours"
 role: "Conception, développement et déploiement en solo"
 stack: ["Astro", "React", "TailwindCSS", "Flask", "Python", "Docker", "Forgejo Actions", "Cloudflare Tunnel", "Gemini API", "Vikunja API"]
-tags: ["Full-stack", "IA / Assistant conversationnel", "CI/CD", "SEO", "Freelance"]
+tags: ["Full-stack", "IA / Assistant conversationnel", "CI/CD", "SEO", "Freelance", "Sites web"]
 links:
   demo: "https://rudy-ops.fr"
 images: ["/projets/rudy-ops/freelance-illustration.png"]

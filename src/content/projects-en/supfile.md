@@ -5,7 +5,7 @@ summary: "A French alternative to Dropbox/Drive: end-to-end encryption, vault, a
 period: "SUPINFO - 4th year"
 role: "Project team member"
 stack: ["Node.js", "React", "React Native", "Electron", "PostgreSQL", "Prisma", "Docker", "Ollama", "ChromaDB", "GitHub Actions"]
-tags: ["Security", "AI / RAG", "Full-stack", "Mobile", "Desktop", "CI/CD", "Group project"]
+tags: ["Security", "AI / RAG", "Full-stack", "Mobile", "Desktop", "CI/CD", "Group project", "Data modelling", "Websites"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/4PROJ-"
   demo: "https://supfile.gault-rudy.com"

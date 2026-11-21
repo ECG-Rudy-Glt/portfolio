@@ -5,7 +5,7 @@ summary: "First work-study contract, during the BTS SIO SLAM: a medical-oriented
 period: "2022 - 2024"
 role: "Work-study developer"
 stack: ["TypeScript", "Node.js", "JavaScript", "Git", "MySQL"]
-tags: ["Development", "Databases", "Scraping"]
+tags: ["Development", "Databases", "Scraping", "Data modelling", "Websites"]
 relevance: "pertinent"
 order: 7
 ---

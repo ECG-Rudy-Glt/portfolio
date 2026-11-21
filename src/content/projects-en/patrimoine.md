@@ -5,7 +5,7 @@ summary: "A self-hosted wealth tracking app for a household: accounts aggregated
 period: "2026 - ongoing"
 role: "Design, development, security, deployment and open source release, solo"
 stack: ["Python", "FastAPI", "PostgreSQL", "React", "Grafana", "Docker Compose", "Enable Banking (PSD2)", "LLM / Claude (Anthropic)", "ntfy", "Home Assistant"]
-tags: ["Full-stack", "AI / Conversational assistant", "Application security", "Docker", "Self-hosting"]
+tags: ["Full-stack", "AI / Conversational assistant", "Application security", "Docker", "Self-hosting", "Data modelling", "Websites", "Automated testing"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/PATRIMOINE"
   demo: "https://patrimoine-open.gault-rudy.com"

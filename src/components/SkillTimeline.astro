@@ -1,5 +1,5 @@
 ---
-import { PERIODS, TOOLS, NOW } from "../data/skillTimeline";
+import { PERIODS, TOOLS, GROUPS, NOW } from "../data/skillTimeline";
 import { enProject } from "../i18n/projects-en";
 interface Props { projects: { id: string; data: { title: string; summary: string; period: string; category: "perso" | "ecole" | "entreprise"; tags: string[]; stack: string[] } }[]; lang?: "fr" | "en"; limit?: number }
 const { projects, lang = "fr", limit } = Astro.props;
@@ -17,17 +17,20 @@ const merge = (iv: [number, number][]) => {
   for (const i of s) { const l = out[out.length - 1]; if (l && i[0] <= l[1]) l[1] = Math.max(l[1], i[1]); else out.push([i[0], i[1]]); }
   return out;
 };
-const rows = (limit ? TOOLS.slice(0, limit) : TOOLS).map((t) => {
+const rows = (limit ? TOOLS.filter((t) => t.home) : TOOLS).map((t) => {
   const keys = new Set(t.keys.map((k) => k.toLowerCase()));
   const hits = projects.filter((p) => PERIODS[p.id] && [...p.data.stack, ...p.data.tags].some((x) => keys.has(x.toLowerCase())));
   const lanes = CATS.map((c) => ({ ...c, bars: merge(hits.filter((p) => p.data.category === c.key).map((p) => [...PERIODS[p.id]] as [number, number])), n: hits.filter((p) => p.data.category === c.key).length }));
   const since = Math.min(...hits.map((p) => PERIODS[p.id][0]));
   const links = hits.sort((a, b) => PERIODS[b.id][0] - PERIODS[a.id][0]).map((p) => ({ id: p.id, cat: p.data.category, title: (en ? enProject(p.id, p.data as any).title : p.data.title).split(" - ")[0] }));
-  return { name: t.name, lanes, since, n: hits.length, links };
-}).filter((r) => r.n > 0).sort((a, b) => a.since - b.since);
+  return { group: t.group, name: t.name, lanes, since, n: hits.length, links };
+}).filter((r) => r.n > 0);
+const gkeys = Object.keys(GROUPS);
+const sections = (limit ? [{ g: "", rows: rows.sort((a, b) => a.since - b.since) }] : gkeys.map((g) => ({ g, rows: rows.filter((r) => r.group === g).sort((a, b) => a.since - b.since) })).filter((x) => x.rows.length));
 const LEARNING_START = new Date("2026-10-20");
 const months = Math.max(1, Math.round((Date.now() - LEARNING_START.getTime()) / (30.44 * 864e5)));
 const sinceLabel = en ? `since ${months} month${months > 1 ? "s" : ""}` : `depuis ${months} mois`;
+const flat: any[] = sections.flatMap((x) => (x.g ? [{ header: en ? GROUPS[x.g].en : GROUPS[x.g].fr }, ...x.rows] : x.rows));
 const learning = ["Platform engineering", "Harness engineering"];
 const LEARNING_START_Y = 2026.8;
 const base = en ? "/en" : "";
@@ -45,7 +48,7 @@ const since = (y: number) => `${en ? "since" : "depuis"} ${Math.floor(y)}`;
       <div class="stl-axis">
         {years.map((y) => <span style={`left:${pct(y)}%`}>{y}</span>)}
       </div>
-      {rows.map((r, ri) => (
+      {flat.map((r, ri) => r.header ? (<div class="stl-group">{r.header}</div>) : (
         <>
           <button type="button" class="stl-name stl-btn" aria-expanded="false" aria-controls={`stl-p-${ri}`}><span>{r.name}<em aria-hidden="true">+</em></span><small>{since(r.since)} · {r.n} {en ? (r.n > 1 ? "projects" : "project") : (r.n > 1 ? "projets" : "projet")}</small></button>
           <div class="stl-track" role="img" aria-label={`${r.name} ${since(r.since)}`}>
@@ -67,7 +70,7 @@ const since = (y: number) => `${en ? "since" : "depuis"} ${Math.floor(y)}`;
           <div class="stl-track" role="img" aria-label={`${l} ${sinceLabel}`}>
             {years.map((y) => <i class="stl-grid-line" style={`left:${pct(y)}%`}></i>)}
             <i class="stl-now" style={`left:${pct(NOW)}%`}></i>
-            <b class="stl-bar stl-learn" style={`left:${pct(LEARNING_START_Y)}%;width:${pct(NOW) - pct(LEARNING_START_Y)}%;--d:${(rows.length + li) * 90}ms;top:24px`}></b>
+            <b class="stl-bar stl-learn" style={`left:${pct(LEARNING_START_Y)}%;width:${pct(NOW) - pct(LEARNING_START_Y)}%;--d:${(flat.length + li) * 90}ms;top:24px`}></b>
           </div>
         </>
       ))}
@@ -84,6 +87,7 @@ const since = (y: number) => `${en ? "since" : "depuis"} ${Math.floor(y)}`;
   .stl-axis { grid-column: 2; position: relative; height: 22px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); }
   .stl-axis span { position: absolute; transform: translateX(-50%); }
   .stl-name { display: flex; flex-direction: column; justify-content: center; padding: 6px 12px 6px 0; border-top: 1px solid var(--border); }
+  .stl-group { grid-column: 1 / -1; padding: 22px 0 6px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
   .stl-btn { background: none; border: 0; border-top: 1px solid var(--border); text-align: left; cursor: pointer; font: inherit; color: inherit; }
   .stl-btn:hover span, .stl-btn:focus-visible span { color: var(--accent); }
   .stl-btn em { font-style: normal; margin-left: 8px; color: var(--fg-muted); font-weight: 400; }

@@ -5,7 +5,7 @@ summary: "Trois projets de fin de BTS SIO (portfolio statique, gestion de visite
 period: "BTS SIO"
 role: "Projet individuel"
 stack: ["HTML/CSS/JS", "Python", "Flask", "MySQL"]
-tags: ["Parcours", "Full-stack", "Bases de données"]
+tags: ["Parcours", "Full-stack", "Bases de données", "Modélisation de données", "Sites web"]
 relevance: "secondaire"
 order: 20
 ---

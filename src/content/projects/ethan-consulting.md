@@ -5,7 +5,7 @@ summary: "Première alternance, pendant le BTS SIO SLAM : crawler à visée méd
 period: "2022 - 2024"
 role: "Développeur en alternance"
 stack: ["TypeScript", "Node.js", "JavaScript", "Git", "MySQL"]
-tags: ["Développement", "Bases de données", "Scraping"]
+tags: ["Développement", "Bases de données", "Scraping", "Modélisation de données", "Sites web"]
 relevance: "pertinent"
 order: 7
 ---

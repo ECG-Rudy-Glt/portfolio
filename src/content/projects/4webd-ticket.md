@@ -5,7 +5,7 @@ summary: "SaaS de vente de billets pour événements, conçu pour absorber aussi
 period: "SUPINFO - 4e année"
 role: "Projet individuel"
 stack: ["Node.js", "Express", "PostgreSQL", "Patroni", "RabbitMQ", "Redis", "PgBouncer", "Nginx", "Zipkin", "Docker", "Docker Compose"]
-tags: ["Microservices", "Haute disponibilité", "Docker", "Full-stack"]
+tags: ["Microservices", "Haute disponibilité", "Docker", "Full-stack", "Modélisation de données"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/4WEBD-TICKET"
 relevance: "secondaire"

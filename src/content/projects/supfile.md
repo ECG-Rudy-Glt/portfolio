@@ -5,7 +5,7 @@ summary: "Alternative française à Dropbox/Drive : chiffrement de bout en bout,
 period: "SUPINFO - 4e année"
 role: "Membre de l'équipe projet"
 stack: ["Node.js", "React", "React Native", "Electron", "PostgreSQL", "Prisma", "Docker", "Ollama", "ChromaDB", "GitHub Actions"]
-tags: ["Sécurité", "IA / RAG", "Full-stack", "Mobile", "Desktop", "CI/CD", "Projet de groupe"]
+tags: ["Sécurité", "IA / RAG", "Full-stack", "Mobile", "Desktop", "CI/CD", "Projet de groupe", "Modélisation de données", "Sites web"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/4PROJ-"
   demo: "https://supfile.gault-rudy.com"

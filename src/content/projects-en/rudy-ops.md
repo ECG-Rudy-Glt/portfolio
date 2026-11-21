@@ -5,7 +5,7 @@ summary: "Showcase and contact site for my freelance activity (DevOps, Platform 
 period: "2026 - ongoing"
 role: "Solo design, development and deployment"
 stack: ["Astro", "React", "TailwindCSS", "Flask", "Python", "Docker", "Forgejo Actions", "Cloudflare Tunnel", "Gemini API", "Vikunja API"]
-tags: ["Full-stack", "AI / Conversational assistant", "CI/CD", "SEO", "Freelance"]
+tags: ["Full-stack", "AI / Conversational assistant", "CI/CD", "SEO", "Freelance", "Websites"]
 links:
   demo: "https://rudy-ops.fr"
 images: ["/projets/rudy-ops/freelance-illustration.png"]

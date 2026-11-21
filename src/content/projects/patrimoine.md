@@ -5,7 +5,7 @@ summary: "Application auto-hébergée de suivi de patrimoine pour un foyer : com
 period: "2026 - en cours"
 role: "Conception, développement, sécurité, déploiement et publication open source en solo"
 stack: ["Python", "FastAPI", "PostgreSQL", "React", "Grafana", "Docker Compose", "Enable Banking (DSP2)", "LLM / Claude (Anthropic)", "ntfy", "Home Assistant"]
-tags: ["Full-stack", "IA / Assistant conversationnel", "Sécurité applicative", "Docker", "Self-hosting"]
+tags: ["Full-stack", "IA / Assistant conversationnel", "Sécurité applicative", "Docker", "Self-hosting", "Modélisation de données", "Sites web", "Tests automatisés"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/PATRIMOINE"
   demo: "https://patrimoine-open.gault-rudy.com"

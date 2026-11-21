@@ -5,7 +5,7 @@ summary: "Three end-of-BTS projects (static portfolio, medical visit management,
 period: "BTS SIO"
 role: "Individual project"
 stack: ["HTML/CSS/JS", "Python", "Flask", "MySQL"]
-tags: ["Journey", "Full-stack", "Databases"]
+tags: ["Journey", "Full-stack", "Databases", "Data modelling", "Websites"]
 relevance: "secondaire"
 order: 20
 ---

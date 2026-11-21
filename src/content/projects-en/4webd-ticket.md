@@ -5,7 +5,7 @@ summary: "An event ticketing SaaS designed to absorb a small school event as wel
 period: "SUPINFO - 4th year"
 role: "Individual project"
 stack: ["Node.js", "Express", "PostgreSQL", "Patroni", "RabbitMQ", "Redis", "PgBouncer", "Nginx", "Zipkin", "Docker", "Docker Compose"]
-tags: ["Microservices", "High availability", "Docker", "Full-stack"]
+tags: ["Microservices", "High availability", "Docker", "Full-stack", "Data modelling"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/4WEBD-TICKET"
 relevance: "secondaire"

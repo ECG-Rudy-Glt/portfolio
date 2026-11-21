@@ -5,7 +5,7 @@ summary: "A self-hosted app for multisport training plans and nutrition suggesti
 period: "2026 - ongoing"
 role: "Design, development, security, deployment and open source release, solo"
 stack: ["Python", "FastAPI", "PostgreSQL", "JavaScript", "PWA", "Docker Compose", "Caddy", "GitHub Actions", "Kubernetes", "Ollama", "LLM / tool-calling", "Garmin Connect"]
-tags: ["Full-stack", "AI / Conversational assistant", "Application security", "CI/CD", "Docker", "Self-hosting"]
+tags: ["Full-stack", "AI / Conversational assistant", "Application security", "CI/CD", "Docker", "Self-hosting", "Data modelling", "Websites", "Automated testing"]
 links:
   repo: "https://github.com/ECG-Rudy-Glt/COACH"
   demo: "https://coach.gault-rudy.com"
