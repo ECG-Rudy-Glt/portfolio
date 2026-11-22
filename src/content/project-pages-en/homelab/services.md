@@ -53,18 +53,37 @@ CI/CD pipelines - each job in a disposable container.
 Without this layer, an outage is discovered because a user complains - not acceptable for
 an infrastructure that has to remain reliable day to day for my family. Prometheus, Grafana, Loki,
 Alertmanager with real alerts configured (expiring certificate, service down, disk
-SMART).
+SMART, NVMe temperature, storage filling up), sent by email and to Home Assistant.
 
-## Layer 6 - Personal cloud *(coming)*
+## Layer 6 - Personal cloud
 
-Nextcloud and Immich - see [what comes next](/en/projets/homelab/perspectives/).
+Immich for photos and Nextcloud for files, in service since November 2026. They came late on
+purpose: a service where the family puts sensitive data only opens once backups, monitoring and
+storage-filling alerts are in place. The first bulk photo upload (over 1,200 at once) pushed the
+node's NVMe to 80 °C: photo analysis runs on CPU, with no GPU.
 
 ## Layer 7 - Media
 
-Jellyfin, with an architecture distinctive enough to deserve its own page - see
+Jellyfin, with an architecture unusual enough to deserve its own page - see
 [Jellyfin without local storage](/en/projets/homelab/jellyfin/).
+
+## Layer 8 - Applications and public sites
+
+Once the platform was in place (Kubernetes, GitOps, registry, CI), adding an application only
+takes a repository and a Flux Kustomization. That is what made it possible to run
+[Patrimoine](/en/projets/patrimoine/), [COACH](/en/projets/coach/) and a CRM for my freelance
+work, plus the public sites (this portfolio, my freelance site, the project showcases), deployed
+on every push with no manual step.
+
+## Layer 9 - The lab assistant
+
+Last, and not by chance: Hermes, a Telegram bot backed by a language model, which explains alerts,
+handles film requests and controls a few devices in the house. It comes last because it relies on
+everything else (monitoring, home automation, media chain, secret vault), and because an agent
+that acts on the house is only plugged in once its guardrails are designed - detail in
+[AI tooling](/en/projets/homelab/outillage-ia/).
 
 ## What this order shows
 
-Each layer depends on the previous one. It is not arbitrary: it is the direct consequence
-of wanting a coherent infrastructure rather than a pile of independent services.
+Each layer depends on the previous one. It is not arbitrary: it is the direct consequence of
+wanting a coherent infrastructure rather than a pile of independent services.

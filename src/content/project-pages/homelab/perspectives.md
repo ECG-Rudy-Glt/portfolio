@@ -1,7 +1,7 @@
 ---
 project: homelab
 title: "La suite"
-summary: "NAS définitif, cloud personnel, streaming musique auto-hébergé, automatisation par IA locale, migration Linux du poste client - et le fil conducteur derrière tout ça : l'indépendance."
+summary: "NAS définitif, fiabilisation du réseau et du quorum, montée de versions, pentest interne, migration Linux du poste client - ce qui reste, ce qui est fait depuis, et le fil conducteur derrière tout ça : l'indépendance."
 order: 10
 ---
 
@@ -15,39 +15,51 @@ reprendre le contrôle sur ce qui peut raisonnablement l'être est la logique de
 nouveau chantier du lab. Chaque service auto-hébergé de plus est un abonnement de moins et une
 dépendance de moins à une plateforme tierce.
 
-## Cloud personnel - Nextcloud et Immich
+## Ce qui était « la suite » et qui est fait
 
-Reprendre la main sur le stockage de fichiers et les photos de famille plutôt que de dépendre
-d'un cloud tiers. Techniquement déjà provisionnés, pas encore mis à disposition avec de vraies
-données - la priorité a été donnée aux fondations (réseau, sécurité, observabilité) avant
-d'exposer un service que la famille utiliserait au quotidien avec des données sensibles.
+- **Cloud personnel** : Immich (photos) et Nextcloud (fichiers) sont en service, avec des alertes
+  sur le remplissage du stockage. Ils ont attendu que sauvegardes et supervision soient prêtes.
+- **State Terraform partagé et verrouillé** : fait en novembre (voir [l'IaC](/projets/homelab/iac/)).
+- **Un agent IA branché sur le lab** : c'est Hermes, qui explique les alertes, prend les demandes de
+  films et pilote la maison (voir [l'outillage IA](/projets/homelab/outillage-ia/)). Il ne tourne pas
+  sur un LLM local, contrairement à l'idée de départ : mesuré sur ces mini-PC sans GPU, c'était
+  trop lent. Le compromis retenu est un modèle distant à budget plafonné, derrière des garde-fous
+  qui ne dépendent pas de lui.
+- **Des applications en GitOps** : Patrimoine, COACH et un CRM tournent sur Kubernetes, avec un
+  dépôt par application.
+
+## Ce qui a été abandonné
+
+**Le streaming musique auto-hébergé.** L'objectif était de remplacer Spotify par une bibliothèque
+lossless, avec Navidrome et une acquisition automatisée. Le projet a été commencé, puis abandonné
+début novembre : sa VM chargeait un disque NVMe qui montait déjà à 80 °C, et le gain ne justifiait
+pas d'ajouter de la charge à un lab qui chauffait. Abandonner proprement fait aussi partie du
+travail : VM supprimée par Terraform, stockage libéré, rôles et scripts retirés du dépôt.
 
 ## NAS définitif
 
-Proxmox Backup Server tourne déjà, avec une copie hors site chiffrée et une restauration testée.
-Mais son datastore vit sur un disque récupéré d'un iMac (voir [le stockage](/projets/homelab/stockage-hdd/)) :
-une solution phase 1, pas la cible finale. Un NAS dédié le remplacera, sans changer la chaîne de
-sauvegarde elle-même.
+Proxmox Backup Server tourne, avec une copie hors site chiffrée et une restauration testée. Mais son
+datastore vit sur un disque récupéré d'un iMac (voir [le stockage](/projets/homelab/stockage-hdd/)),
+branché en USB : une nuit, toutes les sauvegardes ont échoué parce qu'il avait été rallumé après le
+serveur de sauvegarde. Un NAS dédié le remplacera, sans changer la chaîne de sauvegarde elle-même.
 
-## Streaming musique auto-hébergé
+## Fiabiliser ce qui est déjà là
 
-Remplacer Spotify (version familiale) par une stack lossless, avec découverte algorithmique et
-recherche libre - sans dépendre d'un moteur d'IA générative pour la recommandation. Piste
-sérieusement creusée : un serveur de streaming léger compatible avec un large écosystème de
-clients mobiles, couplé à un mécanisme d'acquisition automatisée façon Jellyfin
-(voir [la page Jellyfin](/projets/homelab/jellyfin/)), et un moteur de recommandation basé sur du
-filtrage collaboratif plutôt que sur un LLM. Le vrai défi identifié n'est pas l'outillage mais la
-disponibilité du contenu : un service de débridage a un taux de disponibilité immédiate bien
-inférieur pour la musique lossless que pour la vidéo grand public - la solution passe par un
-pré-remplissage intelligent de la bibliothèque plutôt que du tout-à-la-demande.
+- **La carte réseau du firewall** : remplacer les cartes Realtek par des Intel, la vraie réponse aux
+  pannes sous charge de l'été (voir [les vraies pannes](/projets/homelab/incidents/)).
+- **Le quorum du cluster** : un QDevice externe, pour qu'un nœud puisse tomber sans bloquer l'autre.
+- **Un canal d'alerte vraiment hors bande** : aujourd'hui, e-mail, Home Assistant et Telegram
+  dépendent tous de la connexion Internet du lab.
+- **La dissipation des mini-PC** : les NVMe montent à 80 °C sous charge. Des plafonds de lecture et
+  une répartition par température sont en place, la ventilation reste à revoir.
+- **La montée de versions** : Proxmox Backup Server 4, puis Debian 13 invité par invité, avec un
+  nouveau modèle de VM à côté de l'actuel.
 
-## Automatisation par IA locale
+## Le pentest interne
 
-Une piste explorée mais volontairement mise de côté pour l'instant : brancher un LLM local
-(auto-hébergé, pas d'API tierce) à des automatisations concrètes du lab - résumé d'incidents,
-triage d'alertes, aide au diagnostic. Le principe retenu : si l'IA doit toucher à l'infrastructure,
-elle tourne en local, sur le lab lui-même, cohérent avec la philosophie générale
-d'indépendance du projet.
+Le pentest externe a vérifié la surface publique (voir [la sécurité](/projets/homelab/securite/)).
+Le volet interne - un attaquant déjà présent sur un VLAN - reste à mener, et c'est le prochain
+exercice de sécurité.
 
 ## Migration Linux du poste client
 
@@ -56,11 +68,11 @@ Le Dell XPS 15 personnel reste aujourd'hui un simple terminal vers le lab (voir
 l'infrastructure. La dernière étape prévue est de migrer ce poste lui-même sous Linux, pour
 sortir également la machine de saisie quotidienne de l'écosystème Windows.
 
-## Et après - le freelance
+## Et après - Platform Engineering
 
-Ce homelab a démarré comme un projet de fin de 4e année (voir
-[pourquoi ce projet](/projets/homelab/pourquoi/)), mais son objectif dépasse le cadre académique :
-préparer une activité indépendante, notamment en sécurité. Le pentest mené sur ma propre
-infrastructure (voir [la sécurité](/projets/homelab/securite/)) est le premier exercice concret
-dans cette direction - la suite logique est de reproduire cette rigueur sur des infrastructures
-qui ne sont pas la mienne.
+Ce homelab a démarré comme un projet de fin de 4e année (voir [pourquoi ce projet](/projets/homelab/pourquoi/)),
+et il sert aujourd'hui de terrain pour la suite : mon activité freelance tourne dessus (site, prise
+de rendez-vous, CRM), et il sert de banc d'essai à mon
+[parcours Platform × Harness engineer](/projets/parcours-platform-harness/), où chaque module se
+termine par un lab mené sur cette infrastructure : opérateur Kubernetes, golden paths, supply chain
+signée, SLO, et une plateforme pour faire tourner des agents isolés.

@@ -52,7 +52,7 @@ export const projectsEn: Record<string, { title: string; summary: string; period
   },
   homelab: {
     title: "Homelab - Self-hosted infrastructure",
-    summary: "A personal production infrastructure: 2 Proxmox nodes and an OPNsense firewall, 4 VLANs, internal PKI, SSO, full observability and a Jellyfin streaming stack, all driven as Infrastructure as Code.",
+    summary: "A personal production infrastructure: 2 Proxmox nodes and an OPNsense firewall, 4 VLANs, internal PKI, SSO, full observability, 25 guests of which 22 in Terraform, GitOps applications on k3s and a guarded AI assistant - all driven as Infrastructure as Code.",
     period: "2026 - ongoing",
   },
   "ops-delivery-suite": {

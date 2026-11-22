@@ -24,7 +24,7 @@ this particular split:
 | VLAN | Contains | Can reach |
 |---|---|---|
 | **MGMT** | Proxmox, OPNsense itself | Nothing else must reach it from another VLAN without an explicit rule |
-| **LAB** | Application services, reverse proxy, dev environment, future Kubernetes | Internet (outbound), TRUST for necessary application calls (e.g. reverse proxy → SSO) |
+| **LAB** | Application services, reverse proxy, dev environment, Kubernetes, a Wi-Fi access point dedicated to the lab | Internet (outbound), TRUST for necessary application calls (e.g. reverse proxy → SSO) |
 | **TRUST** | SSO, secrets vault, password manager, home automation | Limited Internet, never an initiator towards MGMT |
 | **IoT** | Home automation devices | DNS only - no Internet access, no access to the rest of the network |
 
@@ -47,24 +47,48 @@ under the same roof.
 ```
 Internet
    │
+ISP box (double NAT)
+   │
 Dedicated firewall (OPNsense, bare metal)
-   │  inter-VLAN routing, DHCP, DNS, Tailscale VPN, IDS/IPS
+   │  inter-VLAN routing, DHCP, IDS, CrowdSec, GeoIP, Tailscale VPN
    │
 Managed switch (802.1Q)
    │
    ├── VLAN MGMT   - hypervisor access only
-   ├── VLAN LAB    - reverse proxy, internal DNS, dev, most services
-   ├── VLAN TRUST  - SSO, secrets vault, password manager
+   ├── VLAN LAB    - reverse proxy, DNS, dev, Kubernetes, lab Wi-Fi
+   ├── VLAN TRUST  - SSO, secret vault, passwords, home automation
    └── VLAN IoT    - isolated, DNS only
         │
-        └── 2 Proxmox nodes (cluster) - VMs and LXC containers
-             ├── node-1: permanent services
-             └── node-2: dev, CI/CD, Kubernetes
+        └── 2 Proxmox nodes (cluster) - 25 VMs and LXC containers
+             ├── node-1: permanent services (SSO, secrets, DNS, monitoring,
+             │           streaming, home automation, photos and files, backups)
+             └── node-2: dev and platform (dev workstation, Forgejo and its runner,
+                          registry, secondary DNS, AI assistant, public sites)
+        k3s spans both nodes: the server on node-1, the worker on node-2
 ```
 
-## Remote access without opening a port
+The split is not fixed. In November, node-2's NVMe drive reached 79 °C at idle, against 39 °C
+for the same model on node-1: a heat dissipation problem, not wear. The k3s server was moved to
+node-1, and placement now also follows temperature.
 
-Tailscale (mesh VPN, running directly on the firewall) makes it possible to reach the lab from
-anywhere without exposing a single inbound port on the WAN. The only deliberate exception is the
-streaming service, publicly exposed with its own dedicated protection layers - full details in
+## Three entry paths, not one
+
+Each use has its own path, from the most closed to the most open:
+
+| Use | Path | Inbound ports |
+|---|---|---|
+| Administration | Tailscale (WireGuard mesh, on the firewall) | None |
+| Public sites (portfolio, freelance site, project showcases) | Cloudflare Tunnel, outbound connection started from the lab | None |
+| Family services (streaming, film requests, SSO, notifications, Patrimoine app) | Non-standard port to Traefik, filtered by CrowdSec, GeoIP and rate limiting | One |
+
+Streaming cannot go through the tunnel (Cloudflare's terms forbid video at volume), hence this
+single port, defended in depth and checked by an external pentest - detail in
 [security](/en/projets/homelab/securite/) and [Jellyfin](/en/projets/homelab/jellyfin/).
+
+## A DNS that no longer goes down with a single container
+
+DNS is the service everything depends on without anyone seeing it. Since November 2026 there is
+an AdGuard Home on each node, DHCP announces both, and the firewall redirects all DNS traffic on
+the network to them, including devices that hard-code their DNS (the TV, notably). A node can
+reboot without the house losing the Internet. Along the way, about 40% of requests are blocked
+trackers or ads.

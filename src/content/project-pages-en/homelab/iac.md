@@ -49,6 +49,14 @@ Authentication by API token - no plaintext password - and the secrets (Proxmox c
 SSH keys) are read from the vault at `terraform apply` time, never
 committed in a `.tfvars`.
 
+### A shared, locked state
+
+For months the Terraform state stayed local, on the admin workstation: two workstations could
+drift apart, and losing the file would have meant re-importing everything. Since November 2026 the
+states are merged into a **locked S3 backend** (object storage with a European host), and CI uses a
+Terraform version that handles this lock natively. The merge was a chance to realign the code with
+reality: `terraform plan` now shows no difference across the 22 managed guests.
+
 ## Ansible - configuring
 
 Once a machine is provisioned, Ansible takes over: packages, users,
@@ -71,7 +79,9 @@ reverse proxy.
 
 ## FluxCD - GitOps on Kubernetes
 
-For everything running on k3s, no manual `kubectl apply`:
+For everything running on k3s, no manual `kubectl apply`. Each application keeps its own
+repository (Patrimoine, COACH, the freelance CRM), and Flux follows both the lab repository and
+the application repositories:
 
 1. A manifest is modified in the repository
 2. `git push` to Forgejo, the lab's self-hosted Git repository
@@ -80,6 +90,14 @@ For everything running on k3s, no manual `kubectl apply`:
 
 The Git repository becomes the only source of truth for the cluster's desired state - no silent
 drift between "what is documented" and "what actually runs".
+
+## The generated inventory, source of truth
+
+With 25 guests and 41 routes, a hand-maintained table always ends up lying (a VM's RAM changed, a
+service moved). A script reads Proxmox, Terraform, Traefik, k3s and Ansible in **read-only** mode
+and generates the full inventory: each guest with its node, resources, network, backups and
+routes, plus a graph of the whole. It also flags gaps, such as a guest with no backup or no
+off-site copy. Each guest has its own card, with a "known pitfalls" section fed by past incidents.
 
 ## Forgejo - the central repository
 

@@ -64,6 +64,58 @@ the same night - a good reminder that in a segmented infrastructure, a single sh
 (here the physical network) remains a common point of failure for everything that depends on it, despite the
 logical segmentation into VLANs.
 
+## The firewall swamped by its own interrupts (August-September)
+
+Three total outages of the same kind, the last on 25 September: no LAN, no VPN, no public services
+for over an hour, and **no alert received**. The firewall had not crashed: one of its four cores
+was saturated at 100% by interrupts from its Realtek network cards, under a sustained inbound
+flow. The trigger was internal: a health-check script that re-read part of every file in the
+remote library, whose cache downloaded tens of MB instead of a few KB - an estimate made by hand,
+never measured. The rate limiter held nothing back: it was set per IP, and the traffic came from
+six or seven IPs at once.
+
+The post-mortem found a second outage hidden inside the first: the reverse proxy, restarted
+during the cut, had not been able to download its CrowdSec plugin, and had silently disabled every
+public route, which stayed broken for several more hours. And no alert went out, because the alert
+emails went through the failed firewall.
+
+Fixed since: the script reads only the bytes it needs (0.6 Mbit/s on average instead of 120), the
+plugin is embedded in the reverse proxy's configuration, DNS and the secret vault start first after
+a reboot, and probes watch the public routes and DNS. Still open: the Intel network card, a
+rate limiter with a global cap, and an alert channel that does not depend on the firewall.
+
+## The library emptied by a vanished mount (October)
+
+One night in October, the library's remote mount dropped during a Jellyfin scan. Jellyfin saw
+empty folders and removed 788 items from its database. Nothing was lost (the files are remote), but
+everything had to be rescanned. Since then, a guard watches the mount **during** the scan and stops
+Jellyfin if it disappears: better a stopped service than an emptied library.
+
+## The automatic maintenance that froze streaming (November)
+
+The nightly maintenance script took a snapshot of the Jellyfin container before updating it. The
+container freeze never finished, because of the FUSE mount - exactly as in a July incident that I
+had not cross-checked when writing the script. Jellyfin was down all night, the backup failed, and
+no node was updated. The fix did not stop at the script: the rule "never snapshot this container"
+is now written in the repository's instructions **and** blocked by a hook that refuses the
+command, whether it comes from me or from an agent (see [AI tooling](/en/projets/homelab/outillage-ia/)).
+
+## The dev workstation that overheated a disk (November)
+
+The development VM froze twice in three days, with an NVMe at 82 °C. Measurements showed over
+400 GB read in a few minutes for 55 GB of data: the VM was running out of memory and endlessly
+re-reading its disk. The first answer (a read cap) treated the symptom; the recurrence forced me to
+find the cause, and the VM got more memory, compressed memory and a guard. The disk itself was not
+worn (5%): it was a heat dissipation problem in a mini-PC case, which later led to moving the
+Kubernetes server to the other node.
+
+## One night's backups, all failed (November)
+
+Every backup of one night failed at once. The USB disk used as the datastore had been powered back
+on **after** the backup server booted, and the server does not remount it by itself. Nothing was
+lost, but it is exactly the kind of silent failure a daily check must catch: the mount is now
+automatic, and it is one more argument for the final NAS.
+
 ## The complete credential rotation
 
 Before any serious pentest, all passwords and secrets created during the construction of the

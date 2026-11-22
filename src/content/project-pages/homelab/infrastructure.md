@@ -24,7 +24,7 @@ ce découpage précis :
 | VLAN | Contient | Peut atteindre |
 |---|---|---|
 | **MGMT** | Proxmox, OPNsense lui-même | Rien d'autre ne doit l'atteindre depuis un autre VLAN sans règle explicite |
-| **LAB** | Services applicatifs, reverse proxy, environnement de dev, futur Kubernetes | Internet (sortant), TRUST pour les appels applicatifs nécessaires (ex. reverse proxy → SSO) |
+| **LAB** | Services applicatifs, reverse proxy, environnement de dev, Kubernetes, un point d'accès Wi-Fi dédié au lab | Internet (sortant), TRUST pour les appels applicatifs nécessaires (ex. reverse proxy → SSO) |
 | **TRUST** | SSO, coffre-fort de secrets, gestionnaire de mots de passe, domotique | Internet limité, jamais initiateur vers MGMT |
 | **IoT** | Appareils domotiques | DNS uniquement - aucun accès à Internet, aucun accès au reste du réseau |
 
@@ -47,24 +47,48 @@ le même toit.
 ```
 Internet
    │
+Box opérateur (double NAT)
+   │
 Firewall dédié (OPNsense, bare metal)
-   │  routage inter-VLAN, DHCP, DNS, VPN Tailscale, IDS/IPS
+   │  routage inter-VLAN, DHCP, IDS, CrowdSec, GeoIP, VPN Tailscale
    │
 Switch manageable (802.1Q)
    │
    ├── VLAN MGMT   - accès aux hyperviseurs uniquement
-   ├── VLAN LAB    - reverse proxy, DNS interne, dev, la majorité des services
-   ├── VLAN TRUST  - SSO, coffre-fort de secrets, gestionnaire de mots de passe
+   ├── VLAN LAB    - reverse proxy, DNS, dev, Kubernetes, Wi-Fi du lab
+   ├── VLAN TRUST  - SSO, coffre-fort de secrets, mots de passe, domotique
    └── VLAN IoT    - isolé, DNS uniquement
         │
-        └── 2 nœuds Proxmox (cluster) - VMs et conteneurs LXC
-             ├── node-1 : services permanents
-             └── node-2 : dev, CI/CD, Kubernetes
+        └── 2 nœuds Proxmox (cluster) - 25 VMs et conteneurs LXC
+             ├── node-1 : services permanents (SSO, secrets, DNS, monitoring,
+             │            streaming, domotique, photos et fichiers, sauvegardes)
+             └── node-2 : dev et plateforme (poste de dev, Forgejo et son runner,
+                          registry, DNS secondaire, assistant IA, sites publics)
+        k3s s'étend sur les deux nœuds : le serveur sur node-1, le worker sur node-2
 ```
 
-## L'accès distant sans ouvrir de port
+La répartition n'est pas figée. En novembre, le disque NVMe de node-2 montait à 79 °C au repos,
+contre 39 °C pour le même modèle sur node-1 : un problème de dissipation, pas d'usure. Le
+serveur k3s a été déplacé sur node-1, et la répartition suit maintenant aussi la température.
 
-Tailscale (mesh VPN, exécuté directement sur le firewall) permet d'atteindre le lab depuis
-n'importe où sans exposer le moindre port entrant sur le WAN. La seule exception volontaire est le
-service de streaming, exposé publiquement avec ses propres couches de protection dédiées - détail
-complet en [sécurité](/projets/homelab/securite/) et [Jellyfin](/projets/homelab/jellyfin/).
+## Trois chemins d'entrée, pas un seul
+
+Chaque usage a son chemin, du plus fermé au plus ouvert :
+
+| Usage | Chemin | Ports entrants |
+|---|---|---|
+| Administration | Tailscale (mesh WireGuard, sur le firewall) | Aucun |
+| Sites publics (portfolio, site freelance, vitrines des projets) | Cloudflare Tunnel, connexion sortante initiée depuis le lab | Aucun |
+| Services familiaux (streaming, demandes de films, SSO, notifications, app Patrimoine) | Port non standard vers Traefik, filtré par CrowdSec, GeoIP et limitation de débit | Un seul |
+
+Le streaming ne peut pas passer par le tunnel (les conditions de Cloudflare interdisent la vidéo
+en volume), d'où ce port unique, défendu en profondeur et vérifié par un pentest externe - détail
+en [sécurité](/projets/homelab/securite/) et [Jellyfin](/projets/homelab/jellyfin/).
+
+## Un DNS qui ne tombe plus avec un seul conteneur
+
+Le DNS est le service dont tout dépend sans qu'on le voie. Depuis novembre 2026, il y a un
+AdGuard Home sur chaque nœud, le DHCP annonce les deux, et le firewall redirige tout le trafic
+DNS du réseau vers eux, y compris les appareils qui codent leur DNS en dur (la TV, notamment).
+Un nœud peut redémarrer sans que la maison perde Internet. Au passage, environ 40 % des
+requêtes sont des trackers ou des publicités bloqués.

@@ -23,6 +23,26 @@ alternance), mais il ne s'arrête pas à un rendu académique : c'est une démar
 compétences sur une pile complète plutôt qu'un seul maillon, me former par la pratique sur des
 sujets que l'alternance ne couvre pas, et préparer une activité indépendante a cause d'un avenir incertain avec le marché de l'emploie actuel. 
 
+## Où en est le lab (novembre 2026)
+
+Trois mois après le premier récit, le lab a changé d'échelle :
+
+- **25 machines virtuelles et conteneurs** sur deux nœuds, dont 22 décrits en Terraform, avec un
+  state partagé et verrouillé, et **41 routes HTTPS** derrière un seul reverse proxy.
+- **Des applications en GitOps sur Kubernetes** : [Patrimoine](/projets/patrimoine/),
+  [COACH](/projets/coach/) et un CRM pour mon activité freelance, chacune dans son dépôt.
+- **Un cloud personnel en service** (photos et fichiers), un DNS redondant, et une domotique
+  étendue à Matter sur Thread ([l'article Home Assistant](/blog/home-assistant/)).
+- **Un assistant IA encadré**, Hermes, qui explique les alertes sur Telegram et pilote la maison
+  sans jamais avoir d'accès direct à ses services.
+- **Un dépôt outillé pour les agents** : consignes, garde-fous qui bloquent les commandes
+  dangereuses, inventaire généré automatiquement, suivi des chantiers. C'est le point de départ
+  de mon [parcours Platform × Harness engineer](/projets/parcours-platform-harness/).
+
+Et quelques pannes de plus, toutes racontées avec leur cause : un firewall saturé par ses propres
+interruptions réseau, une bibliothèque vidée par un montage disparu, des disques NVMe qui chauffent
+dans des boîtiers de mini-PC.
+
 ## Le projet complet
 
 Le détail technique intégral - matériel, budget, architecture réseau, services, Infrastructure as
@@ -30,7 +50,7 @@ Code, incidents réels, et les résultats bruts du pentest - est sur la
 [page dédiée du projet](/projets/homelab/), qui se déploie elle-même sur plusieurs pages
 détaillées : pourquoi ce projet, l'équipement et ses choix, l'infrastructure réseau, les services
 et leur ordre de déploiement, l'IaC en détail, les vraies pannes rencontrées, la sécurité et le
-pentest, le stockage, Jellyfin, et la suite.
+pentest, le stockage, Jellyfin, la domotique, l'outillage IA, et la suite.
 
 Plusieurs morceaux ont déjà leur propre article : la mise en place de la
 [PKI interne et du coffre à secrets](/blog/homelab-pki-secrets/), le

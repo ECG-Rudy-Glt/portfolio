@@ -1,7 +1,7 @@
 ---
 project: homelab
 title: "Home automation, network extension and local video surveillance"
-summary: "Home Assistant as the only gateway to the isolated IoT VLAN, and the ongoing work to extend it: a dedicated multi-SSID WiFi AP (replacing an abandoned powerline project) and a 100% local indoor camera, with no third-party cloud dependency."
+summary: "Home Assistant as the gateway to the house's devices, the Wi-Fi extension and the local camera - and the gap between plan and reality: an access point that cannot be flashed, offset by per-device rules."
 order: 9.8
 ---
 
@@ -73,12 +73,20 @@ NVR works exactly as from the apartment. Duplicating this mechanism with a VPN s
 the AP would have been redundant - the right answer here was to build nothing more, not to add
 a layer.
 
-## Where things stand
+## Where things stand (November 2026)
 
-The hardware (AP + camera) is still to be ordered as I write these lines, but the design
-is complete: which model, why, what the stock firmware does not allow, how to work around it
-cleanly, and a detailed configuration checklist ready to run on receipt (OpenWrt flash,
-VLANs, SSIDs, firewall rules). The conscious choice was to invest the time in
-design before purchase, rather than buy and then discover a blocking limit afterwards -
-which is exactly what happened with the stock firmware, but before ordering, not
-after.
+The hardware is installed, but not quite as planned, and that is the most instructive part. The
+chosen access point turned out to be **impossible to flash** with OpenWrt on its hardware revision:
+per-VLAN multi-SSID could not be set up. The Wi-Fi devices (TV, camera, air purifier) therefore sit
+on the lab VLAN rather than the IoT VLAN, a gap between the documented architecture and the real
+state that I found while auditing the question "is this camera exploitable?".
+
+The answer applied until a compatible access point arrives: **a strict per-device allowlist** at the
+firewall (the camera only talks to what it needs, its vendor cloud is cut off), and all their DNS
+traffic goes through the lab's filtered DNS. It is listed in the
+[known limitations](/en/projets/homelab/#known-limitations), not hidden.
+
+On the Home Assistant side, the house has grown a lot since: Zigbee for the lamps, Matter over
+Thread for new accessories (with a second dedicated radio dongle), energy tracking (the lab's own
+consumption is measured continuously) and dashboards that mix the house and the infrastructure.
+The detail is in the article [Home Assistant in my homelab](/blog/home-assistant/) (in French).

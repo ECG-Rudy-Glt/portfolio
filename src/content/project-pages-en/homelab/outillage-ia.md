@@ -1,7 +1,7 @@
 ---
 project: homelab
-title: "On using Claude Code"
-summary: "This homelab was built with Claude Code as a day-to-day working tool - a deliberate choice, not a hidden one. Why, what it changed, and the limits I still know about."
+title: "Claude Code, the repository harness and the lab assistant"
+summary: "This homelab is built with Claude Code, a deliberate choice. Since November, the repository has its own harness (instructions, guardrails, inventory, task tracking), and the lab has a guarded AI assistant. What it changes, and the limits I know about."
 order: 9.5
 ---
 
@@ -51,6 +51,60 @@ service already in place is repetitive work where assistance speeds things up a 
 a consistent style with the rest of the repository - a detail that matters so that the code stays
 readable and maintainable, not just functional.
 
+## From a plain assistant to a harness
+
+Over the summer, Claude Code was a very capable assistant, but one that started from scratch every
+session and could repeat a mistake already made. In November 2026 the repository got its own
+**harness**: the environment that frames the agent, so it can work fast without being able to
+break what matters.
+
+- **Written instructions, enforced.** The repository's instruction file gives the map of the
+  infrastructure and ten hard rules: never a hard-coded secret (everything goes through the vault),
+  never a Terraform `apply` without reading the plan, never a force push, never a snapshot of the
+  Jellyfin container, nothing on the machines without my approval. These rules do not rely on the
+  model's goodwill: a deny list in the configuration and a **hook** that inspects every command
+  before it runs enforce them.
+- **The memory of past outages, at the right moment.** When a command targets a specific guest,
+  the hook automatically attaches the "known pitfalls" section of its card. The November incident
+  on the Jellyfin container (see [the real outages](/en/projets/homelab/incidents/)) became a rule, a
+  block and a documented pitfall, so that neither I nor an agent repeats it.
+- **A generated inventory rather than a described one.** The agent reads the lab's real state
+  (Proxmox, Terraform, Traefik, k3s, Ansible) from an inventory produced by a read-only script,
+  instead of trusting documentation that drifts (see [IaC](/en/projets/homelab/iac/)).
+- **Tracking that survives sessions.** OpenSpec describes each piece of work (the what and the why:
+  proposal, design, tasks), Beads tracks who does what right now. At the start of every session, a
+  hook shows the ready tasks and restates the hard rules; [Relai](/en/projets/relai/), a tool I
+  wrote, helps pick up the thread across several repositories.
+- **Skills for repeated actions** (deploying a playbook, decommissioning a guest, touring the lab)
+  and a secret scan before every commit.
+
+This is exactly what is called *harness engineering*, and it has become a subject of study in its
+own right: see my [Platform × Harness engineer learning path](/en/projets/parcours-platform-harness/).
+
+## Hermes, the lab and household assistant
+
+The lab also has its own agent: **Hermes**, a Telegram bot open to the family, with different
+rights depending on the person. It explains every new alert (with the metrics and the known
+pitfalls of the guest concerned), takes film requests, controls a few devices in the house and
+sends a technical watch every Monday (new versions and known vulnerabilities of the lab's tools).
+
+The model (Claude Haiku) is not the point; the framing is:
+
+- **No direct access.** The bot cannot reach Home Assistant or the rest of the lab: a per-account
+  network rule prevents it. It goes through a separate policy service, which holds the tokens,
+  enforces roles (admin, household, family) and an allowlist of actions.
+- **Out-of-band confirmation** for sensitive actions: the confirmation code is sent by the bot to
+  the person, never to the model, which therefore cannot confirm itself.
+- **A capped budget**: a local budget guard refuses any call beyond $1 a month (one exchange costs
+  between $0.001 and $0.003), with alerts at 80% and 100%.
+- **Quotas** on film requests, and a dedicated security pass (locks, rate limits, service
+  hardening, file permissions).
+
+The initial idea of a **local** LLM was measured and dropped as the default: on these mini-PCs
+without a GPU, one answer took 1 to 6 minutes. The local model stays installed for cases where
+privacy matters more than latency. The accepted trade-off is a remote model, behind guardrails
+that do not depend on it.
+
 ## What I do not yet master in depth
 
 Honestly: I did not configure 100% of this lab myself, by hand, line by line. Part of it
@@ -58,16 +112,6 @@ was produced with the help of Claude Code, which means there are corners of
 my own infrastructure that I do not know as deeply as what I typed and
 decided myself from end to end. It is a real blind spot that I own up to rather than pretending to
 master every line of config at the same level.
-
-## The plan to close that gap
-
-Gradually going back over what was generated rather than handwritten - understanding it block
-by block, not just checking that it runs - is part of the ongoing work, not just of the
-"finished". In parallel, labs dedicated to AI are planned throughout my final school
-year, to build a real technical understanding of LLMs themselves (beyond knowing how to
-use them as a production tool). The lead already laid down on this homelab - a local,
-self-hosted LLM wired to real infrastructure automations rather than to
-toy use cases - is detailed in [what comes next](/en/projets/homelab/perspectives/).
 
 ## Staying lucid about using AI, not giving it up
 

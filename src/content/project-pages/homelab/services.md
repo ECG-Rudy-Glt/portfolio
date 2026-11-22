@@ -53,16 +53,36 @@ pipelines CI/CD - chaque job dans un conteneur jetable.
 Sans cette couche, une panne se découvre parce qu'un utilisateur se plaint - pas acceptable pour
 une infra qui doit rester fiable au quotidien pour ma famille. Prometheus, Grafana, Loki,
 Alertmanager avec de vraies alertes configurées (certificat qui expire, service down, SMART
-disque).
+disque, température des NVMe, remplissage du stockage), envoyées par e-mail et vers Home Assistant.
 
-## Couche 6 - Cloud personnel *(à venir)*
+## Couche 6 - Cloud personnel
 
-Nextcloud et Immich - voir [la suite](/projets/homelab/perspectives/).
+Immich pour les photos et Nextcloud pour les fichiers, en service depuis novembre 2026. Ils sont
+arrivés tard volontairement : un service où la famille dépose des données sensibles ne s'ouvre
+qu'une fois les sauvegardes, la supervision et les alertes de remplissage du stockage en place.
+Le premier envoi massif de photos (plus de 1 200 d'un coup) a d'ailleurs fait monter le NVMe du
+nœud à 80 °C : l'analyse des photos tourne sur CPU, sans GPU.
 
 ## Couche 7 - Media
 
 Jellyfin, avec une architecture suffisamment particulière pour mériter sa propre page - voir
 [Jellyfin sans stockage local](/projets/homelab/jellyfin/).
+
+## Couche 8 - Applications et sites publics
+
+Une fois la plateforme en place (Kubernetes, GitOps, registry, CI), y ajouter une application ne
+demande plus qu'un dépôt et une Kustomization Flux. C'est ce qui a permis d'y faire tourner
+[Patrimoine](/projets/patrimoine/), [COACH](/projets/coach/) et un CRM pour mon activité
+freelance, plus les sites publics (ce portfolio, mon site freelance, les vitrines des projets),
+déployés à chaque push sans geste manuel.
+
+## Couche 9 - L'assistant du lab
+
+En dernier, et pas par hasard : Hermes, un bot Telegram branché sur un modèle de langage, qui
+explique les alertes, répond aux demandes de films et pilote quelques appareils de la maison. Il
+arrive en dernier parce qu'il s'appuie sur tout le reste (supervision, domotique, chaîne média,
+coffre à secrets) et parce qu'un agent qui agit sur la maison ne se branche qu'avec ses garde-fous
+déjà conçus - détail en [outillage IA](/projets/homelab/outillage-ia/).
 
 ## Ce que cet ordre montre
 

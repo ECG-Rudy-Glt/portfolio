@@ -49,6 +49,15 @@ Authentification par token API - pas de mot de passe en clair - et les secrets (
 Proxmox, clés SSH) sont lus depuis le coffre-fort au moment du `terraform apply`, jamais
 commités dans un `.tfvars`.
 
+### Un state partagé et verrouillé
+
+Pendant des mois, le state Terraform est resté local, sur le poste d'administration : deux
+postes pouvaient diverger, et une perte du fichier aurait obligé à tout réimporter. Depuis
+novembre 2026, les states sont fusionnés dans un **backend S3 verrouillé** (stockage objet chez
+un hébergeur européen), et la CI utilise une version de Terraform qui gère ce verrou nativement.
+La fusion a été l'occasion de réaligner le code sur le réel : `terraform plan` ne montre plus
+aucun écart sur les 22 invités gérés.
+
 ## Ansible - configurer
 
 Une fois une machine provisionnée, Ansible prend le relais : paquets, utilisateurs,
@@ -71,7 +80,9 @@ reverse proxy.
 
 ## FluxCD - GitOps sur Kubernetes
 
-Pour tout ce qui tourne sur k3s, pas de `kubectl apply` manuel :
+Pour tout ce qui tourne sur k3s, pas de `kubectl apply` manuel. Chaque application garde son
+propre dépôt (Patrimoine, COACH, le CRM freelance), et Flux suit à la fois le dépôt du lab et
+ceux des applications :
 
 1. Un manifeste est modifié dans le dépôt
 2. `git push` vers Forgejo, le dépôt Git self-hébergé du lab
@@ -80,6 +91,15 @@ Pour tout ce qui tourne sur k3s, pas de `kubectl apply` manuel :
 
 Le dépôt Git devient la seule source de vérité de l'état désiré du cluster - pas de dérive
 silencieuse entre "ce qui est documenté" et "ce qui tourne réellement".
+
+## L'inventaire généré, source de vérité
+
+Avec 25 invités et 41 routes, un tableau tenu à la main finit toujours par mentir (la RAM d'une
+VM changée, un service déplacé). Un script lit en **lecture seule** Proxmox, Terraform, Traefik,
+k3s et Ansible, et génère l'inventaire complet : chaque invité avec son nœud, ses ressources, son
+réseau, ses sauvegardes, ses routes, et un graphe de l'ensemble. Il signale aussi les trous, par
+exemple un invité sans sauvegarde ou sans copie hors site. Chaque invité a sa fiche, avec une
+section « pièges connus » alimentée par les incidents passés.
 
 ## Forgejo - le dépôt central
 

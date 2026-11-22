@@ -1,7 +1,7 @@
 ---
 project: homelab
 title: "What comes next"
-summary: "Final NAS, personal cloud, self-hosted music streaming, local AI automation, Linux migration of the client workstation - and the common thread behind all of it: independence."
+summary: "Final NAS, making the network and quorum reliable, version upgrades, internal pentest, Linux migration of the client workstation - what remains, what has been done since, and the common thread behind it all: independence."
 order: 10
 ---
 
@@ -15,39 +15,50 @@ taking back control of what reasonably can be is the logic behind each
 new workstream of the lab. Every additional self-hosted service is one subscription fewer and one
 dependency fewer on a third-party platform.
 
-## Personal cloud - Nextcloud and Immich
+## What was "next" and is now done
 
-Taking back control of file storage and family photos rather than depending on
-a third-party cloud. Technically already provisioned, not yet made available with real
-data - priority was given to the foundations (network, security, observability) before
-exposing a service that the family would use daily with sensitive data.
+- **Personal cloud**: Immich (photos) and Nextcloud (files) are in service, with alerts on storage
+  filling up. They waited until backups and monitoring were ready.
+- **A shared, locked Terraform state**: done in November (see [IaC](/en/projets/homelab/iac/)).
+- **An AI agent plugged into the lab**: that is Hermes, which explains alerts, takes film requests
+  and controls the house (see [AI tooling](/en/projets/homelab/outillage-ia/)). It does not run on a
+  local LLM, unlike the original idea: measured on these GPU-less mini-PCs, it was too slow. The
+  chosen trade-off is a remote model with a capped budget, behind guardrails that do not depend on it.
+- **GitOps applications**: Patrimoine, COACH and a CRM run on Kubernetes, one repository per
+  application.
+
+## What was abandoned
+
+**Self-hosted music streaming.** The goal was to replace Spotify with a lossless library, using
+Navidrome and automated acquisition. The project was started, then abandoned in early November: its
+VM loaded an NVMe drive that was already reaching 80 °C, and the gain did not justify adding load to
+a lab that was running hot. Abandoning cleanly is part of the work too: VM removed through
+Terraform, storage freed, roles and scripts removed from the repository.
 
 ## Final NAS
 
-Proxmox Backup Server already runs, with an encrypted off-site copy and a tested restore.
-But its datastore lives on a disk salvaged from an iMac (see [storage](/en/projets/homelab/stockage-hdd/)):
-a phase 1 solution, not the final target. A dedicated NAS will replace it, without changing the
-backup chain itself.
+Proxmox Backup Server runs, with an encrypted off-site copy and a tested restore. But its datastore
+lives on a disk salvaged from an iMac (see [storage](/en/projets/homelab/stockage-hdd/)), plugged in
+over USB: one night every backup failed because it had been powered on after the backup server. A
+dedicated NAS will replace it, without changing the backup chain itself.
 
-## Self-hosted music streaming
+## Making what exists reliable
 
-Replacing Spotify (family plan) with a lossless stack, with algorithmic discovery and
-free search - without depending on a generative AI engine for recommendations. A lead
-seriously explored: a lightweight streaming server compatible with a wide ecosystem of
-mobile clients, coupled with an automated acquisition mechanism in the style of Jellyfin
-(see [the Jellyfin page](/en/projets/homelab/jellyfin/)), and a recommendation engine based on
-collaborative filtering rather than on an LLM. The real challenge identified is not the tooling but the
-availability of content: a debrid service has a much lower immediate availability rate for lossless music
-than for mainstream video - the solution is to intelligently pre-fill the library rather than
-going fully on demand.
+- **The firewall's network card**: replace the Realtek cards with Intel ones, the real answer to
+  the summer's outages under load (see [the real outages](/en/projets/homelab/incidents/)).
+- **Cluster quorum**: an external QDevice, so that one node can fail without blocking the other.
+- **A truly out-of-band alert channel**: today, email, Home Assistant and Telegram all depend on
+  the lab's Internet connection.
+- **Mini-PC heat dissipation**: the NVMe drives reach 80 °C under load. Read caps and
+  temperature-aware placement are in place; cooling remains to be revisited.
+- **Version upgrades**: Proxmox Backup Server 4, then Debian 13 guest by guest, with a new VM
+  template alongside the current one.
 
-## Local AI automation
+## The internal pentest
 
-A lead explored but deliberately set aside for now: wiring a local LLM
-(self-hosted, no third-party API) to concrete automations of the lab - incident summaries,
-alert triage, diagnostic assistance. The principle retained: if AI has to touch the infrastructure,
-it runs locally, on the lab itself, consistent with the project's general philosophy of
-independence.
+The external pentest checked the public surface (see [security](/en/projets/homelab/securite/)).
+The internal side - an attacker already present on a VLAN - is still to be done, and it is the next
+security exercise.
 
 ## Linux migration of the client workstation
 
@@ -56,11 +67,10 @@ The personal Dell XPS 15 remains today a simple terminal into the lab (see
 infrastructure. The last planned step is to migrate this workstation itself to Linux, so as to
 also take the daily typing machine out of the Windows ecosystem.
 
-## And after - freelancing
+## And after - Platform Engineering
 
-This homelab started as an end-of-4th-year project (see
-[why this project](/en/projets/homelab/pourquoi/)), but its goal goes beyond the academic framework:
-preparing an independent activity, notably in security. The pentest carried out on my own
-infrastructure (see [security](/en/projets/homelab/securite/)) is the first concrete exercise
-in that direction - the logical next step is to reproduce this rigour on infrastructures
-that are not mine.
+This homelab started as an end-of-4th-year project (see [why this project](/en/projets/homelab/pourquoi/)),
+and today it is the ground for what comes next: my freelance work runs on it (site, booking, CRM),
+and it is the test bench for my [Platform × Harness engineer learning path](/en/projets/parcours-platform-harness/),
+where every module ends with a lab on this infrastructure: a Kubernetes operator, golden paths, a
+signed supply chain, SLOs, and a platform for running isolated agents.

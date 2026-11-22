@@ -1,7 +1,7 @@
 ---
 project: homelab
 title: "Domotique, extension réseau et vidéosurveillance locale"
-summary: "Home Assistant comme seul point de passage vers le VLAN IoT isolé, et le chantier en cours pour l'étendre : un AP WiFi dédié multi-SSID (remplace un projet CPL abandonné) et une caméra intérieure 100% locale, sans dépendance cloud tierce."
+summary: "Home Assistant comme point de passage vers les appareils de la maison, l'extension Wi-Fi et la caméra locale - et l'écart entre le plan et la réalité : un point d'accès impossible à flasher, compensé par des règles par appareil."
 order: 9.8
 ---
 
@@ -73,12 +73,22 @@ NVR se fait exactement comme depuis l'appartement. Dupliquer ce mécanisme avec 
 l'AP aurait été redondant - la bonne réponse ici a été de ne rien construire de plus, pas d'ajouter
 une couche.
 
-## Où ça en est
+## Où ça en est (novembre 2026)
 
-Le matériel (AP + caméra) reste à commander au moment où j'écris ces lignes, mais la conception
-est bouclée : quel modèle, pourquoi, ce que le firmware stock ne permet pas, comment le contourner
-proprement, et une checklist de configuration détaillée prête à exécuter à réception (flash
-OpenWrt, VLANs, SSID, règles de pare-feu). Le choix conscient a été d'investir le temps dans la
-conception avant l'achat, plutôt que d'acheter puis découvrir après coup une limite bloquante -
-ce qui est exactement ce qui s'est passé avec le firmware stock, mais avant de commander, pas
-après.
+Le matériel est installé, mais pas tout à fait comme prévu, et c'est la partie la plus
+instructive. Le point d'accès choisi s'est révélé **impossible à flasher** sous OpenWrt sur sa
+révision matérielle : le multi-SSID par VLAN n'a pas pu être mis en place. Les appareils Wi-Fi
+(TV, caméra, purificateur) se retrouvent donc sur le VLAN du lab plutôt que sur le VLAN IoT,
+un écart entre l'architecture documentée et l'état réel que j'ai trouvé en auditant la
+question « cette caméra est-elle exploitable ? ».
+
+La réponse appliquée en attendant un point d'accès compatible : **une liste d'autorisations
+stricte par appareil** au pare-feu (la caméra ne parle qu'à ce qui lui est nécessaire, son cloud
+constructeur est coupé), et tout leur trafic DNS passe par le DNS filtré du lab. C'est noté dans
+les [limites connues](/projets/homelab/#limites-connues), pas caché.
+
+Côté Home Assistant, la maison s'est beaucoup étendue depuis : Zigbee pour les lampes, Matter sur
+Thread pour les nouveaux accessoires (avec un second dongle radio dédié), suivi de l'énergie (la
+consommation du lab elle-même est mesurée en continu) et des tableaux de bord qui mêlent la maison
+et l'infrastructure. Le détail est dans l'article
+[Home Assistant dans mon homelab](/blog/home-assistant/).
