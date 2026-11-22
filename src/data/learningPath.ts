@@ -42,6 +42,8 @@ export const modules: Module[] = [
     sources: [
       { label: "CNCF — Platforms white paper", url: "https://tag-app-delivery.cncf.io/whitepapers/platforms/", essential: true },
       { label: "CNCF — Platform Engineering Maturity Model", url: "https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/", essential: true },
+      { label: "Evan Bottcher — What I talk about when I talk about platforms (2018)", url: "https://martinfowler.com/articles/talk-about-platforms.html", essential: true },
+      { label: "DORA — State of AI-assisted Software Development 2025", url: "https://dora.dev/research/2025/dora-report/" },
       { label: "Team Topologies, 2e éd. (IT Revolution, 2025)", url: "https://teamtopologies.com/book", note: "livre" },
       { label: "Platform Engineering, C. Fournier & I. Nowland (O'Reilly, 2024)", url: "https://www.oreilly.com/library/view/platform-engineering/9781098153632/", note: "livre" },
     ],
@@ -148,6 +150,8 @@ export const modules: Module[] = [
     sources: [
       { label: "Anthropic — Writing effective tools for agents (sept. 2025)", url: "https://www.anthropic.com/engineering/writing-tools-for-agents", essential: true },
       { label: "SWE-agent : Agent-Computer Interfaces (2024)", url: "https://arxiv.org/abs/2405.15793", essential: true },
+      { label: "Simon Willison — Designing agentic loops (sept. 2025)", url: "https://simonwillison.net/2025/Sep/30/designing-agentic-loops/", essential: true },
+      { label: "Agentless (2024) : un pipeline simple bat les agents", url: "https://arxiv.org/abs/2407.01489" },
       { label: "mattpocock/skills", url: "https://github.com/mattpocock/skills", essential: true },
       { label: "Model Context Protocol", url: "https://modelcontextprotocol.io/" },
     ],
@@ -164,6 +168,8 @@ export const modules: Module[] = [
     sources: [
       { label: "Anthropic — Effective context engineering (sept. 2025)", url: "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents", essential: true },
       { label: "IFTTD #383 — Contexte Engineering, avec Florian Bruniaux", url: "https://www.ifttd.io/episodes/contexte-engineering", essential: true, note: "podcast FR" },
+      { label: "Manus — Context engineering for AI agents (juil. 2025)", url: "https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus", essential: true },
+      { label: "Lost in the Middle (2023)", url: "https://arxiv.org/abs/2307.03172" },
       { label: "OpenAI — Harness engineering (fév. 2026)", url: "https://openai.com/index/harness-engineering/" },
       { label: "RTK", url: "https://github.com/rtk-ai/rtk" },
     ],
@@ -195,6 +201,8 @@ export const modules: Module[] = [
     sources: [
       { label: "Simon Willison — The lethal trifecta (juin 2025)", url: "https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/", essential: true },
       { label: "Anthropic — Making Claude Code safer with sandboxing (oct. 2025)", url: "https://www.anthropic.com/engineering/claude-code-sandboxing", essential: true },
+      { label: "Design Patterns for Securing LLM Agents against Prompt Injections (2025)", url: "https://arxiv.org/abs/2506.08837", essential: true },
+      { label: "IFTTD #360 — Docker Sandbox, avec Guillaume Lours", url: "https://www.ifttd.io/episodes/docker-sandbox", note: "podcast FR" },
       { label: "kubernetes-sigs/agent-sandbox", url: "https://github.com/kubernetes-sigs/agent-sandbox" },
     ],
     lab: { title: "Sandbox d'agent sur k3s", deliverable: "Pod gVisor, egress restreint, rapport de red-team" },
@@ -210,6 +218,7 @@ export const modules: Module[] = [
     sources: [
       { label: "Anthropic — Effective harnesses for long-running agents (nov. 2025)", url: "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents", essential: true },
       { label: "Anthropic — Harness design for long-running apps (mars 2026)", url: "https://www.anthropic.com/engineering/harness-design-long-running-apps", essential: true },
+      { label: "Cognition — Don't build multi-agents (juin 2025), le contre-point", url: "https://cognition.com/blog/dont-build-multi-agents", essential: true },
       { label: "Anthropic — Multi-agent research system (juin 2025)", url: "https://www.anthropic.com/engineering/multi-agent-research-system" },
     ],
     lab: { title: "Agent longue durée sur un vrai projet", deliverable: "Une feature livrée sur plusieurs sessions, avec puis sans évaluateur" },
@@ -225,6 +234,8 @@ export const modules: Module[] = [
     sources: [
       { label: "OpenTelemetry — GenAI semantic conventions", url: "https://github.com/open-telemetry/semantic-conventions-genai", essential: true },
       { label: "kubernetes-sigs/agent-sandbox", url: "https://github.com/kubernetes-sigs/agent-sandbox", essential: true },
+      { label: "IFTTD #384 — Usine logicielle 100 % AI, avec Nikolay Rodionov", url: "https://www.ifttd.io/episodes/usine-logicielle-100-ai", essential: true, note: "podcast FR" },
+      { label: "IFTTD #382 — Rapprocher la CI, avec Yves Brissaud", url: "https://www.ifttd.io/episodes/rapprocher-la-ci", note: "podcast FR" },
     ],
     lab: { title: "Agent platform sur k3s", deliverable: "CRD AgentTask, dashboard de coûts, gate d'évals en CI" },
     validation: ["Une tâche d'agent se lance en self-service", "Une régression d'évals bloque le merge"],

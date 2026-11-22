@@ -63,8 +63,24 @@ ce que j'en disais. La vérification a corrigé plusieurs points de mon premier 
   [dépôt dédié](https://github.com/open-telemetry/semantic-conventions-genai).
 - *Team Topologies* a une deuxième édition, parue en 2025.
 
-La bibliographie complète (livres, articles, documentations, podcasts, dépôts, avec auteur, date
-et module) est dans le
+En creusant, j'ai aussi ajouté une trentaine de sources, dont plusieurs qui contredisent
+utilement les autres :
+
+- [*Don't Build Multi-Agents*](https://cognition.com/blog/dont-build-multi-agents) (Cognition,
+  juin 2025) défend un agent unique et linéaire, à l'opposé des architectures multi-agents.
+  [Agentless](https://arxiv.org/abs/2407.01489) (2024) montre qu'un pipeline fixe, sans agent
+  autonome, battait les agents open source de l'époque. Deux bonnes raisons de ne pas complexifier
+  un harness trop tôt.
+- Côté sécurité, [*Design Patterns for Securing LLM Agents against Prompt Injections*](https://arxiv.org/abs/2506.08837)
+  (2025) et [CaMeL](https://arxiv.org/abs/2503.18813) (2025) traitent l'injection de prompt par
+  l'architecture plutôt que par le filtrage.
+- Dix autres épisodes d'IFTTD, dont
+  [#384 sur l'usine logicielle 100 % IA](https://www.ifttd.io/episodes/usine-logicielle-100-ai),
+  [#382 sur la CI qui doit suivre le rythme des agents](https://www.ifttd.io/episodes/rapprocher-la-ci)
+  et [#360 sur Docker Sandbox](https://www.ifttd.io/episodes/docker-sandbox).
+
+La bibliographie complète (livres, papiers, articles, documentations, podcasts, dépôts, avec
+auteur, date et module) est dans le
 [dépôt du parcours](https://github.com/ECG-Rudy-Glt/Learning_path_plateform-harness_inge), en
 français et en anglais.
 
