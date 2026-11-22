@@ -3,6 +3,14 @@ import { modules, overlaps, repoUrl, type Module, type Track } from "../data/lea
 
 const STORAGE_KEY = "learning-path-progress-v1";
 
+const pageSlug: Record<string, string> = {
+  P1: "p1-platform-as-product", P2: "p2-kubernetes-gitops", P3: "p3-iac-control-planes",
+  P4: "p4-idp-golden-paths", P5: "p5-securite-supply-chain", P6: "p6-observabilite-sre",
+  H1: "h1-llm-api-fondamentaux", H2: "h2-boucle-agent-outils", H3: "h3-context-engineering",
+  H4: "h4-evals", H5: "h5-sandboxing-securite", H6: "h6-long-running-multi-agent",
+  C1: "c1-plateforme-agents", C2: "c2-agent-ops",
+};
+
 const trackMeta: Record<Track, { label: string; color: string }> = {
   platform: { label: "Platform", color: "var(--accent)" },
   harness: { label: "Harness", color: "var(--skill-2)" },
@@ -74,6 +82,13 @@ function ModuleDetail({ m, progress, toggle }: { m: Module; progress: Record<str
       <p className="mt-1 text-sm" style={{ color: "var(--fg-muted)" }}>
         {m.pitch}
       </p>
+      <a
+        href={`/projets/parcours-platform-harness/${pageSlug[m.id]}/`}
+        className="mt-2 inline-block text-sm font-medium hover:underline"
+        style={{ color: "var(--accent)" }}
+      >
+        Page complète du module (concepts, toutes les sources, lab détaillé) →
+      </a>
 
       <div className="mt-4 grid gap-5 md:grid-cols-2">
         <div>
