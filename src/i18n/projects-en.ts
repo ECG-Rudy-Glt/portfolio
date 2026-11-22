@@ -82,8 +82,8 @@ export const projectsEn: Record<string, { title: string; summary: string; period
   },
   supchat: {
     title: "SUPCHAT - Communication platform",
-    summary: "A real-time cross-platform chat platform (web, iOS, Android) with built-in Mistral AI, workspaces, file sharing and push notifications.",
-    period: "SUPINFO - 3rd year",
+    summary: "My 3rd-year final project: a real-time cross-platform chat platform (web, iOS, Android) with built-in Mistral AI, workspaces, file sharing and push notifications. Live no-account demo, read-only and without AI.",
+    period: "SUPINFO - 3rd year (final project)",
   },
   supfile: {
     title: "SUPFile - Sovereign cloud storage",

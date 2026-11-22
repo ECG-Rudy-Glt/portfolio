@@ -1,15 +1,16 @@
 ---
 title: "SUPCHAT - Communication platform"
 category: ecole
-summary: "A real-time cross-platform chat platform (web, iOS, Android) with built-in Mistral AI, workspaces, file sharing and push notifications."
-period: "SUPINFO - 3rd year"
+summary: "My 3rd-year final project: a real-time cross-platform chat platform (web, iOS, Android) with built-in Mistral AI, workspaces, file sharing and push notifications. Live no-account demo, read-only and without AI."
+period: "SUPINFO - 3rd year (final project)"
 role: "Project team member"
 stack: ["Node.js", "React", "React Native", "PostgreSQL", "Docker", "Socket.IO", "Mistral AI", "S3"]
-tags: ["Real time", "AI", "Full-stack", "Mobile", "Docker", "Group project"]
+tags: ["Real time", "AI", "Full-stack", "Mobile", "Docker", "Group project", "Websites"]
 links:
-  demo: "https://supchat.fr"
+  demo: "https://supchat.gault-rudy.com"
+  sandbox: "https://supchat-demo.gault-rudy.com"
   repo: "https://github.com/paulmzzn/SUPCHAT"
-images: []
+images: ["/projets/supchat/images.jpg", "/projets/supchat/canal.jpg", "/projets/supchat/messages-prives.jpg"]
 groupProject: true
 contributors: ["Paul Mzzn"]
 relevance: "majeur"
@@ -22,7 +23,7 @@ The team communication tools on the market (Slack, Discord, Teams) are closed, p
 
 ## The solution
 
-A team communication platform with real-time chat, workspace organisation, file sharing, OAuth authentication, push notifications, and a built-in AI assistant (Mistral) able to answer within the context of the conversation. Deployed and available online at supchat.fr, with native web (PWA), iOS and Android clients.
+A team communication platform with real-time chat, workspace organisation, file sharing, OAuth authentication, push notifications, and a built-in AI assistant (Mistral) able to answer within the context of the conversation. SUPCHAT is my 3rd-year final project at SUPINFO. The platform includes a web client (PWA) and iOS and Android mobile clients.
 
 ## Technical choices & architecture
 
@@ -40,4 +41,6 @@ A project carried out as a team with [Paul Mzzn](https://github.com/paulmzzn) - 
 
 ## Result
 
-Platform online at [supchat.fr](https://supchat.fr), usable today on web, iOS and Android.
+A [presentation page](https://supchat.gault-rudy.com) and a [live demo](https://supchat-demo.gault-rudy.com), with no account, read-only and on fictional data. The demo is a lighter, hardened variant of the project: no authentication (a fictional user), every write refused by the server, by nginx and by the SQL role, and no language model (the Mistral assistant is removed). The demo's "Portfolio de Rudy" workspace presents my other projects (Relai, my freelance site, COACH, Patrimoine, my homelab) with screenshots.
+
+The original repository, published by Paul, remains the reference for the full code, mobile included. The former `supchat.fr` site is no longer online.

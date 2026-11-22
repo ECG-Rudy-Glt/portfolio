@@ -1,15 +1,16 @@
 ---
 title: "SUPCHAT - Plateforme de communication"
 category: ecole
-summary: "Plateforme de chat temps réel multi-plateforme (web, iOS, Android) avec IA Mistral intégrée, workspaces, partage de fichiers et notifications push."
-period: "SUPINFO - 3e année"
+summary: "Mon projet de fin de 3e année : plateforme de chat temps réel multi-plateforme (web, iOS, Android) avec IA Mistral intégrée, workspaces, partage de fichiers et notifications push. Démo en ligne sans compte, en lecture seule et sans IA."
+period: "SUPINFO - 3e année (projet de fin d'année)"
 role: "Membre de l'équipe projet"
 stack: ["Node.js", "React", "React Native", "PostgreSQL", "Docker", "Socket.IO", "Mistral AI", "S3"]
-tags: ["Temps réel", "IA", "Full-stack", "Mobile", "Docker", "Projet de groupe"]
+tags: ["Temps réel", "IA", "Full-stack", "Mobile", "Docker", "Projet de groupe", "Sites web"]
 links:
-  demo: "https://supchat.fr"
+  demo: "https://supchat.gault-rudy.com"
+  sandbox: "https://supchat-demo.gault-rudy.com"
   repo: "https://github.com/paulmzzn/SUPCHAT"
-images: []
+images: ["/projets/supchat/images.jpg", "/projets/supchat/canal.jpg", "/projets/supchat/messages-prives.jpg"]
 groupProject: true
 contributors: ["Paul Mzzn"]
 relevance: "majeur"
@@ -22,7 +23,7 @@ Les outils de communication d'équipe du marché (Slack, Discord, Teams) sont fe
 
 ## La solution
 
-Une plateforme de communication d'équipe avec chat temps réel, organisation par workspaces, partage de fichiers, authentification OAuth, notifications push, et un assistant IA intégré (Mistral) capable de répondre dans le contexte de la conversation. Déployée et accessible en ligne sur supchat.fr, avec des clients natifs web (PWA), iOS et Android.
+Une plateforme de communication d'équipe avec chat temps réel, organisation par workspaces, partage de fichiers, authentification OAuth, notifications push, et un assistant IA intégré (Mistral) capable de répondre dans le contexte de la conversation. SUPCHAT est mon projet de fin de 3e année à SUPINFO. La plateforme comprend un client web (PWA) et des clients mobiles iOS et Android.
 
 ## Choix techniques & architecture
 
@@ -40,4 +41,6 @@ Projet réalisé en équipe avec [Paul Mzzn](https://github.com/paulmzzn) - cont
 
 ## Résultat
 
-Plateforme en ligne sur [supchat.fr](https://supchat.fr), utilisable dès aujourd'hui sur web, iOS et Android.
+Une [page de présentation](https://supchat.gault-rudy.com) et une [démo en ligne](https://supchat-demo.gault-rudy.com), sans compte, en lecture seule et sur des données fictives. La démo est une variante allégée et durcie du projet : pas d'authentification (un utilisateur fictif), toute écriture refusée par le serveur, par nginx et par le rôle SQL, et aucun modèle de langage (l'assistant Mistral y est retiré). L'espace « Portfolio de Rudy » de la démo présente mes autres projets (Relai, mon site de freelance, COACH, Patrimoine, mon homelab) avec des captures.
+
+Le dépôt d'origine, publié par Paul, reste la référence pour le code complet, mobile compris. L'ancien site `supchat.fr` n'est plus en ligne.
