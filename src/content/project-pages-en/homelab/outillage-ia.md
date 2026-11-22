@@ -20,7 +20,7 @@ changed the pace at which this work could progress, not the amount of thinking i
 ## What it changed concretely
 
 **Keeping to deadlines all summer.** This homelab moves forward alongside a work-study contract and a
-4th year at Supinfo - the available time is constrained. Having an assistant able to go fast
+5th year at Supinfo - the available time is constrained. Having an assistant able to go fast
 on writing repetitive code (a new Ansible role, a Terraform resource modelled on
 another one), to dig through official documentation while I think about the
 architecture, or to help me diagnose a network incident by cross-referencing several sources in

@@ -20,7 +20,7 @@ a changé le rythme auquel ce travail a pu avancer, pas la quantité de réflexi
 ## Ce que ça a changé concrètement
 
 **Tenir les délais sur tout l'été.** Ce homelab avance en parallèle d'une alternance et d'une
-4e année à Supinfo - le temps disponible est contraint. Avoir un assistant capable d'aller vite
+5e année à Supinfo - le temps disponible est contraint. Avoir un assistant capable d'aller vite
 sur l'écriture de code répétitif (un nouveau rôle Ansible, une ressource Terraform sur le même
 modèle qu'une autre), de creuser une documentation officielle pendant que je réfléchis à
 l'architecture, ou de m'aider à diagnostiquer un incident réseau en croisant plusieurs sources en
