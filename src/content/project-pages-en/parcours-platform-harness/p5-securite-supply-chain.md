@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "P5 — Security, policy as code & supply chain"
+title: "P5: Security, policy as code & supply chain"
 summary: "Sign, verify at admission, and replace static secrets."
+group: "Platform track"
 order: 5
 ---
 
@@ -16,16 +17,16 @@ SLSA levels, provenance, Sigstore (cosign, keyless, Rekor), SBOM (SPDX/CycloneDX
 
 ## Sources
 - 🟢 [SLSA](https://slsa.dev/)
-- 🟢 [Sigstore — cosign](https://docs.sigstore.dev/)
+- 🟢 [Sigstore, cosign](https://docs.sigstore.dev/)
 - 🟢 [Kyverno docs](https://kyverno.io/docs/)
-- 🔵 [Kubernetes — Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/)
+- 🔵 [Kubernetes, Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/)
 - 🔵 [OpenBao docs](https://openbao.org/docs/)
-- 🔵 [CNCF — Software Supply Chain Best Practices](https://github.com/cncf/tag-security/tree/main/community/working-groups/supply-chain-security/supply-chain-security-paper)
-- 🎧 🇫🇷 [IFTTD #358 — DevSecOps, with Tugdual Grall (May 27, 2026)](https://www.ifttd.io/episodes/devsecops) (in French): why automation alone will not save security
+- 🔵 [CNCF, Software Supply Chain Best Practices](https://github.com/cncf/tag-security/tree/main/community/working-groups/supply-chain-security/supply-chain-security-paper)
+- 🎧 🇫🇷 [IFTTD #358: DevSecOps, with Tugdual Grall (May 27, 2026)](https://www.ifttd.io/episodes/devsecops) (in French): why automation alone will not save security
 
 ## Homelab lab
 
-**L-P5 — Signed supply chain**
+**L-P5: Signed supply chain**
 
 ### Steps
 1. Forgejo CI: build, SBOM (`syft`), scan (`grype` or `trivy`) that fails on a critical CVE, then `cosign` signature (key stored in OpenBao, or Transit).

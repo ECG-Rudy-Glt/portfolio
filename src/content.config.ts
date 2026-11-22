@@ -40,6 +40,8 @@ const projectPages = defineCollection({
     title: z.string(),
     summary: z.string(),
     order: z.number().default(0),
+    // Groupe affiché dans le sommaire latéral (ex. "Track Platform").
+    group: z.string().optional(),
   }),
 });
 

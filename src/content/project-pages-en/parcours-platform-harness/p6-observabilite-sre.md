@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "P6 — Observability & SRE"
+title: "P6: Observability & SRE"
 summary: "SLOs, error budgets, DORA and post-mortems that close their actions."
+group: "Platform track"
 order: 6
 ---
 
@@ -17,14 +18,14 @@ SLI/SLO/SLA, burn rate, alerting on symptoms rather than causes, OTel Collector,
 ## Sources
 - 🟢 [Google SRE books (online, free)](https://sre.google/books/), starting with the SLO, Alerting on SLOs and Postmortem Culture chapters
 - 🟢 [OpenTelemetry docs](https://opentelemetry.io/docs/)
-- 🔵 [Sloth — Prometheus SLO generation](https://sloth.dev/)
+- 🔵 [Sloth, Prometheus SLO generation](https://sloth.dev/)
 - 🔵 [DORA metrics guide](https://dora.dev/guides/dora-metrics-four-keys/)
 - 📕 *Observability Engineering*, Majors, Fong-Jones & Miranda (O'Reilly, 2022; 2nd ed. with chapters on LLMs)
-- 🎧 🇫🇷 [IFTTD #355 — SRE et DevOps, with Kevin Davin (May 6, 2026)](https://www.ifttd.io/episodes/sre-et-devops) (in French): error budgets, declarative model, shared run responsibility
+- 🎧 🇫🇷 [IFTTD #355: SRE et DevOps, with Kevin Davin (May 6, 2026)](https://www.ifttd.io/episodes/sre-et-devops) (in French): error budgets, declarative model, shared run responsibility
 
 ## Homelab lab
 
-**L-P6 — Homelab SLOs & DORA**
+**L-P6: Homelab SLOs & DORA**
 
 ### Steps
 1. Define the SLIs for patrimoine and sport-coach: availability (Blackbox) and latency (Traefik metrics).

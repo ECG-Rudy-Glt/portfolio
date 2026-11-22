@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "C2 — Homelab operations agent"
+title: "C2: Homelab operations agent"
 summary: "An incident triage agent, evaluated on real post-mortems."
+group: "Convergence"
 order: 14
 ---
 
@@ -15,11 +16,11 @@ An incident triage agent, **read-only at first**. It is the capstone project: pl
 ## Sources
 - 🟢 Google SRE book: *Effective Troubleshooting* and *Postmortem Culture* chapters
 - 🟢 H4 (evals) and H5 (permissions)
-- 🔵 [Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), to know when a workflow is enough
+- 🔵 [Anthropic, Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), to know when a workflow is enough
 
 ## Homelab lab
 
-**L-C2 — Incident triage agent**
+**L-C2: Incident triage agent**
 
 ### Steps
 1. Alertmanager webhook → `AgentTask` (L-C1) in read-only mode: Prometheus, Loki, `flux get`, `kubectl describe`.

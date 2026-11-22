@@ -1,0 +1,42 @@
+---
+// Sommaire latéral des sous-pages d'un projet : regroupe les pages par `group` (frontmatter),
+// met en avant la page courante et reste visible au défilement (écrans larges uniquement).
+interface Item { href: string; title: string; group?: string; current: boolean }
+interface Props { items: Item[]; projectTitle: string; projectHref: string; label: string; progress: string }
+const { items, projectTitle, projectHref, label, progress } = Astro.props;
+const groups: { name?: string; items: Item[] }[] = [];
+for (const it of items) {
+  const last = groups[groups.length - 1];
+  if (last && last.name === it.group) last.items.push(it);
+  else groups.push({ name: it.group, items: [it] });
+}
+---
+<aside class="hidden lg:block" aria-label={label}>
+  <nav class="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
+    <a href={projectHref} class="mb-1 block text-sm font-semibold text-[var(--fg)] hover:text-[var(--accent)]">{projectTitle}</a>
+    <p class="mb-4 text-xs text-[var(--fg-muted)]">{progress}</p>
+    {groups.map((g) => (
+      <div class="mb-4">
+        {g.name && <p class="mb-1.5 text-[0.7rem] font-semibold uppercase tracking-wider text-[var(--fg-muted)]">{g.name}</p>}
+        <ul class="space-y-0.5 border-l border-[var(--border)]">
+          {g.items.map((it) => (
+            <li>
+              <a
+                href={it.href}
+                aria-current={it.current ? "page" : undefined}
+                class:list={[
+                  "-ml-px block border-l-2 py-1 pl-3 text-sm leading-snug transition-colors",
+                  it.current
+                    ? "border-[var(--accent)] font-medium text-[var(--fg)]"
+                    : "border-transparent text-[var(--fg-muted)] hover:border-[var(--fg-muted)] hover:text-[var(--fg)]",
+                ]}
+              >
+                {it.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </nav>
+</aside>

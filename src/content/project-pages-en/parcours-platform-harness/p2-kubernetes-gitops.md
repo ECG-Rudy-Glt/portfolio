@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "P2 — Kubernetes in depth & advanced GitOps"
+title: "P2: Kubernetes in depth & advanced GitOps"
 summary: "The reconcile loop, a hand-written operator, and multi-tenant Flux."
+group: "Platform track"
 order: 2
 ---
 
@@ -15,10 +16,10 @@ API machinery, CRDs and versions, admission webhooks, Server-Side Apply, idempot
 
 ## Sources
 - 🟢 [Kubebuilder Book](https://book.kubebuilder.io/)
-- 🟢 [Flux — Ways of structuring your repositories](https://fluxcd.io/flux/guides/repository-structure/)
+- 🟢 [Flux, Ways of structuring your repositories](https://fluxcd.io/flux/guides/repository-structure/)
 - 🟢 [fluxcd/flux2-multi-tenancy](https://github.com/fluxcd/flux2-multi-tenancy), the reference example cited by the Flux docs
-- 🔵 [Flux — Multi-tenancy lockdown](https://fluxcd.io/flux/installation/configuration/multitenancy/)
-- 🟢 [Kubernetes docs — Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
+- 🔵 [Flux, Multi-tenancy lockdown](https://fluxcd.io/flux/installation/configuration/multitenancy/)
+- 🟢 [Kubernetes docs, Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
 - 🔵 [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
 - 🔵 [OpenGitOps principles](https://opengitops.dev/)
 - 📕 *Programming Kubernetes*, Hausenblas & Schimanski (O'Reilly, 2019)
@@ -28,7 +29,7 @@ API machinery, CRDs and versions, admission webhooks, Server-Side Apply, idempot
 
 ## Homelab lab
 
-**L-P2 — `App` operator for the homelab**
+**L-P2: `App` operator for the homelab**
 
 **Goal**: replace the copy-pasted Deployment + Service + IngressRoute + Certificate of every app with **one high-level resource**.
 

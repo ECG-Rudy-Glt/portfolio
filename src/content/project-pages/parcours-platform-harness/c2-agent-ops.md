@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "C2 — Agent d'exploitation du homelab"
+title: "C2 : Agent d'exploitation du homelab"
 summary: "Un agent de triage d'incident, évalué sur de vrais post-mortems."
+group: "Convergence"
 order: 14
 ---
 
@@ -15,11 +16,11 @@ Un agent de triage d'incident, en **lecture seule d'abord**. Il sert de projet f
 ## Sources
 - 🟢 Google SRE book : chapitres *Effective Troubleshooting* et *Postmortem Culture*
 - 🟢 H4 (évals) et H5 (permissions)
-- 🔵 [Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), pour savoir quand un workflow suffit
+- 🔵 [Anthropic, Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), pour savoir quand un workflow suffit
 
 ## Lab homelab
 
-**L-C2 — Agent de triage d'incident**
+**L-C2 : Agent de triage d'incident**
 
 ### Étapes
 1. Webhook Alertmanager → `AgentTask` (L-C1) en lecture seule : Prometheus, Loki, `flux get`, `kubectl describe`.

@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../../layouts/Layout.astro";
 import { getCollection, getEntry, render } from "astro:content";
+import ProjectPageNav from "../../../../components/ProjectPageNav.astro";
 import { ui } from "../../../../i18n/ui";
 
 export async function getStaticPaths() {
@@ -26,6 +27,7 @@ const siblings = (await getCollection("projectPagesEn"))
 const currentIndex = siblings.findIndex((s) => s.id === entry.id);
 const prev = currentIndex > 0 ? siblings[currentIndex - 1] : null;
 const next = currentIndex < siblings.length - 1 ? siblings[currentIndex + 1] : null;
+const navItems = siblings.map((s) => ({ href: `/en/projets/${entry.data.project}/${s.id.split("/")[1]}/`, title: s.data.title, group: s.data.group, current: s.id === entry.id }));
 ---
 
 <Layout lang="en" alt={`/projets/${entry.data.project}/${entry.id.split("/")[1]}/`} title={`${entry.data.title} - Rudy Gault`} description={entry.data.summary}>
@@ -33,10 +35,14 @@ const next = currentIndex < siblings.length - 1 ? siblings[currentIndex + 1] : n
     ← {project?.data.title ?? t.backToProject}
   </a>
 
+  <div class="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-12">
+  <ProjectPageNav items={navItems} projectTitle={project?.data.title ?? "Project"} projectHref={`/en/projets/${entry.data.project}/`} label="Contents" progress={`Page ${currentIndex + 1} of ${siblings.length}`} />
+  <div class="min-w-0">
+
   <h1 class="mb-4 text-3xl font-bold text-[var(--fg)]">{entry.data.title}</h1>
   <p class="mb-8 text-lg text-[var(--fg-muted)]">{entry.data.summary}</p>
 
-  <nav class="mb-10 flex flex-wrap gap-2 border-b border-[var(--border)] pb-8">
+  <nav class="mb-10 flex flex-wrap gap-2 border-b border-[var(--border)] pb-8 lg:hidden">
     {siblings.map((s) => {
       const pageSlug = s.id.split("/")[1];
       const isCurrent = s.id === entry.id;
@@ -79,5 +85,7 @@ const next = currentIndex < siblings.length - 1 ? siblings[currentIndex + 1] : n
         <span class="mt-1 block text-sm font-medium text-[var(--fg)]">{next.data.title}</span>
       </a>
     ) : <div class="flex-1" />}
+  </div>
+  </div>
   </div>
 </Layout>

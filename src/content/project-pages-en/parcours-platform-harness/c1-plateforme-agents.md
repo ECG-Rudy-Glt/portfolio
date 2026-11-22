@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "C1 — A platform for running agents"
+title: "C1: A platform for running agents"
 summary: "The harness becomes a platform product: isolated, observed, budgeted."
+group: "Convergence"
 order: 13
 ---
 
@@ -14,16 +15,16 @@ The harness becomes a **platform product**: any homelab project can launch an ag
 - Run the harness evals in CI before every prompt or tool change.
 
 ## Sources
-- 🟢 [OpenTelemetry — GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai) (moved off the main site into this repository)
+- 🟢 [OpenTelemetry, GenAI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai) (moved off the main site into this repository)
 - 🟢 [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox): `SandboxWarmPool` to start agents without waiting
 - 🔵 [IFTTD #383](https://www.ifttd.io/episodes/contexte-engineering) (in French): moving the harness from the local machine into CI
 - 🔵 All of modules P2, P5, P6, H4 and H5
-- 🟢 🎧 🇫🇷 [IFTTD #384 — Usine logicielle 100% AI, with Nikolay Rodionov (Nov. 11, 2026)](https://www.ifttd.io/episodes/usine-logicielle-100-ai) (in French): agents in ephemeral sandboxes, PRs at volume, review as the bottleneck, building a reliable harness
-- 🟢 🎧 🇫🇷 [IFTTD #382 — Rapprocher la CI, with Yves Brissaud (Oct. 28, 2026)](https://www.ifttd.io/episodes/rapprocher-la-ci) (in French): AI multiplies the pace 20x and CI must keep up; fine-grained cache, parallelism, hybrid local/remote runs
+- 🟢 🎧 🇫🇷 [IFTTD #384: Usine logicielle 100% AI, with Nikolay Rodionov (Nov. 11, 2026)](https://www.ifttd.io/episodes/usine-logicielle-100-ai) (in French): agents in ephemeral sandboxes, PRs at volume, review as the bottleneck, building a reliable harness
+- 🟢 🎧 🇫🇷 [IFTTD #382: Rapprocher la CI, with Yves Brissaud (Oct. 28, 2026)](https://www.ifttd.io/episodes/rapprocher-la-ci) (in French): AI multiplies the pace 20x and CI must keep up; fine-grained cache, parallelism, hybrid local/remote runs
 
 ## Homelab lab
 
-**L-C1 — Agent platform on k3s**
+**L-C1: Agent platform on k3s**
 
 **Goal**: merge L-P2, L-H5 and L-H4 into one platform service.
 

@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "P4 — Internal Developer Portal & golden paths"
+title: "P4: Internal Developer Portal & golden paths"
 summary: "Backstage and a golden path: a new app in prod in under 15 minutes."
+group: "Platform track"
 order: 4
 ---
 
@@ -14,16 +15,16 @@ order: 4
 Backstage (catalog, software templates, TechDocs, plugins), scorecards, entity model (Component, System, API, Resource), templates vs abstractions, Score.dev.
 
 ## Sources
-- 🟢 [Backstage — the project (GitHub, CNCF *incubating* project)](https://github.com/backstage/backstage): read `ADOPTERS.md`, `plugins/` and `docs/`
+- 🟢 [Backstage, the project (GitHub, CNCF *incubating* project)](https://github.com/backstage/backstage): read `ADOPTERS.md`, `plugins/` and `docs/`
 - 🟢 [Backstage docs](https://backstage.io/docs/overview/what-is-backstage)
-- 🟢 [Backstage — Software Templates](https://backstage.io/docs/features/software-templates/)
+- 🟢 [Backstage, Software Templates](https://backstage.io/docs/features/software-templates/)
 - 🔵 [Score specification](https://score.dev/)
-- 🔵 [Spotify — How we use golden paths](https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem)
+- 🔵 [Spotify, How we use golden paths](https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem)
 - 📕 *Software Engineering at Google*, Winters, Manshreck & Wright ([free online](https://abseil.io/resources/swe-book)): shared tooling, build, CI at scale
 
 ## Homelab lab
 
-**L-P4 — Golden path & Backstage**
+**L-P4: Golden path & Backstage**
 
 **Goal**: "new app → HTTPS URL in prod" in under 15 minutes, without editing the `HOMELAB` repo by hand.
 

@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "H6 — Agents longue durée & multi-agent"
+title: "H6 : Agents longue durée & multi-agent"
 summary: "Faire avancer un agent sur un projet plus grand qu'une fenêtre de contexte."
+group: "Track Harness"
 order: 12
 ---
 
@@ -18,20 +19,20 @@ Deux générations de harness, à ne pas confondre :
 Autres notions : orchestrateur-workers, coût multi-agent.
 
 ## Sources
-- 🟢 [Anthropic — Effective harnesses for long-running agents (Justin Young, 26 nov. 2025)](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
-- 🟢 [Anthropic — Harness design for long-running application development (Prithvi Rajasekaran, 24 mars 2026)](https://www.anthropic.com/engineering/harness-design-long-running-apps)
-- 🟢 [OpenAI — Harness engineering: leveraging Codex in an agent-first world (Ryan Lopopolo, 11 fév. 2026)](https://openai.com/index/harness-engineering/) : humains qui pilotent et agents qui exécutent, repo comme système de référence, *« enforcing invariants, not micromanaging implementations »* (linters et tests structurels), agents de nettoyage en continu
-- 🔵 [Anthropic — How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system)
-- 🔵 [InfoQ — Anthropic three-agent harness](https://www.infoq.com/news/2026/04/anthropic-three-agent-harness-ai/)
-- 🔵 [mattpocock/skills — `handoff`, `to-spec`, `to-tickets`, `implement-spec`](https://github.com/mattpocock/skills/tree/main/skills), un pipeline spec → tickets → implémentation en skills
-- 🟢 [Cognition — Don't Build Multi-Agents](https://cognition.com/blog/dont-build-multi-agents) (Walden Yan, 12 juin 2025) : le contre-point indispensable. Partager le contexte complet, car *« les actions portent des décisions implicites »* ; un agent linéaire mono-thread reste le choix par défaut
+- 🟢 [Anthropic, Effective harnesses for long-running agents (Justin Young, 26 nov. 2025)](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+- 🟢 [Anthropic, Harness design for long-running application development (Prithvi Rajasekaran, 24 mars 2026)](https://www.anthropic.com/engineering/harness-design-long-running-apps)
+- 🟢 [OpenAI, Harness engineering: leveraging Codex in an agent-first world (Ryan Lopopolo, 11 fév. 2026)](https://openai.com/index/harness-engineering/) : humains qui pilotent et agents qui exécutent, repo comme système de référence, *« enforcing invariants, not micromanaging implementations »* (linters et tests structurels), agents de nettoyage en continu
+- 🔵 [Anthropic, How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system)
+- 🔵 [InfoQ, Anthropic three-agent harness](https://www.infoq.com/news/2026/04/anthropic-three-agent-harness-ai/)
+- 🔵 [mattpocock/skills, `handoff`, `to-spec`, `to-tickets`, `implement-spec`](https://github.com/mattpocock/skills/tree/main/skills), un pipeline spec → tickets → implémentation en skills
+- 🟢 [Cognition, Don't Build Multi-Agents](https://cognition.com/blog/dont-build-multi-agents) (Walden Yan, 12 juin 2025) : le contre-point indispensable. Partager le contexte complet, car *« les actions portent des décisions implicites »* ; un agent linéaire mono-thread reste le choix par défaut
 - 🔵 [Measuring AI Ability to Complete Long Software Tasks](https://arxiv.org/abs/2503.14499) (Kwa et al., NeurIPS 2025) : l'horizon de tâche à 50 % de réussite double environ tous les sept mois depuis 2019
 - 🔵 [Reflexion](https://arxiv.org/abs/2303.11366) (Shinn et al., 2023) : l'agent s'améliore par auto-critique écrite gardée en mémoire, sans réentraînement
-- 🎧 🇫🇷 [IFTTD #381 — AI Coding : réécrire des applications legacy, avec Quentin Pleplé (21 oct. 2026)](https://www.ifttd.io/episodes/ai-coding) : méthode en trois phases (spec, migration, Kaizen) et harness engineering
+- 🎧 🇫🇷 [IFTTD #381 : AI Coding : réécrire des applications legacy, avec Quentin Pleplé (21 oct. 2026)](https://www.ifttd.io/episodes/ai-coding) : méthode en trois phases (spec, migration, Kaizen) et harness engineering
 
 ## Lab homelab
 
-**L-H6 — Agent longue durée sur un vrai projet**
+**L-H6 : Agent longue durée sur un vrai projet**
 
 **But** : reproduire d'abord le schéma initializer + coding agent (Anthropic, nov. 2025), puis ajouter l'évaluateur séparé (Anthropic, mars 2026), sur un projet réel du backlog. Candidat possible : une feature du `patrimoine/TODO.md`, sur une branche.
 

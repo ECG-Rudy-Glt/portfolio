@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "P3 — IaC & control planes"
+title: "P3: IaC & control planes"
 summary: "From hand-run Terraform to a declarative API reconciled continuously."
+group: "Platform track"
 order: 3
 ---
 
@@ -14,16 +15,16 @@ order: 3
 State and locking, drift detection, versioned modules, Crossplane v2 (CNCF *graduated* project; composition: XRD, Composition, composition Functions in YAML/KCL/Python/Go), the Kratix model (Promises), Terraform vs control plane, OpenTofu.
 
 ## Sources
-- 🟢 [Crossplane — What's Crossplane](https://docs.crossplane.io/latest/whats-crossplane/) then [Composition](https://docs.crossplane.io/latest/composition/)
-- 🔵 [Crossplane — Upgrade to v2](https://docs.crossplane.io/latest/guides/upgrade-to-crossplane-v2/): what changed compared with v1 tutorials (claims)
+- 🟢 [Crossplane, What's Crossplane](https://docs.crossplane.io/latest/whats-crossplane/) then [Composition](https://docs.crossplane.io/latest/composition/)
+- 🔵 [Crossplane, Upgrade to v2](https://docs.crossplane.io/latest/guides/upgrade-to-crossplane-v2/): what changed compared with v1 tutorials (claims)
 - 🟢 [OpenTofu docs](https://opentofu.org/docs/)
-- 🔵 [Kratix — Promises](https://docs.kratix.io/)
-- 🔵 [Terraform — Module best practices](https://developer.hashicorp.com/terraform/language/modules/develop)
+- 🔵 [Kratix, Promises](https://docs.kratix.io/)
+- 🔵 [Terraform, Module best practices](https://developer.hashicorp.com/terraform/language/modules/develop)
 - 📕 *Terraform: Up & Running*, Yevgeniy Brikman (O'Reilly, 3rd ed. 2022)
 
 ## Homelab lab
 
-**L-P3 — From manual Terraform to a control plane**
+**L-P3: From manual Terraform to a control plane**
 
 **Goal**: remove the "local Terraform state without locking" limitation, then try continuous reconciliation.
 

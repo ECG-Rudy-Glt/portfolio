@@ -1,7 +1,8 @@
 ---
 project: parcours-platform-harness
-title: "H1 — API LLM & fondamentaux"
+title: "H1 : API LLM & fondamentaux"
 summary: "Ce qui se passe dans un appel : tokens, tool use, cache, raisons d'arrêt."
+group: "Track Harness"
 order: 7
 ---
 
@@ -14,16 +15,16 @@ order: 7
 Messages API, rôles, `tool_use` / `tool_result`, `stop_reason`, structured outputs, prompt caching, extended thinking, batch, rate limits, choix du modèle (coût / capacité).
 
 ## Sources
-- 🟢 [Anthropic — Documentation API](https://docs.claude.com/)
-- 🟢 [Anthropic — Tool use](https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview)
-- 🟢 [Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) : workflows vs agents, à relire souvent
-- 🔵 [Lilian Weng — LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
+- 🟢 [Anthropic, Documentation API](https://docs.claude.com/)
+- 🟢 [Anthropic, Tool use](https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview)
+- 🟢 [Anthropic, Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) : workflows vs agents, à relire souvent
+- 🔵 [Lilian Weng, LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
 - 🔵 [ReAct (Yao et al., 2022)](https://arxiv.org/abs/2210.03629)
 - 📕 *AI Engineering: Building Applications with Foundation Models*, Chip Huyen (O'Reilly, janv. 2025)
 
 ## Lab homelab
 
-**L-H1 — Mini-agent en ~200 lignes**
+**L-H1 : Mini-agent en ~200 lignes**
 
 **But** : écrire sa propre boucle sans framework, pour savoir ce que font Claude Code ou Codex sous le capot.
 
