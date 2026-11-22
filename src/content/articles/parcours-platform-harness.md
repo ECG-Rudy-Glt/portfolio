@@ -90,5 +90,8 @@ Ce parcours est un plan, pas un bilan : aucun lab n'est encore fait. Chaque lab 
 une trace vérifiable (une PR, un ADR ou un post-mortem), et les plus intéressants deviendront des
 articles ici, avec ce qui a marché, ce qui a cassé et ce que j'ai mesuré.
 
+Chaque module a aussi sa propre page, avec le détail des sources et du lab, dans la fiche projet
+[Parcours Platform × Harness engineer](/projets/parcours-platform-harness/).
+
 Le module explorable ci-dessous reprend le parcours complet. Si tu veux suivre le même chemin,
 tu peux cocher tes propres validations.

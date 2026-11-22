@@ -45,6 +45,11 @@ export const projectsEn: Record<string, { title: string; summary: string; period
     summary: "First work-study contract, during the BTS SIO SLAM: a medical-oriented crawler in TypeScript/Node.js, database modelling, and in-house advice on building a website.",
     period: "2022 - 2024",
   },
+  "parcours-platform-harness": {
+    title: "Platform × Harness engineer learning path",
+    summary: "An eight-month learning path to become a platform engineer and a harness engineer: two parallel tracks, fourteen modules, a homelab lab for each, and over a hundred verified sources.",
+    period: "2026 - ongoing",
+  },
   homelab: {
     title: "Homelab - Self-hosted infrastructure",
     summary: "A personal production infrastructure: 2 Proxmox nodes and an OPNsense firewall, 4 VLANs, internal PKI, SSO, full observability and a Jellyfin streaming stack, all driven as Infrastructure as Code.",
