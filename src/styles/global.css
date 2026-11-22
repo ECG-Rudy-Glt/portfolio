@@ -210,3 +210,44 @@ em.accent, .accent-word { font-style: italic; color: var(--accent); }
 .prose-content h2 { font-size: 1.75rem; font-weight: 400; margin-top: 2.5rem; }
 .prose-content h3 { font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; }
 .prose-content code { font-family: var(--font-mono); font-size: 0.9em; }
+
+/* Sections dépliantes dans le contenu (<details class="module">) */
+.prose-content details.module {
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--bg-elevated);
+  transition: border-color 0.15s ease;
+}
+.prose-content details.module[open],
+.prose-content details.module:hover { border-color: var(--accent); }
+.prose-content details.module > summary {
+  display: flex; align-items: baseline; gap: 0.75rem;
+  padding: 0.85rem 1rem; cursor: pointer; list-style: none;
+  color: var(--fg); font-weight: 600;
+}
+.prose-content details.module > summary::-webkit-details-marker { display: none; }
+.prose-content details.module > summary::before {
+  content: "▸"; color: var(--accent); transition: transform 0.2s ease; flex: none;
+}
+.prose-content details.module[open] > summary::before { transform: rotate(90deg); }
+.prose-content details.module > summary .module-role {
+  font-weight: 400; font-size: 0.875rem; color: var(--fg-muted);
+}
+.prose-content details.module > summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 0.75rem;
+}
+.prose-content details.module > .module-body { padding: 0 1rem 1rem 2.1rem; }
+.prose-content details.module pre {
+  margin-bottom: 1rem; padding: 0.75rem 1rem; overflow-x: auto;
+  border-radius: 0.5rem; background: var(--bg); border: 1px solid var(--border);
+  font-size: 0.8rem; line-height: 1.5;
+}
+.prose-content details.module .module-links a { margin-right: 1rem; }
+@media (max-width: 640px) {
+  .prose-content details.module > summary { flex-wrap: wrap; gap: 0.25rem 0.75rem; }
+  .prose-content details.module > .module-body { padding-left: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .prose-content details.module > summary::before { transition: none; }
+}

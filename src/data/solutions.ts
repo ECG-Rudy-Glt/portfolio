@@ -39,4 +39,13 @@ export const solutions: Solution[] = [
       { label: "GitHub", labelEn: "GitHub", href: "https://github.com/ECG-Rudy-Glt/PATRIMOINE" },
     ],
   },
+  {
+    name: "Ops Delivery Suite",
+    description: "Onze outils DevOps autonomes : durcissement, audit de sécurité, sauvegarde S3, migration, proxy HTTPS, supervision.",
+    descriptionEn: "Eleven standalone DevOps tools: hardening, security audits, S3 backups, migration, HTTPS proxy, monitoring.",
+    links: [
+      { label: "Modules", labelEn: "Modules", href: "/projets/ops-delivery-suite/" },
+      { label: "GitHub", labelEn: "GitHub", href: "https://github.com/ECG-Rudy-Glt/ops-delivery-suite" },
+    ],
+  },
 ];
