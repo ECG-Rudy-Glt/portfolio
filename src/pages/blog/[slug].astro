@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 import Quiz from "../../components/Quiz.tsx";
+import LearningPath from "../../components/LearningPath.tsx";
 
 const quizPools = import.meta.glob("../../data/quizzes/*.ts", { eager: true }) as Record<
   string,
@@ -53,6 +54,17 @@ const quizQuestions = getQuizQuestions(article.data.quiz);
   <article class="prose-content">
     <Content />
   </article>
+
+  {article.data.interactive === "learning-path" && (
+    <section id="explorer" class="mt-12 border-t border-[var(--border)] pt-8">
+      <h2 class="mb-2 text-xl font-bold text-[var(--fg)]">Explorer le parcours</h2>
+      <p class="mb-4 text-sm text-[var(--fg-muted)]">
+        Clique sur un module pour voir ses objectifs, ses sources et son lab. Coche la validation pour
+        suivre ta propre progression : elle reste dans ton navigateur.
+      </p>
+      <LearningPath client:visible />
+    </section>
+  )}
 
   {quizQuestions && (
     <section class="mt-12 border-t border-[var(--border)] pt-8">

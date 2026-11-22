@@ -61,6 +61,8 @@ const articles = defineCollection({
     // Clé vers un pool de questions dans src/data/quizzes/<quiz>.ts (ex. "az-104") -
     // affiche un QCM interactif en bas de l'article si renseigné.
     quiz: z.string().optional(),
+    // Composant interactif affiché après le corps de l'article (ex. "learning-path").
+    interactive: z.enum(["learning-path"]).optional(),
   }),
 });
 
