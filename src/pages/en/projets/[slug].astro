@@ -34,7 +34,7 @@ const categoryLabel = t.categories;
     <span>{project.data.role}</span>
   </div>
 
-  <h1 class="mb-4 text-3xl font-bold text-[var(--fg)]">{project.data.title}</h1>
+  <h1 class:list={["mb-4 text-3xl font-bold text-[var(--fg)]", project.data.ended && "line-through decoration-2"]}>{project.data.title}</h1>
   <p class="mb-8 text-lg text-[var(--fg-muted)]">{project.data.summary}</p>
 
   {project.data.images.length > 0 && (

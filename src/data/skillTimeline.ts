@@ -21,7 +21,7 @@ export const PERIODS: Record<string, readonly [number, number]> = {
   "patrimoine": [2026.0, NOW],
   "relai": [2026.0, NOW],
   "rudy-ops": [2026.0, NOW],
-  "supinfo-lab": [2026.0, NOW],
+  "supinfo-lab": [2026.0, 2026.88], // non abouti
 };
 // since : début d'un usage continu (trait fin jusqu'à aujourd'hui), quand l'outil sert hors des projets listés.
 export interface Tool { name: string; keys: string[]; group: string; home?: boolean; since?: number }

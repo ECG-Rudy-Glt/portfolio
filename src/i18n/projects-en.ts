@@ -92,8 +92,8 @@ export const projectsEn: Record<string, { title: string; summary: string; period
   },
   "supinfo-lab": {
     title: "SUPINFO Lab - Collaborative teaching lab",
-    summary: "A personal initiative: designing and building a physical IT lab on the SUPINFO Tours campus so students can practise infrastructure end to end.",
-    period: "2026 - ongoing",
+    summary: "A personal initiative: designing a physical IT lab on the SUPINFO Tours campus so students can practise infrastructure end to end. The project was not completed.",
+    period: "2026 - ended (not completed)",
   },
 };
 

@@ -67,6 +67,7 @@ const minorSchoolProjects = allProjects.filter(isMinorSchoolProject).sort(sortBy
         tags={project.data.tags}
         category={project.data.category}
         relevance={project.data.relevance}
+        ended={project.data.ended}
       />
     ))}
   </div>
@@ -87,6 +88,7 @@ const minorSchoolProjects = allProjects.filter(isMinorSchoolProject).sort(sortBy
             tags={project.data.tags}
             category={project.data.category}
             relevance={project.data.relevance}
+            ended={project.data.ended}
           />
         ))}
       </div>

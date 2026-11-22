@@ -1,12 +1,13 @@
 ---
 title: "SUPINFO Lab - Collaborative teaching lab"
 category: perso
-summary: "A personal initiative: designing and building a physical IT lab on the SUPINFO Tours campus so students can practise infrastructure end to end."
-period: "2026 - ongoing"
-role: "Project initiator - specification, budget, equipment; physical build carried by a team from the 5th year"
+summary: "A personal initiative: designing a physical IT lab on the SUPINFO Tours campus so students can practise infrastructure end to end. The project was not completed."
+period: "2026 - ended (not completed)"
+role: "Project initiator - specification, budget, equipment"
 stack: ["Proxmox", "K3s", "Terraform", "Ansible", "OPNsense", "Ludus", "Gitea", "Woodpecker CI", "Wazuh", "ELK", "Authentik", "BookStack"]
 tags: ["Initiative", "Project management", "Infrastructure as Code", "Kubernetes", "Security", "Teaching"]
 featured: true
+ended: true
 relevance: "majeur"
 order: 3
 ---
@@ -32,10 +33,10 @@ Rather than waiting for someone to propose something to me, I took the initiativ
 
 Four phases designed to deliver value from the start rather than wait for a "big bang": foundation (virtualisation/network), observability, cyber labs, then long-term enrichment based on feedback from the first users.
 
-## Where the project stands today
+## Why the project was not completed
 
-The budget has just been released - a concrete step after the scoping and costing work. But between the work-study, personal work, sport and my own [homelab](/en/projets/homelab/), I cannot handle the physical build of the lab alone on top of everything else: that would be promising an execution I materially do not have the time to deliver. Rather than forcing a solo build at the expense of quality, the logical next step is to form a team to support on this subject from my 5th year - moving from the initiator/scoping role to a steering role, with other students taking part in the execution.
+The budget was released, but the lab was never built. I could not handle the physical build alone on top of the work-study, personal work, sport and my own [homelab](/en/projets/homelab/), so the plan was to form a team of students to take part in the execution. That team never came together: there was not enough student involvement, and I did not have the time to carry the project anyway.
 
-## What it demonstrates
+## What I take from it
 
-This project has no "code" to show like the others - it demonstrates something else: the ability to identify a non-technical problem (a teaching gap), to frame it as a real project (budget, specification, milestones), and to carry it alone through to implementation. A skill rarely visible on a developer's portfolio, but directly transferable to a technical project management role.
+The scoping, costing and teaching proposal were carried through, up to getting a budget approved. The weak point was elsewhere: a project that depends on other people's commitment has to secure that commitment before it starts, not after. And it is better to admit you do not have the time to carry a subject than to let it drag on while calling it "ongoing".

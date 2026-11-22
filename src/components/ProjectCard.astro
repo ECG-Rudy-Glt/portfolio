@@ -9,9 +9,10 @@ interface Props {
   category: "perso" | "ecole" | "entreprise";
   relevance: "majeur" | "pertinent" | "secondaire";
   lang?: "fr" | "en";
+  ended?: boolean;
 }
 
-const { slug, title, summary, period, tags, category, relevance, lang = "fr" } = Astro.props;
+const { slug, title, summary, period, tags, category, relevance, lang = "fr", ended = false } = Astro.props;
 const en = lang === "en";
 
 const thumb = existsSync(`./public/sites/${slug}.webp`) ? `/sites/${slug}.webp?v=3` : undefined;
@@ -41,7 +42,7 @@ const relevanceLabel: Record<Props["relevance"], string> = en
     <span class="font-mono uppercase tracking-[0.04em]">{categoryLabel[category]}</span>
     <span class="font-mono">{period}</span>
   </div>
-  <h3 class="font-display text-2xl leading-tight text-[var(--fg)] group-hover:text-[var(--accent)]">{title}</h3>
+  <h3 class:list={["font-display text-2xl leading-tight text-[var(--fg)] group-hover:text-[var(--accent)]", ended && "line-through decoration-2"]}>{title}</h3>
   <p class="text-sm text-[var(--fg-muted)]">{summary}</p>
   <div class="flex items-center gap-1.5 text-xs" style={`color: var(--relevance-${relevance})`}>
     <span class="h-2 w-2 rounded-full" style={`background-color: var(--relevance-${relevance})`}></span>

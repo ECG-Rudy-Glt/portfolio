@@ -1,12 +1,13 @@
 ---
 title: "SUPINFO Lab - Lab pédagogique collaboratif"
 category: perso
-summary: "Initiative personnelle : conception et montage d'un lab informatique physique sur le campus SUPINFO de Tours pour permettre aux étudiants de pratiquer l'infrastructure de A à Z."
-period: "2026 - en cours"
-role: "Initiateur du projet - cahier des charges, budget, équipement ; montage physique porté en équipe dès la 5e année"
+summary: "Initiative personnelle : conception d'un lab informatique physique sur le campus SUPINFO de Tours pour permettre aux étudiants de pratiquer l'infrastructure de A à Z. Projet non abouti."
+period: "2026 - fin (non abouti)"
+role: "Initiateur du projet - cahier des charges, budget, équipement"
 stack: ["Proxmox", "K3s", "Terraform", "Ansible", "OPNsense", "Ludus", "Gitea", "Woodpecker CI", "Wazuh", "ELK", "Authentik", "BookStack"]
 tags: ["Initiative", "Gestion de projet", "Infra as Code", "Kubernetes", "Sécurité", "Pédagogie"]
 featured: true
+ended: true
 relevance: "majeur"
 order: 3
 ---
@@ -32,10 +33,10 @@ Plutôt que d'attendre qu'on me propose quelque chose, j'ai pris l'initiative de
 
 Quatre phases pensées pour livrer de la valeur dès le début plutôt que d'attendre un "grand soir" : fondation (virtualisation/réseau), observabilité, labs cyber, puis enrichissement à long terme selon les retours des premiers utilisateurs.
 
-## Où en est le projet aujourd'hui
+## Pourquoi le projet n'a pas abouti
 
-Le budget vient d'être débloqué - une étape concrète après le travail de cadrage et de chiffrage. Mais entre l'alternance, le travail personnel, le sport et mon propre [homelab](/projets/homelab/), je ne peux pas assurer seul le montage physique du lab en plus du reste : ce serait promettre une exécution que je n'ai matériellement pas le temps de tenir. Plutôt que de forcer un montage solo au détriment de la qualité, la suite logique est de constituer une équipe à accompagner sur ce sujet dès ma 5e année - reprendre le rôle d'initiateur/cadreur pour en faire un rôle de pilotage, avec d'autres étudiants qui prennent part à l'exécution.
+Le budget a bien été débloqué, mais le lab n'a jamais été monté. Je ne pouvais pas assurer seul le montage physique en plus de l'alternance, du travail personnel, du sport et de mon propre [homelab](/projets/homelab/), et l'idée était donc de constituer une équipe d'étudiants pour prendre part à l'exécution. Cette équipe ne s'est jamais formée : l'implication étudiante n'a pas suivi, et de mon côté je n'ai pas eu le temps de porter le projet malgré tout.
 
-## Ce que ça démontre
+## Ce que j'en retiens
 
-Ce projet n'a pas de "code" à montrer comme les autres - il démontre autre chose : la capacité à identifier un problème non technique (un manque pédagogique), à le cadrer comme un vrai projet (budget, cahier des charges, jalons), et à le porter seul jusqu'à la mise en œuvre. Une compétence rarement visible sur un portfolio de développeur, mais directement transférable à un rôle de gestion de projet technique.
+Le cadrage, le chiffrage et la proposition pédagogique ont bien été menés à leur terme, jusqu'à obtenir un budget. Le point faible était ailleurs : un projet qui repose sur l'engagement d'autres personnes doit sécuriser cet engagement avant de démarrer, pas après. Et il vaut mieux reconnaître qu'on n'a pas le temps de porter un sujet que de le laisser traîner en le présentant comme « en cours ».

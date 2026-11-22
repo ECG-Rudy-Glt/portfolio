@@ -20,6 +20,7 @@ const projects = defineCollection({
       .default({}),
     images: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
+    ended: z.boolean().default(false),
     groupProject: z.boolean().default(false),
     contributors: z.array(z.string()).default([]),
     relevance: z.enum(["majeur", "pertinent", "secondaire"]).default("pertinent"),
