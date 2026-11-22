@@ -9,7 +9,7 @@ tags: ["Initiative", "Gestion de projet", "Infra as Code", "Kubernetes", "Sécur
 featured: true
 ended: true
 relevance: "majeur"
-order: 3
+order: 7
 ---
 
 ## Le problème

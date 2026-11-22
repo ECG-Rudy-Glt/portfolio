@@ -12,7 +12,7 @@ links:
 images: ["/projets/homelab/visite-3d-machine.webp", "/projets/homelab/visite-3d-flux.webp", "/projets/homelab/visite-3d-cluster.webp", "/projets/homelab/pile-mini-pcs.png"]
 featured: true
 relevance: "majeur"
-order: 2
+order: 3
 ---
 
 Infrastructure self-hosted pensée comme un environnement de production plutôt qu'un empilement de conteneurs : réseau segmenté, gestion centralisée des secrets et des certificats, authentification unifiée et supervision complète - le tout en Infrastructure as Code, avec un budget et une consommation électrique maîtrisés.

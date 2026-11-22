@@ -11,7 +11,7 @@ links:
 images: ["/projets/rudy-ops/freelance-illustration.png"]
 featured: true
 relevance: "majeur"
-order: 0
+order: 5
 ---
 
 ## The need

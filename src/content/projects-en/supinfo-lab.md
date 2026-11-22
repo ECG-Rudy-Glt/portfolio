@@ -9,7 +9,7 @@ tags: ["Initiative", "Project management", "Infrastructure as Code", "Kubernetes
 featured: true
 ended: true
 relevance: "majeur"
-order: 3
+order: 7
 ---
 
 ## The problem

@@ -9,7 +9,7 @@ tags: ["Virtualisation", "Ansible", "CI/CD", "Monitoring", "Scripting", "IA / AI
 images: ["/logos/cloud-temple.png"]
 featured: true
 relevance: "majeur"
-order: 1
+order: 6
 ---
 
 Alternance de 3 ans chez **Cloud Temple**, hébergeur cloud. Les clients finaux restent confidentiels ; ce qui suit décrit les missions et compétences développées, sans nommer d'environnement client spécifique.

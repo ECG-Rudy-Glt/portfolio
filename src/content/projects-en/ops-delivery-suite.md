@@ -10,7 +10,7 @@ links:
   repo: "https://github.com/ECG-Rudy-Glt/ops-delivery-suite"
 featured: true
 relevance: "majeur"
-order: 4
+order: 8
 ---
 
 ## The problem

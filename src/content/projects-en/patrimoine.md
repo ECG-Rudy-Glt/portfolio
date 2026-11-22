@@ -10,9 +10,9 @@ links:
   repo: "https://github.com/ECG-Rudy-Glt/PATRIMOINE"
   demo: "https://patrimoine-open.gault-rudy.com"
   sandbox: "https://patrimoine-demo.gault-rudy.com"
-featured: false
-relevance: "pertinent"
-order: 4
+featured: true
+relevance: "majeur"
+order: 2
 images: ["/projets/patrimoine/tableau-de-bord.webp", "/projets/patrimoine/budget.webp"]
 ---
 

@@ -8,7 +8,7 @@ stack: ["Caddy", "Authelia (SSO/OIDC)", "React", "FastAPI", "Docker", "PostgreSQ
 tags: ["Architecture", "Microservices", "Security", "SSO", "CI/CD", "DevOps", "AI / AIOps", "AI agents"]
 featured: true
 relevance: "majeur"
-order: 5
+order: 9
 ---
 
 ## The problem

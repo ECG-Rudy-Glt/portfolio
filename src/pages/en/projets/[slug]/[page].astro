@@ -42,25 +42,19 @@ const navItems = siblings.map((s) => ({ href: `/en/projets/${entry.data.project}
   <h1 class="mb-4 text-3xl font-bold text-[var(--fg)]">{entry.data.title}</h1>
   <p class="mb-8 text-lg text-[var(--fg-muted)]">{entry.data.summary}</p>
 
-  <nav class="mb-10 flex flex-wrap gap-2 border-b border-[var(--border)] pb-8 lg:hidden">
-    {siblings.map((s) => {
-      const pageSlug = s.id.split("/")[1];
-      const isCurrent = s.id === entry.id;
-      return (
-        <a
-          href={`/en/projets/${entry.data.project}/${pageSlug}/`}
-          class:list={[
-            "rounded-full px-3 py-1 text-xs ring-1 ring-[var(--border)] transition-colors",
-            isCurrent
-              ? "bg-[var(--accent)] text-white"
-              : "bg-[var(--bg-elevated)] text-[var(--fg-muted)] hover:text-[var(--fg)]",
-          ]}
-        >
-          {s.data.title}
-        </a>
-      );
-    })}
-  </nav>
+  <details class="mb-10 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] lg:hidden">
+    <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-[var(--fg)]">Contents · page {currentIndex + 1} of {siblings.length}</summary>
+    <ul class="space-y-0.5 border-t border-[var(--border)] px-2 py-2">
+      {navItems.map((it) => (
+        <li>
+          <a href={it.href} aria-current={it.current ? "page" : undefined}
+            class:list={["block rounded-md px-2 py-1.5 text-sm", it.current ? "bg-[var(--accent)] text-white" : "text-[var(--fg-muted)] hover:text-[var(--fg)]"]}>
+            {it.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </details>
 
   <article class="prose-content">
     <Content />

@@ -12,7 +12,7 @@ links:
 images: ["/projets/homelab/visite-3d-machine.webp", "/projets/homelab/visite-3d-flux.webp", "/projets/homelab/visite-3d-cluster.webp", "/projets/homelab/pile-mini-pcs.png"]
 featured: true
 relevance: "majeur"
-order: 2
+order: 3
 ---
 
 A self-hosted infrastructure designed as a production environment rather than a pile of containers: a segmented network, centralised management of secrets and certificates, unified authentication and complete monitoring - all as Infrastructure as Code, with a controlled budget and power consumption.

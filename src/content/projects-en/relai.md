@@ -9,9 +9,9 @@ tags: ["AI / Conversational assistant", "CI/CD", "Docker", "Git", "Websites", "A
 links:
   repo: "https://github.com/ECG-Rudy-Glt/RELAI"
   demo: "https://relai.gault-rudy.com"
-featured: false
-relevance: "pertinent"
-order: 3
+featured: true
+relevance: "majeur"
+order: 4
 images: ["/projets/relai/fonctionnement.webp"]
 ---
 

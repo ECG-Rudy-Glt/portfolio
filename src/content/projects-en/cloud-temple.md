@@ -9,7 +9,7 @@ tags: ["Virtualisation", "Ansible", "CI/CD", "Monitoring", "Scripting", "AI / AI
 images: ["/logos/cloud-temple.png"]
 featured: true
 relevance: "majeur"
-order: 1
+order: 6
 ---
 
 Three-year work-study contract at **Cloud Temple**, a cloud hosting provider. End clients remain confidential; what follows describes the assignments and skills developed, without naming any specific client environment.
